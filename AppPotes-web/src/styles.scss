@@ -1,1 +1,275 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'app_potes';
+  src: url('assets/fonts/app_potes.eot');
+  src: url('assets/fonts/app_potes.eot') format('embedded-opentype'),
+  url('assets/fonts/app_potes.woff2') format('woff2'),
+  url('assets/fonts/app_potes.woff') format('woff'),
+  url('assets/fonts/app_potes.ttf') format('truetype'),
+  url('assets/fonts/app_potes.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/**
+ * Minified by jsDelivr using clean-css v4.1.11.
+ * Original file: /npm/modern-normalize@0.5.0/modern-normalize.css
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+/*! modern-normalize | MIT License | https://github.com/sindresorhus/modern-normalize */
+html{box-sizing:border-box}body{margin: 0}h1{margin:0}/**,::after,::before{box-sizing:inherit}*/:root{-moz-tab-size:4;tab-size:4}html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'}hr{height:0}abbr[title]{text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:SFMono-Regular,Consolas,'Liberation Mono',Menlo,Courier,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{padding:0}progress{vertical-align:baseline}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}
+/*# sourceMappingURL=/sm/6d3bd28f82623617090109f6714e5fbdc6081ce0547a646d1a87ce8a39d126ef.map */
+
+@font-face {
+  font-family: 'lg';
+  src: url('assets/fonts/lg.eot');
+  src: url('assets/fonts/lg.eot') format('embedded-opentype'),
+  url('assets/fonts/lg.woff') format('woff'),
+  url('assets/fonts/lg.ttf') format('truetype'),
+  url('assets/fonts/lg.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoUltLtIt.eot');
+  src: url('assets/fonts/TruenoUltLtIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoUltLtIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoUltLtIt.woff') format('woff'),
+  url('assets/fonts/TruenoUltLtIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoUltLtIt.svg#Trueno/fonts/TruenoUltLtIt') format('svg');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoLt.eot');
+  src: url('assets/fonts/TruenoLt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoLt.woff2') format('woff2'),
+  url('assets/fonts/TruenoLt.woff') format('woff'),
+  url('assets/fonts/TruenoLt.ttf') format('truetype'),
+  url('assets/fonts/TruenoLt.svg#Trueno/fonts/TruenoLt') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoLtIt.eot');
+  src: url('assets/fonts/TruenoLtIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoLtIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoLtIt.woff') format('woff'),
+  url('assets/fonts/TruenoLtIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoLtIt.svg#Trueno/fonts/TruenoLtIt') format('svg');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoExBdOlIt.eot');
+  src: url('assets/fonts/TruenoExBdOlIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoExBdOlIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoExBdOlIt.woff') format('woff'),
+  url('assets/fonts/TruenoExBdOlIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoExBdOlIt.svg#Trueno/fonts/TruenoExBdOlIt') format('svg');
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBd.eot');
+  src: url('assets/fonts/TruenoBd.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBd.woff2') format('woff2'),
+  url('assets/fonts/TruenoBd.woff') format('woff'),
+  url('assets/fonts/TruenoBd.ttf') format('truetype'),
+  url('assets/fonts/TruenoBd.svg#Trueno/fonts/TruenoBd') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoSBdIt.eot');
+  src: url('assets/fonts/TruenoSBdIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoSBdIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoSBdIt.woff') format('woff'),
+  url('assets/fonts/TruenoSBdIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoSBdIt.svg#Trueno/fonts/TruenoSBdIt') format('svg');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBlkOl.eot');
+  src: url('assets/fonts/TruenoBlkOl.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBlkOl.woff2') format('woff2'),
+  url('assets/fonts/TruenoBlkOl.woff') format('woff'),
+  url('assets/fonts/TruenoBlkOl.ttf') format('truetype'),
+  url('assets/fonts/TruenoBlkOl.svg#Trueno/fonts/TruenoBlkOl') format('svg');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoRgIt.eot');
+  src: url('assets/fonts/TruenoRgIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoRgIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoRgIt.woff') format('woff'),
+  url('assets/fonts/TruenoRgIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoRgIt.svg#Trueno/fonts/TruenoRgIt') format('svg');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBlkIt.eot');
+  src: url('assets/fonts/TruenoBlkIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBlkIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoBlkIt.woff') format('woff'),
+  url('assets/fonts/TruenoBlkIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoBlkIt.svg#Trueno/fonts/TruenoBlkIt') format('svg');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoSBd.eot');
+  src: url('assets/fonts/TruenoSBd.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoSBd.woff2') format('woff2'),
+  url('assets/fonts/TruenoSBd.woff') format('woff'),
+  url('assets/fonts/TruenoSBd.ttf') format('truetype'),
+  url('assets/fonts/TruenoSBd.svg#Trueno/fonts/TruenoSBd') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoExBdIt.eot');
+  src: url('assets/fonts/TruenoExBdIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoExBdIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoExBdIt.woff') format('woff'),
+  url('assets/fonts/TruenoExBdIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoExBdIt.svg#Trueno/fonts/TruenoExBdIt') format('svg');
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoExBd.eot');
+  src: url('assets/fonts/TruenoExBd.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoExBd.woff2') format('woff2'),
+  url('assets/fonts/TruenoExBd.woff') format('woff'),
+  url('assets/fonts/TruenoExBd.ttf') format('truetype'),
+  url('assets/fonts/TruenoExBd.svg#Trueno/fonts/TruenoExBd') format('svg');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBdOl.eot');
+  src: url('assets/fonts/TruenoBdOl.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBdOl.woff2') format('woff2'),
+  url('assets/fonts/TruenoBdOl.woff') format('woff'),
+  url('assets/fonts/TruenoBdOl.ttf') format('truetype'),
+  url('assets/fonts/TruenoBdOl.svg#Trueno/fonts/TruenoBdOl') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBdIt.eot');
+  src: url('assets/fonts/TruenoBdIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBdIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoBdIt.woff') format('woff'),
+  url('assets/fonts/TruenoBdIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoBdIt.svg#Trueno/fonts/TruenoBdIt') format('svg');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBlkOlIt.eot');
+  src: url('assets/fonts/TruenoBlkOlIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBlkOlIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoBlkOlIt.woff') format('woff'),
+  url('assets/fonts/TruenoBlkOlIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoBlkOlIt.svg#Trueno/fonts/TruenoBlkOlIt') format('svg');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoUltLt.eot');
+  src: url('assets/fonts/TruenoUltLt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoUltLt.woff2') format('woff2'),
+  url('assets/fonts/TruenoUltLt.woff') format('woff'),
+  url('assets/fonts/TruenoUltLt.ttf') format('truetype'),
+  url('assets/fonts/TruenoUltLt.svg#Trueno/fonts/TruenoUltLt') format('svg');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoRg.eot');
+  src: url('assets/fonts/TruenoRg.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoRg.woff2') format('woff2'),
+  url('assets/fonts/TruenoRg.woff') format('woff'),
+  url('assets/fonts/TruenoRg.ttf') format('truetype'),
+  url('assets/fonts/TruenoRg.svg#Trueno/fonts/TruenoRg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBlk.eot');
+  src: url('assets/fonts/TruenoBlk.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBlk.woff2') format('woff2'),
+  url('assets/fonts/TruenoBlk.woff') format('woff'),
+  url('assets/fonts/TruenoBlk.ttf') format('truetype'),
+  url('assets/fonts/TruenoBlk.svg#Trueno/fonts/TruenoBlk') format('svg');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoBdOlIt.eot');
+  src: url('assets/fonts/TruenoBdOlIt.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoBdOlIt.woff2') format('woff2'),
+  url('assets/fonts/TruenoBdOlIt.woff') format('woff'),
+  url('assets/fonts/TruenoBdOlIt.ttf') format('truetype'),
+  url('assets/fonts/TruenoBdOlIt.svg#Trueno/fonts/TruenoBdOlIt') format('svg');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Trueno';
+  src: url('assets/fonts/TruenoExBdOl.eot');
+  src: url('assets/fonts/TruenoExBdOl.eot?#iefix') format('embedded-opentype'),
+  url('assets/fonts/TruenoExBdOl.woff2') format('woff2'),
+  url('assets/fonts/TruenoExBdOl.woff') format('woff'),
+  url('assets/fonts/TruenoExBdOl.ttf') format('truetype'),
+  url('assets/fonts/TruenoExBdOl.svg#Trueno/fonts/TruenoExBdOl') format('svg');
+  font-weight: 800;
+  font-style: normal;
+}
+
+main{
+  margin-left: 10.15vw;
+}
