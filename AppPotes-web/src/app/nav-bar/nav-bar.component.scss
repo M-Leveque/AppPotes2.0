@@ -1,0 +1,164 @@
+/*---------------------------------------------------------------------------------------------------
+	HEADER / NAV BARRE
+---------------------------------------------------------------------------------------------------*/
+header {
+  z-index: 999;
+  width: 10.15vw; height: 100vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Trueno';
+  font-weight: 200;
+  font-style: normal;
+  font-size: 0.78vw;
+  color: #F2F2F2;
+  background-color: #191919;
+  -webkit-box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
+  box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
+}
+
+nav {
+  margin-top: 51px;
+}
+
+nav ul {
+  margin-left: 14px;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  margin-bottom: 50px;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+}
+
+nav span:hover {
+  text-decoration: underline;
+}
+
+a .icon, .icon-btn {
+  margin-right: 13px;
+  font-size: 2vw;
+}
+
+#btn-add {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#btn-add button {
+  background: none;
+  border: none;
+}
+
+#menu svg {
+  width: 4vw; height: 4vw;
+}
+
+.icon-scale1 {
+  transform: translate(0 0) scale(1);
+  -moz-transform: translate(0 0) scale(1);
+}
+
+.icon-scale2 {
+  transform: translate(5.999999999999998 5.999999999999998) scale(0.80);
+  -moz-transform: translate(5.999999999999998 5.999999999999998) scale(0.80);
+}
+
+#btn-add p {
+  margin-top: 0;
+}
+
+.icon-home::before {content: "\ea14";}
+.icon-pic::before { content: "\ea1a";}
+.icon-calendar::before {content: "\ea0a";}
+.icon-cash::before {content: "\ea0b";}
+.icon-people::before {content: "\ea19";}
+
+/*-----------------------
+	MENU AJOUT
+------------------------*/
+#add-menu {
+  z-index: 99;
+  width: 19.16vw; height: 100vh;
+  margin-left: 10.15vw;
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #191919;
+  -webkit-box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
+  box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
+}
+
+#add-menu.show {
+  display: flex;
+}
+
+#add-menu a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Trueno';
+  font-weight: 200;
+  font-style: normal;
+  text-align: center;
+  font-size: 0.78vw;
+}
+
+#add-menu ul {
+  height: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+#add-menu li {
+  width: 6.1vw; height: 6.1vw;
+  margin-bottom: 15px;
+  padding: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: rgba(142,197,252,1);
+  background: -moz-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(142,197,252,1)), color-stop(100%, rgba(224,195,252,1)));
+  background: -webkit-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -o-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -ms-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: linear-gradient(135deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ec5fc', endColorstr='#e0c3fc', GradientType=1 );
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+}
+
+#add-menu .icon, .icon-btn {
+  width: 6vw; height: 6vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  font-size: 3vw;
+  color: white;
+  background: #191919;
+}
+
+.icon-add-pic::before {content: "\ea07";}
+.icon-add-calendar::before {content: "\ea02";}
+.icon-add-cash::before {content: "\ea03";}
