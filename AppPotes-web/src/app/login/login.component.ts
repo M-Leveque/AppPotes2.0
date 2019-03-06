@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  displayToggle : boolean;
+
+  constructor() {
+    this.displayToggle = false;
+   }
 
   ngOnInit() {
+  }
+
+  public showToggle(value : boolean){
+    if(value){
+      this.displayToggle = true;
+    }
+    else{
+      this.displayToggle = false;
+    }
   }
 
 }

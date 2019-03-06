@@ -12,7 +12,7 @@
       </form>
 
       <!-- Open Toggle -->
-      <button class="open-toggle"><u>En savoir plus</u></button>
+      <button class="open-toggle" (click)="showToggle(true)"><u>En savoir plus</u></button>
     </div>
 
     <!-- LEFT LOGIN -->
@@ -24,8 +24,10 @@
   </section>
 
   <!-- TOGGLE ---------------------------------------------------------------------->
-  <section id="toggle-co">
-    <button class="open-toggle icon icon-close-two">fermer</button>
+  <section id="toggle-co" *ngIf="displayToggle">
+    <button class="open-toggle icon icon-close-two" (click)="showToggle(false)">
+      fermer
+    </button>
     <!-- article gauche  -->
     <article>
       <h2>La web app</h2>
@@ -37,7 +39,6 @@
       <h2>Réalisation</h2>
       <div>
         <span>Le Vagueresse Corantin</span>
-
         <ul>
           <li>Web Designer</li>
           <li>Infographiste</li>
@@ -47,7 +48,6 @@
 
       <div>
         <span>Lévêque Melvin</span>
-
         <ul>
           <li>Developpeur Web</li>
           <li>Developpeur Application</li>
