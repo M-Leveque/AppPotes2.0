@@ -11,12 +11,19 @@
       </div>
     </a>
 
+    <a routerLink="/album" routerLinkActive="active">
+      <div id="album-com" class="album" >
+        <img src="" alt="vignette de l'album commun"/> 
+        <p>Album Commun</p> 
+      </div> 
+    </a>
+
     <!-- GRID ALBUMS -->
     <div class="grid-album">
-      <a routerLink="/album" routerLinkActive="active">
+      <a *ngFor="let album of albums" routerLink="/album" routerLinkActive="active">
         <div id="album-com" class="album" >
-          <img src="" alt="vignette de l'album commun"/> 
-          <p>titre album</p> 
+          <img [src]="'assets/img/'+album.path" alt="vignette de l'album commun"/> 
+          <p>{{ album.title }}</p> 
         </div> 
       </a>
     </div>
@@ -33,7 +40,18 @@
     </a>
 
     <!-- GRID EVENEMENTS -->
-    <!--<?php echo $evenements ?>-->
+    <a *ngFor="let event of events" class="even">
+      <div class="content-even">
+        <span>{{event.icon}}</span>
+        <div class="desc-even">
+          <h6>{{event.title}}</h6>
+          <p>{{event.description}}</p>
+        </div>
+        <div class="date-even">
+          <p>{{event.date}}</p>
+        </div>
+      </div>
+    </a>
   </section>
 
   <!-- CAGNOTTES -->
@@ -47,7 +65,14 @@
     </a>
 
     <!-- content cagnotte -->
-
-    <!--<?php echo $cagnottes ?>-->
+    <div *ngFor="let pool of pools" class="content-cagn">
+        <div class="desc-cagn">
+            <h5>{{pool.title}}</h5>
+            <p>{{pool.description}}</p>
+            <button>Participer</button>
+        </div>
+        <div class="prix-cagn"><span>{{pool.cash}}</span><p>Fin le <span>{{pool.endDate}}</span></p></div>
+    </div>
+    
   </section>
 </main>
