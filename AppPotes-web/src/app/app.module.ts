@@ -9,10 +9,14 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AlbumComponent } from './album/album.component';
 import { AlbumAddComponent } from './album/add/album-add.component';
+import { AlbumListComponent } from './album/list/album-list.component';
 import { EventComponent } from './event/event.component';
 import { PoolComponent } from './pool/pool.component';
 import { AccountComponent } from './account/account.component';
 import { AccountOptionComponent } from './account/option/account-option.component';
+import { AlbumService } from './services/album.service';
+import { EventService } from './services/event.service';
+import { PoolService } from './services/pool.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,7 @@ import { AccountOptionComponent } from './account/option/account-option.componen
     HomePageComponent,
     AlbumComponent,
     AlbumAddComponent,
+    AlbumListComponent,
     EventComponent,
     PoolComponent,
     AccountComponent,
@@ -32,7 +37,11 @@ import { AccountOptionComponent } from './account/option/account-option.componen
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    AlbumService,
+    EventService,
+    PoolService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

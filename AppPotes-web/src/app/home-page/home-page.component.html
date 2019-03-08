@@ -11,17 +11,17 @@
       </div>
     </a>
 
-    <a routerLink="/album" routerLinkActive="active">
+    <a routerLink="/album/0" routerLinkActive="active">
       <div id="album-com" class="album" >
-        <img src="" alt="vignette de l'album commun"/> 
-        <p>Album Commun</p> 
+        <img [src]="'assets/img/'+sharedAlbum.path" alt="vignette de l'album commun"/> 
+        <p>{{ sharedAlbum.title }}</p> 
       </div> 
     </a>
 
     <!-- GRID ALBUMS -->
     <div class="grid-album">
-      <a *ngFor="let album of albums" routerLink="/album" routerLinkActive="active">
-        <div id="album-com" class="album" >
+      <a *ngFor="let album of albums" [routerLink]="'/album/'+album.id" routerLinkActive="active">
+        <div id="album album-grid" class="album" >
           <img [src]="'assets/img/'+album.path" alt="vignette de l'album commun"/> 
           <p>{{ album.title }}</p> 
         </div> 
