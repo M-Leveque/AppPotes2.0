@@ -6,7 +6,8 @@
 
   <!-- Recherche -->
   <section class="content-search-album accordion-container">
-    <button class="ac">
+    <input *ngIf="showInputSearch" [(ngModel)]="searchText" type="text" (keyup)="search($event)" />
+    <button class="ac" (click)="setShowSearch(showInputSearch ? false : true)">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 49.99 50">
         <g class="nc-icon-wrapper js-transition-icon" data-effect="scale" data-event="click">
           <g class="js-transition-icon__state" style="">
@@ -41,9 +42,10 @@
       </svg>
     </button>
   </section>
-  <p>Trier par : 
-    <span (click)="sortByTitle()">Titre </span>
-    <span (click)="sortByDate()">Date </span>
+  <p style="margin-bottom: 15px;">
+    Trier par : 
+    <span (click)="sort('title')" style="cursor: pointer">Titre</span>
+    <span (click)="sort('date')" style="cursor: pointer">Date </span>
   </p>
   <!-- #Recherche -->
 

@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumListComponent implements OnInit {
 
+  showInputSearch = false;
+
+  //Album shared
   sharedAlbum = {
     id: 0,
     title: 'Album commun',
@@ -13,50 +16,73 @@ export class AlbumListComponent implements OnInit {
     date: '2015-06-15'
   }
 
+  //Albums 
   albums = [
     {
       id: 1,
-      title: 'Randonnée',
+      title: 'Randonnée 2018',
       path: 'montagne.jpg',
-      date: '2015-06-14'
+      date: '2018-06-14'
     },
     {
       id: 2,
-      title: 'Concert',
+      title: 'Concert 2017',
       path: 'pink-floyd.jpg',
-      date: '2015-06-13'
+      date: '2017-06-13'
     },
     {
       id: 3,
       title: 'Vancance 2016',
       path: 'plage.jpg',
-      date: '2015-06-12'
+      date: '2016-06-12'
     }
   ];
 
-  constructor() { }
+  //Save for albums
+  allAlbums : any[];
+
+  constructor() { 
+    this.allAlbums = this.albums;
+  }
 
   ngOnInit() {
   }
 
-  public sortByTitle(){
+  public sort(value: String){
     this.albums.sort( (a, b) => {
-      if( a.title > b.title )
+      let v1 : any;
+      let v2 : any;
+
+      if(value === 'title'){
+        v1 = a.title;
+        v2 = b.title;
+      }
+      else{
+        v1 = a.date;
+        v2 = b.date;
+      }
+
+      if( v1 > v2 )
         return 1;
-      if( a.title < b.title)
+      if( v1 < v2)
         return -1;
       return 0
     });
   }
 
-  public sortByDate(){
-    this.albums.sort( (a, b) => {
-      if( a.date > b.date )
-        return 1;
-      if( a.date < b.date)
-        return -1;
-      return 0
+  public search(event : any){
+    let searchText = event.target.value;
+
+    searchText = searchText.toLowerCase();
+
+    this.albums = this.allAlbums.filter( it => {
+      return it.title.toLowerCase().includes(searchText);
     });
+  }
+
+  public setShowSearch(value: boolean){
+    this.showInputSearch = value;
+    this.albums = this.allAlbums;
   }
 
 }
