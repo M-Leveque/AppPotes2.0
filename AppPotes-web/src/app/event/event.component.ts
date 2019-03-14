@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'app-event',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventComponent implements OnInit {
 
-  constructor() { }
+  showPasteEvents = false;
+  events : any[];
+  date : number;
+
+  constructor(private eventService : EventService) { }
 
   ngOnInit() {
+    this.events = this.eventService.events;
+    this.date = Date.now();
+  }
+
+  setShowPasteEvent(value : boolean){
+    this.showPasteEvents = value;
   }
 
 }

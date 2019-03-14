@@ -20,7 +20,7 @@ export class HomePageComponent implements OnInit {
     private albumService: AlbumService,
     private eventService: EventService,
     private poolService: PoolService
-    ) { }
+  ) { }
 
   ngOnInit(){
     this.sharedAlbum = this.albumService.sharedAlbum;

@@ -6,15 +6,25 @@
 
   <!-- GRID EVENEMENT -->
   <section class="grid-gen grid-even">
+    <a *ngFor="let event of events" [ngClass]="{'even':true}">
+      <div class="content-even">
+        <span>{{event.icon}}</span>
+        <div class="desc-even">
+          <h6>{{event.title}}</h6>
+          <p>{{event.description}}</p>
+        </div>
+        <div class="date-even">
+          <p>{{event.date | date}}</p>
+        </div>
+      </div>
+    </a>
     <!-- BUTTON AFFICHAGE ANCIEN EVENEMENT -->
-    <button id="btnShowPasteEvents" class="even">
-      <i>
-        <u>
-          <span class="btn-even-paste">Afficher</span>
-          <span class="btn-even-paste" style="display: none">Masquer</span>
+    <button id="btnShowPasteEvents" class="even" (click)="setShowPasteEvent(showPasteEvents ? false : true)">
+      <i><u>
+          <span *ngIf="!showPasteEvents" class="btn-even-paste">Afficher</span>
+          <span *ngIf="showPasteEvents" class="btn-even-paste" >Masquer</span>
           les événements passés
-        </u>
-      </i>
+      </u></i>
     </button>
   </section>
 </main>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AlbumService } from './../services/album.service';
 
 @Component({
   selector: 'app-album',
@@ -7,34 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumComponent implements OnInit {
 
-  album = {
-    id: 0,
-    title: 'Album commun',
-    path: 'vrac.jpg'
-  }
+  album : any;
+  pictures : any[];
 
-  pictures = [
-    {
-      id: 0,
-      path: 'img01.jpg'
-    },
-    {
-      id: 1,
-      path: 'img02.jpg'
-    },
-    {
-      id: 2,
-      path: 'img03.jpg'
-    },
-    {
-      id: 3,
-      path: 'img04.jpg'
-    }
-  ]
-
-  constructor() {}
+  constructor(private albumService: AlbumService, private router: ActivatedRoute ) {}
 
   ngOnInit() {
+    let idAlbum = this.router.snapshot.params['id'];
+    this.album = this.albumService.get(idAlbum);
+    this.pictures = this.album.pictures;
   }
 
 }
