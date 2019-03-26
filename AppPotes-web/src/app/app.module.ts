@@ -12,6 +12,7 @@ import { AlbumComponent } from './album/album.component';
 import { AlbumAddComponent } from './album/add/album-add.component';
 import { AlbumListComponent } from './album/list/album-list.component';
 import { EventComponent } from './event/event.component';
+import { EventListComponent } from './event/list/event-list.component';
 import { PoolComponent } from './pool/pool.component';
 import { AccountComponent } from './account/account.component';
 import { AccountOptionComponent } from './account/option/account-option.component';
@@ -30,6 +31,7 @@ import { PoolService } from './services/pool.service';
     AlbumAddComponent,
     AlbumListComponent,
     EventComponent,
+    EventListComponent,
     PoolComponent,
     AccountComponent,
     AccountOptionComponent

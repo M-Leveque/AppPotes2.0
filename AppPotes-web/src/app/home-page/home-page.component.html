@@ -48,7 +48,9 @@
           <p>{{event.description}}</p>
         </div>
         <div class="date-even">
-          <p>{{event.date}}</p>
+          <p>{{event.date | date : 'EEE'}}</p>
+          <span>{{event.date | date : 'L'}}</span>
+          <p>{{event.date | date : 'LLL'}}</p>
         </div>
       </div>
     </a>

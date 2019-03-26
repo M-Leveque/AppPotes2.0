@@ -1,0 +1,35 @@
+<app-nav-bar></app-nav-bar>
+<main id="content-even">
+  <div class="title">
+    <h2>Événements</h2>
+  </div>
+
+  <!-- GRID EVENEMENT -->
+  <section class="grid-gen grid-even">
+    <a *ngFor="let event of events" 
+      [ngClass]="{'even': true, 'old-even': today > event.date, 'hidden': !showPasteEvents && today > event.date}"
+      [routerLink]="'/event/'+event.id" routerLinkActive="active">
+
+      <div class="content-even">
+        <span>{{event.icon}}</span>
+        <div class="desc-even">
+          <h6>{{event.title}}</h6>
+          <p>{{event.description}}</p>
+        </div>
+        <div class="date-even">
+            <p>{{event.date | date : 'EEE'}}</p>
+            <span>{{event.date | date : 'L'}}</span>
+            <p>{{event.date | date : 'LLL'}}</p>
+          </div>
+      </div>
+    </a>
+    <!-- BUTTON AFFICHAGE ANCIEN EVENEMENT -->
+    <button id="btnShowPasteEvents" class="even" (click)="setShowPasteEvent(showPasteEvents ? false : true)">
+      <i><u>
+          <span *ngIf="!showPasteEvents" class="btn-even-paste">Afficher</span>
+          <span *ngIf="showPasteEvents" class="btn-even-paste" >Masquer</span>
+          les événements passés
+      </u></i>
+    </button>
+  </section>
+</main>
