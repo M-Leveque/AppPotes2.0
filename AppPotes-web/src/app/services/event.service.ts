@@ -5,7 +5,7 @@ export class EventService {
           title: 'Event1',
           description: 'Event1 description',
           icon: '🎁',
-          date: Date.parse('12-06-2019'),
+          date: Date.parse('03-29-2019 14:03:00'),
           dateCreation: Date.parse('03-26-2019')
         },
         {

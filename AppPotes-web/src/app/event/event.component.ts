@@ -14,18 +14,19 @@ export class EventComponent implements OnInit {
 
   event : any;
   countDown : any;
-  counter : Date;
+  counter : any;
 
   constructor(private eventService : EventService, private router: ActivatedRoute) { }
 
   ngOnInit() {
     let idEvent = this.router.snapshot.params['id'];
     this.event = this.eventService.get(idEvent);
+    this.counter = {day: 0, hour : 0};
     this.countDown = interval(1000);
     this.countDown.subscribe(
       (value) => {
-        let timeDiff = Math.floor((this.event.date - new Date().getTime()) / 1000);
-        this.counter = new Date(this.counter);
+        let count = Math.floor(this.event.date - Date.now());
+        this.toDayHour(count);
       },
       (error) => {
         console.log(error);
@@ -35,4 +36,14 @@ export class EventComponent implements OnInit {
       }
     );
   } 
+
+
+  private toDayHour(counter : number){
+    // 1h = 3600000  | 1j = 86400000 
+    let day = Math.round(counter / 86400000);
+    let dayR = counter % 86400000;
+    let hour = Math.round(dayR / 3600000 );
+    this.counter.day = day;
+    this.counter.hour = hour;
+  }
 }
