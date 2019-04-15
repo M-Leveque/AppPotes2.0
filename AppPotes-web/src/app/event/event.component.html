@@ -13,8 +13,8 @@
             </div>
 
             <div class="count-even">
-                <p><span>dans </span>{{ counter }}<span> : </span>5h</p>
-                <p><span>à </span>19h30</p>
+                <p><span>dans </span>{{ counter.day }} j<span> : </span>{{ counter.hour }} h</p>
+                <p><span>à </span>{{ event.date | date: 'HH:mm' }}</p>
             </div>
 
             <a class="btn-link" href="#">partager<span class="icon icon-link"></span></a>
