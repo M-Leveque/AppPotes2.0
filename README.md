@@ -1,15 +1,9 @@
 # AppPotes2.0
 Serveur photo avec un système d'évènements pour groupe d'amis.
 
-;#####################################################;
-;                                                     ;
-;               INSTALLATION ENV DEV                  ;
-;                                                     ;
-;#####################################################;
+## Installation de l'environnement de développement
 
-_______________________________________________________
-
-    Installation des logiciels et outils 
+### Installation des logiciels et outils 
 _______________________________________________________
 
 1. Installer NodeJS
@@ -17,10 +11,10 @@ _______________________________________________________
 2. Installer Composer (Le gestionnaire de paquet PHP)
 _______________________________________________________
 
-    Récupération du projet sur github.
-_______________________________________________________
+### Récupération du projet sur github.
 
-// Les instructions précédées d'un '$' indique une commande.
+\* Les instructions précédées d'un '$' indique une commande.
+_______________________________________________________
 
 1. Ce placer dans le répertoire où le projet doit
    être installé.
@@ -31,11 +25,11 @@ _______________________________________________________
 
 _______________________________________________________
 
-    Installation de l'application front Angular
-_______________________________________________________
+### Installation de l'application front Angular
 
-// L'application front se trouve dans le dossier
+\* L'application front se trouve dans le dossier
    "/AppPotes-web".
+_______________________________________________________
 
 1. Ce placer dans le repertoire Appotes-web.
 
@@ -50,11 +44,10 @@ _______________________________________________________
    ( L'URL du serveur est indiqué, exemple: 127.0.0.1:4200 )
 _______________________________________________________
 
-    Installation de l'application back PHP Laravel
-_______________________________________________________
+### Installation de l'application back PHP Laravel
 
-// L'application back se trouve dans le dossier
-   "/AppPotes-api".
+\*  L'application back se trouve dans le dossier "/AppPotes-api".
+_______________________________________________________
 
 1. Ce placer dans le repertoire Appotes-api
 
@@ -64,3 +57,6 @@ _______________________________________________________
 3. Lancement de l'api 
       $ php artisan serve
    ( L'URL du serveur est indiqué, exemple: 127.0.0.1:8000 )
+
+_______________________________________________________
+
