@@ -20,7 +20,7 @@ class CreatePhotosTable extends Migration
             $table->date('date');
             $table->date('date_upload');
             $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_user')->references('id')->on('users')->nullable();
         });
     }
 
