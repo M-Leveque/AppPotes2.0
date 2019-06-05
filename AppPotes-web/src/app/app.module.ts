@@ -19,6 +19,7 @@ import { AccountOptionComponent } from './account/option/account-option.componen
 import { AlbumService } from './services/album.service';
 import { EventService } from './services/event.service';
 import { PoolService } from './services/pool.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { PoolService } from './services/pool.service';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     AlbumService,

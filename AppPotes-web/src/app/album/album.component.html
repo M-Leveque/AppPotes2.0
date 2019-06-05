@@ -3,12 +3,12 @@
 	<!-- HEADER ALBUM -->
 	<section id="header-pic">
 		<!-- Vignette album -->
-		<img [src]="'assets/img/'+album.path" alt="Couverture l'album">
+		<img [src]="'assets/img/'+album.artwork" alt="Couverture l'album">
 		
 		<!-- Infos album -->
     <div>
-      <p>Créé le <span>{{ album.dateCreation }}</span></p>
-      <h1>{{ album.title }}</h1>
+      <p>Créé le <span>{{ album.date }}</span></p>
+      <h1>{{ album.name }}</h1>
       <p>{{ album.description }}</p>
     </div>
 		
@@ -23,8 +23,8 @@
     <div class="demo-gallery">
         <ul id="lightgallery" class="list-unstyled row">
           <li *ngFor="let picture of pictures" class="col-xs-6 col-sm-4 col-md-3">
-            <a [href]="'assets/img/'+album.title+'/'+picture.path">
-              <img class="img-responsive" [src]="'assets/img/'+album.title+'/'+picture.path" alt="Thumb-1">
+            <a [href]="'assets/img/'+album.name+'/'+picture.path">
+              <img class="img-responsive" [src]="'assets/img/'+album.name+'/'+picture.path" alt="Thumb-1">
             </a>
           </li>
         </ul>

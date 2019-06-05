@@ -1,54 +1,25 @@
-export class AlbumService {
-  sharedAlbum = {
-      id: 0,
-      title: 'Album commun',
-      path: 'vrac.jpg',
-      pictures: [
-        { id: 0, path: 'img01.jpg'},
-        { id: 1, path: 'img02.jpg' },
-      ] 
-    }
-  
-  albums = [
-    {
-      id: 1,
-      title: 'Randonnée 2018',
-      path: 'montagne.jpg',
-      pictures: [
-        { id: 0, path: 'img01.jpg'},
-        { id: 1, path: 'img02.jpg' },
-        { id: 3, path: 'img04.jpg' },
-      ]      
-    },
-    {
-      id: 2,
-      title: 'Concert 2017',
-      path: 'pink-floyd.jpg',
-      pictures: [
-        { id: 0, path: 'img01.jpg'},
-        { id: 2, path: 'img03.jpg' },
-        { id: 3, path: 'img04.jpg' },
-      ]   
-    },
-    {
-      id: 3,
-      title: 'Vancance 2016',
-      path: 'plage.jpg',
-      pictures: [
-        { id: 0, path: 'img01.jpg'},
-        { id: 1, path: 'img02.jpg' },
-        { id: 2, path: 'img03.jpg' },
-      ]   
-    }
-  ];
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-  public get(id : number){
-    if(id == 0){
-      return this.sharedAlbum;
-    } else {
-      return this.albums.find((album) => { 
-        return album.id == id;
-      });
-    } 
+@Injectable()
+export class AlbumService {
+
+  url:string= "http://127.0.0.1:8000/api/albums";
+  private album = {};
+  private error;
+
+  public constructor(private http : HttpClient){}
+
+  public all(){
+    return this.http.get<any>(this.url);
+  }
+
+  public get(id : Number){
+    return this.http.get<any>(this.url+"/infos/"+id);
+  }
+
+  public getPhotos(id : Number){
+    return this.http.get<any>(this.url+"/"+id);
   }
 }

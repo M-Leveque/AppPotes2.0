@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlbumService } from './../services/album.service';
 import { EventService } from './../services/event.service';
 import { PoolService } from './../services/pool.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -10,8 +11,9 @@ import { PoolService } from './../services/pool.service';
 })
 export class HomePageComponent implements OnInit {
 
-  albums : any[];
-  sharedAlbum : any;
+  albumSubscription : Subscription;
+  albums : any[] = [];
+  sharedAlbum : any = {};
 
   events : any[];
   pools : any[];
@@ -23,10 +25,14 @@ export class HomePageComponent implements OnInit {
   ) { }
 
   ngOnInit(){
-    this.sharedAlbum = this.albumService.sharedAlbum;
-    this.albums = this.albumService.albums;
+
+    this.albumSubscription = this.albumService.all()
+    .subscribe( (albums) => {
+      this.sharedAlbum = albums.shift();
+      this.albums = albums;
+    });  
+
     this.events = this.eventService.events;
     this.pools = this.poolService.pools;
   }
-
 }

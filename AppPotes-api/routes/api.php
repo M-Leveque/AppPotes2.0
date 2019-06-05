@@ -17,4 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Routes for Photos controller
 Route::resource('photos','PhotoController');
+
+// Routes for Album controller
+Route::get('/albums/infos/{id}', 'AlbumController@infos');
+Route::resource('albums','AlbumController');

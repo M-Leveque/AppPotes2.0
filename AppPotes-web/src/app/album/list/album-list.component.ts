@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlbumService } from 'src/app/services/album.service';
 
 @Component({
   selector: 'app-album-list',
@@ -6,47 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumListComponent implements OnInit {
 
-  showInputSearch = false;
-
-  //Album shared
-  sharedAlbum = {
-    id: 0,
-    title: 'Album commun',
-    path: 'vrac.jpg',
-    date: '2015-06-15'
-  }
-
-  //Albums 
-  albums = [
-    {
-      id: 1,
-      title: 'Randonnée 2018',
-      path: 'montagne.jpg',
-      date: '2018-06-14'
-    },
-    {
-      id: 2,
-      title: 'Concert 2017',
-      path: 'pink-floyd.jpg',
-      date: '2017-06-13'
-    },
-    {
-      id: 3,
-      title: 'Vancance 2016',
-      path: 'plage.jpg',
-      date: '2016-06-12'
-    }
-  ];
+  private showInputSearch = false;
+  
+  private albumSubscription;
+  private sharedAlbum = {};
+  private albums = [];
 
   //Save for albums
-  allAlbums : any[];
+  private allAlbums : any[];
 
-  constructor() { 
+  constructor(private albumService : AlbumService) { 
     this.allAlbums = this.albums;
   }
 
   ngOnInit() {
+    this.albumSubscription = this.albumService.all()
+    .subscribe( (albums) => {
+      this.sharedAlbum = albums.shift();
+      this.albums = albums;
+    });  
   }
+
 
   public sort(value: String){
     this.albums.sort( (a, b) => {
