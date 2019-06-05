@@ -497,7 +497,7 @@ a .icon, .icon-btn {
   width: 19.16vw; height: 100vh;
   margin-left: 10.15vw;
   position: fixed;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
@@ -505,10 +505,6 @@ a .icon, .icon-btn {
   -webkit-box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
   -moz-box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
   box-shadow: 3px 0px 10px 0px rgba(0,0,0,1);
-}
-
-#add-menu.show {
-  display: flex;
 }
 
 #add-menu a {
@@ -562,6 +558,11 @@ a .icon, .icon-btn {
   font-size: 3vw;
   color: white;
   background: #191919;
+}
+
+.rotate {
+  transition-duration: 0.5s;
+  transform: rotate(45deg);
 }
 
 .icon-add-pic::before {content: "\ea07";}

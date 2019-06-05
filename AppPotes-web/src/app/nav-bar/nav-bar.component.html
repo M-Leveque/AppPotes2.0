@@ -9,7 +9,7 @@
     </ul>
   </nav>
   <div id="btn-add">
-    <button id="menu" type="button" name="menu">
+    <button id="menu" type="button" name="menu" (click)="displayMenu()" [ngClass]="{'rotate':showMenu}">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><title>icon 7</title>
         <g class="nc-icon-wrapper js-transition-icon" data-effect="scale" data-event="click">
           <g class="js-transition-icon__state icon-scale1" style="display: block;">
@@ -69,10 +69,10 @@
 </header>
 
 <!-- menu ajout -->
-<section id="add-menu">
+<section *ngIf="showMenu" id="add-menu">
   <ul>
-    <a class="reveal" href="?action=AjoutAlbum"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>un album</a>
-    <a class="reveal" href="?action=AjoutEvenement"><li><div class="icon-btn icon icon-add-calendar"></div></li>Ajouter<br>un événement</a>
-    <a class="reveal" href="#"><li><div class="icon-btn icon icon-add-cash"></div></li>Ajouter<br>une cagnotte</a>
+    <a class="reveal" routerLink="/album-add" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>un album</a>
+    <a class="reveal" routerLink="/home-page" routerLinkActive="active"><li><div class="icon-btn icon icon-add-calendar"></div></li>Ajouter<br>un événement</a>
+    <a class="reveal" routerLink="/home-page" routerLinkActive="active"><li><div class="icon-btn icon icon-add-cash"></div></li>Ajouter<br>une cagnotte</a>
   </ul>
 </section>
