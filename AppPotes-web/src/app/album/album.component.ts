@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 export class AlbumComponent implements OnInit {
 
   album : any;
-  pictures : any[];
+  photos : any[];
   albumInfosSubscription: Subscription;
   albumPhotosSubscription : Subscription;
 
@@ -23,7 +23,7 @@ export class AlbumComponent implements OnInit {
       .subscribe(album => this.album = album);    
 
     this.albumPhotosSubscription = this.albumService.getPhotos(idAlbum)
-      .subscribe(pictures => this.pictures = pictures); 
+      .subscribe(photos => this.photos = photos);
   }
 
   ngOnDestroy() {

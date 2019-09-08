@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,7 @@ import { AlbumService } from './services/album.service';
 import { EventService } from './services/event.service';
 import { PoolService } from './services/pool.service';
 import { HttpClientModule } from '@angular/common/http';
+import { PhotoComponent } from './photo/photo.component';
 
 @NgModule({
   declarations: [
@@ -35,11 +36,13 @@ import { HttpClientModule } from '@angular/common/http';
     EventListComponent,
     PoolComponent,
     AccountComponent,
-    AccountOptionComponent
+    AccountOptionComponent,
+    PhotoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule
   ],

@@ -1,86 +1,48 @@
 <app-nav-bar></app-nav-bar>
-<main id="content-add-album">
+<main>
     <!-- FORMULAIRE AJOUT -->
-    <section class="content-add">
-        <div class="title">
-            <h2>Ajout<br>album</h2>
-        </div>
+    <form id="content-add-album" [formGroup]="albumForm" (ngSubmit)="onSubmitForm()">
+        <section class="content-add">
+            <div class="title">
+                <h2>Ajout<br>album</h2>
+            </div>
 
-        <div class="add-visuel">
-            <label for="add-visuel">Ajouter une vignette<span class="icon icon-add"><img style="display: none" src="ressources/img/album/1.jpg" alt="vignette album"></span></label>
-            <input id="add-visuel" type="file">
-        </div>
+            <div class="add-visuel">
+                <label for="add-visuel">Ajouter une vignette<span class="icon icon-add"><img *ngIf="album.artwork" [src]="'assets/img/'+album.artwork" alt="vignette album"></span></label>
+                <input id="add-visuel" type="file">
+            </div>
 
-        <form class="content-form-add">
-            <label>Titre de l'album :</label>
-            <input type="name" placeholder="(max 00 caractères)">
-            <label>Déscriptif de l’album :</label>
-            <textarea onkeyup="auto_grow(this)" placeholder="(max 00 caractères)" cols="30" rows="1"></textarea>
-        </form>
+            <div class="content-form-add">
+                <label>Titre de l'album :</label>
+                <input type="name" placeholder="(max 00 caractères)" [value]="album.name">
+                <label>Déscriptif de l’album :</label>
+                <textarea onkeyup="auto_grow(this)" placeholder="(max 00 caractères)" cols="30" rows="1">{{ album.description }}</textarea>
+            </div>
 
-        <div class="content-btn-page">
-            <a class="btn-page" href="#"><span>Annuler</span></a>
-            <a class="btn-page" href="#"><span>Valider</span></a>
-        </div>
-    </section>
+            <div class="content-btn-page">
+                <a class="btn-page" (click)="cancel()"><span>Annuler</span></a>
+                <a class="btn-page" (click)="validate()"><span>Valider</span></a>
+            </div>
+        </section>
 
-    <!-- GRID AJOUT PHOTOS -->
-    <section class="content-grid-add">
-        <!-- GALLERY -->
-        <div class="demo-gallery">
-            <ul id="lightgallery" class="list-unstyled row">
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/album/1.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-1.jpg" alt="Thumb-1">
-                    </a>
-                </li>
+        <!-- GRID AJOUT PHOTOS -->
+        <section class="content-grid-add">
 
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/2.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-2.jpg" alt="Thumb-2">
-                    </a>
-                </li>
+            <!-- Gallery -->
+            <div class="demo-gallery">
+                <ul id="lightgallery" class="list-unstyled row" class="col-xs-6 col-sm-4 col-md-3">
+                    <li *ngFor="let photo of photos" >
+                        <img width="100px" height="100px" class="img-responsive" [src]="'assets/img/'+album.name+'/'+photo.path" alt="Thumb-1">
+                    </li>
+                </ul>
+            </div>
+            <!-- Gallery -->
 
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/album/3.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-3.jpg" alt="Thumb-3">
-                    </a>        </li>
-
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/album/4.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-4.jpg" alt="Thumb-4">
-                    </a>
-                </li>
-
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/album/5.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-5.jpg" alt="Thumb-4">
-                    </a>
-                </li>
-
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/album/6.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-6.jpg" alt="Thumb-4">
-                    </a>
-                </li>
-
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/album/7.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-7.jpg" alt="Thumb-4">
-                    </a>
-                </li>
-
-                <li class="col-xs-6 col-sm-4 col-md-3" data-src="ressources/img/album/1.jpg">
-                    <a href="">
-                        <img class="img-responsive" src="ressources/img/album/thumb-1.jpg" alt="Thumb-4">
-                    </a>
-                </li>
+            <!-- Button add -->
+            <ul class="btn-add">
+                <a class="reveal"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>vos photos</a>
             </ul>
-        </div><!-- #GALLERY -->
-
-        <!-- button add -->
-        <ul class="btn-add">
-            <a href="#"><li><div class="icon icon-add-pic"></div></li>Ajouter<br>vos photos</a>
-        </ul>
-    </section>
+            
+        </section>
+    </form>
 </main>

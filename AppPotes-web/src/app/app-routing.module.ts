@@ -9,6 +9,7 @@ import {AlbumListComponent} from './album/list/album-list.component';
 import {EventComponent} from './event/event.component';
 import {EventListComponent} from './event/list/event-list.component';
 import {PoolComponent} from './pool/pool.component';
+import {PhotoComponent} from './photo/photo.component';
 import {AccountComponent} from './account/account.component';
 import {AccountOptionComponent} from './account/option/account-option.component';
 
@@ -18,11 +19,13 @@ const routes: Routes = [
     { path: 'album', component: AlbumListComponent},
     { path: 'album/:id', component: AlbumComponent},
     { path: 'album-add', component: AlbumAddComponent},
+    { path: 'album-add/:id', component: AlbumAddComponent},
+    { path: 'account', component: AccountComponent},
+    { path: 'account-option', component: AccountOptionComponent},
     { path: 'event', component: EventListComponent},
     { path: 'event/:id', component: EventComponent},
     { path: 'pool', component: PoolComponent},
-    { path: 'account', component: AccountComponent},
-    { path: 'account-option', component: AccountOptionComponent},
+    { path: 'photo/:id', component: PhotoComponent},
     { path: 'not-found', component: PageNotFoundComponent },
     { path: '**', redirectTo: 'not-found' }
 ];
