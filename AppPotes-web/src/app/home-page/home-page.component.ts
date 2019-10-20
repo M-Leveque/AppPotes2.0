@@ -3,6 +3,7 @@ import { AlbumService } from './../services/album.service';
 import { EventService } from './../services/event.service';
 import { PoolService } from './../services/pool.service';
 import { Subscription } from 'rxjs';
+import { ConstantService } from './../services/constant.service';
 
 @Component({
   selector: 'app-home-page',
@@ -14,6 +15,7 @@ export class HomePageComponent implements OnInit {
   albumSubscription : Subscription;
   albums : any[] = [];
   sharedAlbum : any = {};
+  host: String;
 
   events : any[];
   pools : any[];
@@ -21,10 +23,13 @@ export class HomePageComponent implements OnInit {
   constructor(
     private albumService: AlbumService,
     private eventService: EventService,
-    private poolService: PoolService
+    private poolService: PoolService,
+    private constantService: ConstantService
   ) { }
 
   ngOnInit(){
+
+    this.host = this.constantService.host;
 
     this.albumSubscription = this.albumService.all()
     .subscribe( (albums) => {

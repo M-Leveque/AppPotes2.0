@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Photo;
+use App\Album;
+use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhotoController extends Controller
 {
+    const PHOTO_PATH = "img/";
+
     /**
      * Display a listing of the resource.
      *
@@ -35,23 +42,47 @@ class PhotoController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
-        $photoArray = $request->json()->all();
+    {   
+        $idAlbum = $request->input('id');
 
+        // Get album infos
+        $album = Album::find($idAlbum);
+
+        var_dump($idAlbum);
+        var_dump($album);
+
+        $date = $request->input('date');
+        $name = $request->input('name');
+        $file = $request->file('file');
+        $path = $album->name .'/'.$name.".".$file->extension();
+
+        // Store photo in serve
+        $this->upload($path, $file);
+
+        // Date now
+        $now = Carbon::now();
+
+        // Initialise date
+        if(!is_string($date) || empty($date)){
+            $date = $now->toDateTimeString();
+        }
+
+        // Store photo in database
         try {
             $photo = new Photo();
-            $photo->name = $photoArray["name"];
-            $photo->path = $photoArray["path"];
-            $photo->date = $photoArray["date"];
-            $photo->date_upload = $photoArray["date_upload"];
-            $photo->id_user = $photoArray["id_user"];
+            $photo->name = $name;
+            $photo->path = $path;
+            $photo->date = $date;
+            $photo->date_upload = $now->toDateTimeString();
+            $photo->id_user = 1;
+            $photo->id_album = $idAlbum;
             $photo->save();
         }
         catch(Exception $e){
             return Response::create("Error during store the new photo", Response::HTTP_BAD_REQUEST);
         }
 
-        return Response::create("The photo was created", Response::HTTP_CREATED);
+        return Response::create("Photo created", Response::HTTP_CREATED);
     }
 
     /**
@@ -69,7 +100,10 @@ class PhotoController extends Controller
             return Response::create("Photo not found", Response::HTTP_NOT_FOUND);
         }
 
-        return Response::create($photo->toJson(), Response::HTTP_OK, Array("Content-Type" => "application/json"));
+        $path = $path = asset(self::PHOTO_PATH . $photo->path);
+        $ext = explode('.',$photo->path);
+
+        return response()->download($path, $photo->path, ['Content-Type' => $ext]);
     }
 
     /**
@@ -131,8 +165,26 @@ class PhotoController extends Controller
      * @return void
      */
     public function destroy(int $id)
-    {
+    {   
+        // Get photo in database
+        $photo = Photo::find($id);
+
+        var_dump(self::PHOTO_PATH.$photo->path);
+
+        //Delete photo on server
+        Storage::disk('public')->delete(self::PHOTO_PATH.$photo->path);
+
         // Delete photo in database
-        Photo::query()->where("id", "=", $id)->delete();
+        $photo->delete();
+    }
+
+    /**
+     * Method for upload file
+     * @param $name
+     * @param $file
+     * @return string
+     */
+    private function upload(String $name, UploadedFile $file){
+        $file->storePubliclyAs(self::PHOTO_PATH, $name, 'public');
     }
 }

@@ -40,7 +40,7 @@ class AlbumController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get album informations and photos ids.
      *
      * @param int $idAlbum
      * @return Response
@@ -48,21 +48,27 @@ class AlbumController extends Controller
     public function show(int $idAlbum)
     {
         try{
-            $album = Album::find($idAlbum)->photos;
+            $photos = Album::find($idAlbum)->photos;
         }
         catch(\Exception $e){
-            return Response::create("Error during store the new photo", Response::HTTP_BAD_REQUEST);
+            return Response::create("Error during show album", Response::HTTP_BAD_REQUEST);
         }
-        return $album;
+        return $photos;
     }
 
+    /**
+     * Get informations about album.
+     *  
+     * @param int $idAlbum
+     * @return Response
+     */
     public function infos(int $idAlbum)
     {
         try{
             $album = Album::find($idAlbum);
         }
         catch(\Exception $e){
-            return Response::create("Error during store the new photo", Response::HTTP_BAD_REQUEST);
+            return Response::create("Error during infos album", Response::HTTP_BAD_REQUEST);
         }
         return $album;
     }

@@ -10,6 +10,7 @@ import {EventComponent} from './event/event.component';
 import {EventListComponent} from './event/list/event-list.component';
 import {PoolComponent} from './pool/pool.component';
 import {PhotoComponent} from './photo/photo.component';
+import {PhotoAddComponent} from './photo/add/photo-add.component';
 import {AccountComponent} from './account/account.component';
 import {AccountOptionComponent} from './account/option/account-option.component';
 
@@ -26,6 +27,7 @@ const routes: Routes = [
     { path: 'event/:id', component: EventComponent},
     { path: 'pool', component: PoolComponent},
     { path: 'photo/:id', component: PhotoComponent},
+    { path: 'photo-add/:idAlbum', component: PhotoAddComponent},
     { path: 'not-found', component: PageNotFoundComponent },
     { path: '**', redirectTo: 'not-found' }
 ];

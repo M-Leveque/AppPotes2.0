@@ -3,7 +3,7 @@
 	<!-- HEADER ALBUM -->
 	<section id="header-pic">
 		<!-- Vignette album -->
-		<img [src]="'assets/img/'+album.artwork" alt="Couverture l'album">
+		<img [src]="host+'/img/'+album.artwork" alt="Couverture l'album">
 		
 		<!-- Infos album -->
     <div>
@@ -22,11 +22,14 @@
     <!-- GALLERY -->
     <div class="demo-gallery">
         <ul id="lightgallery" class="list-unstyled row">
-          <li *ngFor="let picture of pictures" class="col-xs-6 col-sm-4 col-md-3">
-            <a [href]="'assets/img/'+album.name+'/'+picture.path">
-              <img class="img-responsive" [src]="'assets/img/'+album.name+'/'+picture.path" alt="Thumb-1">
+
+          <!-- Show each photo -->
+          <li *ngFor="let photo of photos" class="col-xs-6 col-sm-4 col-md-3">
+            <a [href]="host+'/img/'+photo.path">
+              <img class="img-responsive" [src]="host+'/img/'+photo.path" alt="Thumb-1">
             </a>
           </li>
+          
         </ul>
     </div>
     <!-- #GALLERY -->

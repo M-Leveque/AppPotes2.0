@@ -19,8 +19,10 @@ import { AccountOptionComponent } from './account/option/account-option.componen
 import { AlbumService } from './services/album.service';
 import { EventService } from './services/event.service';
 import { PoolService } from './services/pool.service';
+import { ConstantService } from './services/constant.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PhotoComponent } from './photo/photo.component';
+import { PhotoAddComponent } from './photo/add/photo-add.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { PhotoComponent } from './photo/photo.component';
     PoolComponent,
     AccountComponent,
     AccountOptionComponent,
-    PhotoComponent
+    PhotoComponent,
+    PhotoAddComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,8 @@ import { PhotoComponent } from './photo/photo.component';
   providers: [
     AlbumService,
     EventService,
-    PoolService
+    PoolService,
+    ConstantService,
   ],
   bootstrap: [AppComponent]
 })

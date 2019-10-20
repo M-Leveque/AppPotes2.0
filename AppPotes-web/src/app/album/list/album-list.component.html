@@ -52,7 +52,7 @@
   <!-- Album Commun -->
   <a routerLink="/album/1" routerLinkActive="active">
     <div id="album-com" class="album" >
-      <img [src]="'assets/img/'+sharedAlbum.artwork" alt="vignette de l'album commun"/> 
+      <img [src]="host+'/img/'+sharedAlbum.artwork" alt="vignette de l'album commun"/> 
       <p>{{ sharedAlbum.name }}</p> 
     </div> 
   </a>
@@ -61,7 +61,7 @@
   <section class="grid-gen grid-album">
     <a *ngFor="let album of albums" [routerLink]="'/album/'+album.id" routerLinkActive="active">
       <div id="album album-grid" class="album" >
-        <img [src]="'assets/img/'+album.artwork" alt="vignette de l'album commun"/> 
+        <img [src]="host+'/img/'+album.artwork" alt="vignette de l'album commun"/> 
         <p>{{ album.name }}</p> 
       </div> 
     </a>

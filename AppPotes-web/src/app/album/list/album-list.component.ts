@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from 'src/app/services/album.service';
+import { ConstantService } from 'src/app/services/constant.service';
 
 @Component({
   selector: 'app-album-list',
   templateUrl: './album-list.component.html',
 })
 export class AlbumListComponent implements OnInit {
+  
+  private host: String;
 
   private showInputSearch = false;
   
@@ -16,11 +19,16 @@ export class AlbumListComponent implements OnInit {
   //Save for albums
   private allAlbums : any[];
 
-  constructor(private albumService : AlbumService) { 
+  constructor(private albumService : AlbumService,
+              private constantService: ConstantService
+              ) { 
     this.allAlbums = this.albums;
   }
 
   ngOnInit() {
+
+    this.host = this.constantService.host;
+
     this.albumSubscription = this.albumService.all()
     .subscribe( (albums) => {
       this.sharedAlbum = albums.shift();

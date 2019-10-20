@@ -1,7 +1,7 @@
 export class Photo {
     constructor(
-        private id: Number,
-        private name: String,
-        private path: String
+        public id: Number,
+        public name: String,
+        public path: any
     ){}
 }

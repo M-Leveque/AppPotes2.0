@@ -1,6 +1,6 @@
 <app-nav-bar></app-nav-bar>
 <main>
-    <!-- FORMULAIRE AJOUT -->
+    <!-- ADD FORM -->
     <form id="content-add-album" [formGroup]="albumForm" (ngSubmit)="onSubmitForm()">
         <section class="content-add">
             <div class="title">
@@ -8,7 +8,7 @@
             </div>
 
             <div class="add-visuel">
-                <label for="add-visuel">Ajouter une vignette<span class="icon icon-add"><img *ngIf="album.artwork" [src]="'assets/img/'+album.artwork" alt="vignette album"></span></label>
+                <label for="add-visuel">Ajouter une vignette<span class="icon icon-add"><img *ngIf="album.artwork" [src]="host+'/img/'+album.artwork" alt="vignette album"></span></label>
                 <input id="add-visuel" type="file">
             </div>
 
@@ -25,22 +25,25 @@
             </div>
         </section>
 
-        <!-- GRID AJOUT PHOTOS -->
+        <!-- GRID ADD PHOTOS -->
         <section class="content-grid-add">
 
             <!-- Gallery -->
             <div class="demo-gallery">
                 <ul id="lightgallery" class="list-unstyled row" class="col-xs-6 col-sm-4 col-md-3">
                     <li *ngFor="let photo of photos" >
-                        <img width="100px" height="100px" class="img-responsive" [src]="'assets/img/'+album.name+'/'+photo.path" alt="Thumb-1">
+                        <div class="pic-delete">
+                            <img width="100px" height="100px" class="img-responsive" [src]="host+'/img/'+photo.path" alt="Thumb-1">
+                            <span (click)="deletePhoto(photo.id)" class="icon icon-close"></span>
+                        </div>
                     </li>
                 </ul>
             </div>
             <!-- Gallery -->
 
-            <!-- Button add -->
+            <!-- Add button -->
             <ul class="btn-add">
-                <a class="reveal"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>vos photos</a>
+                <a class="reveal" [routerLink]="'/photo-add/'+ album.id" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>vos photos</a>
             </ul>
             
         </section>

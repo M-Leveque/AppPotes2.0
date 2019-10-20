@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { PhotoService } from './photo.service';
 
 @Injectable()
 export class AlbumService {

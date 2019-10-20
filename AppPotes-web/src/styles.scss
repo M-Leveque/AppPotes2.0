@@ -634,6 +634,7 @@ h2 {
 
 .album img {
   min-width: 100%; min-height: 100%;
+  width: 11.14vw; height: 11.14vw;
   object-fit: cover;
   border-radius: 5px;
   -webkit-box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
@@ -1694,6 +1695,15 @@ a .icon-link {
 
 .content-grid-add .demo-gallery > ul > li a > img {
   width: 18.22vw; height: 18.22vw;
+}
+
+.icon-close::before {
+  cursor: pointer;
+  content: "\ea0d";
+}
+
+.pic-delete {
+  display: flex;
 }
 
 /*-----------------------

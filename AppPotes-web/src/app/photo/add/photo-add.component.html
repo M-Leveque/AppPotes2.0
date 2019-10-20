@@ -1,0 +1,40 @@
+<app-nav-bar></app-nav-bar>
+<main>
+    <!-- ADD FORM -->
+    <form id="content-add-album" [formGroup]="photoForm" (ngSubmit)="onSubmitForm()">
+        <section class="content-add">
+            <div class="title">
+                <h2>Ajout<br>photo</h2>
+            </div>
+
+            <!-- Button for add a picture -->
+            <div class="add-visuel">
+                <label for="add-visuel">
+                    {{ fileName }}
+                    <span *ngIf="visuel !== undefined" class="icon icon-add">
+                        <img  [src]="'assets/img/'+photo.path" alt="photo" />
+                    </span>
+                </label>
+                <input id="add-visuel" type="file" (change)="onFileChange($event)" formControlName="path" />
+            </div>
+
+            <!-- Name of picture -->
+            <div class="content-form-add">
+                <label>Nom de la photo :</label>
+                <input type="text" placeholder="(max 00 caractères)" formControlName="name">
+            </div>
+
+            <!-- Date of picture -->
+            <div class="content-form-add">
+                <label>Date de la photo :</label>
+                <input type="date" formControlName="date">
+            </div>
+
+            <!-- Form validate or cancel -->
+            <div class="content-btn-page">
+                <a class="btn-page" (click)="cancel()"><span>Annuler</span></a>
+                <a class="btn-page" (click)="validate()"><span>Valider</span></a>
+            </div>
+        </section>
+    </form>
+</main>
