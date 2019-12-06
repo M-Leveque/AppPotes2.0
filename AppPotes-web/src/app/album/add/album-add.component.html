@@ -9,14 +9,14 @@
 
             <div class="add-visuel">
                 <label for="add-visuel">Ajouter une vignette<span class="icon icon-add"><img *ngIf="album.artwork" [src]="host+'/img/'+album.artwork" alt="vignette album"></span></label>
-                <input id="add-visuel" type="file">
+                <input id="add-visuel" (change)="onFileChange($event)" type="file">
             </div>
 
             <div class="content-form-add">
                 <label>Titre de l'album :</label>
-                <input type="name" placeholder="(max 00 caractères)" [value]="album.name">
+                <input type="name" placeholder="(max 00 caractères)" [value]="album.name" formControlName="name">
                 <label>Déscriptif de l’album :</label>
-                <textarea onkeyup="auto_grow(this)" placeholder="(max 00 caractères)" cols="30" rows="1">{{ album.description }}</textarea>
+                <textarea onkeyup="auto_grow(this)" placeholder="(max 00 caractères)" formControlName="description" cols="30" rows="1">{{ album.description }}</textarea>
             </div>
 
             <div class="content-btn-page">

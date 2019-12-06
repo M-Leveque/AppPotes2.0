@@ -20,6 +20,8 @@ export class AlbumAddComponent implements OnInit {
   private albumInfosSubscription:  Subscription;
   private albumPhotosSubscription: Subscription;
   private albumForm: FormGroup;
+  private fileName: String;
+  private file: any;
 
   constructor(
     private albumService: AlbumService,
@@ -50,9 +52,7 @@ export class AlbumAddComponent implements OnInit {
     this.albumForm = this.formBuilder.group({
       name: '',
       description: '',
-      date: '',
-      artwork: '',
-      photo: [],
+      date: ''
     });
   }
 
@@ -63,6 +63,19 @@ export class AlbumAddComponent implements OnInit {
 
     this.refresh();
   };
+
+  /**
+   * When file is selected
+   * @param event 
+   */
+  onFileChange(event){
+    if(event.target.files && event.target.files.length) {
+      let file = event.target.files[0];
+      this.fileName = file.name;
+      this.file = file;
+    }
+    this.fileName = "Ajouter une couverture";
+  }
   
   refresh(){
     this.ngOnInit();
@@ -70,7 +83,18 @@ export class AlbumAddComponent implements OnInit {
 
   validate(){
     console.log(this.album);
-    console.log(this.photos);
+
+    // Data of form
+    let formValue = this.albumForm.value;
+    let formData = new FormData();
+
+    formData.append('id', this.album.id.toString());
+    formData.append('file', this.file);
+    formData.append('name', formValue['name']);
+    formData.append('description', formValue['description']);
+    formData.append('date', formValue['date']);
+
+
   }
 
   cancel(){}

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PhotoService } from './photo.service';
+import { Album } from '../models/Album.model';
 
 @Injectable()
 export class AlbumService {
@@ -21,5 +22,9 @@ export class AlbumService {
 
   public getPhotos(id : Number){
     return this.http.get<any>(this.url+"/"+id);
+  }
+
+  public addAlbum(album: any){
+    return this.http.post<any>(this.url, album);
   }
 }
