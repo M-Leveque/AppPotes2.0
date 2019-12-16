@@ -89,13 +89,8 @@ export class PhotoAddComponent implements OnInit {
     formData.append('date', formValue['date']);
 
     this.photoService.add(formData).subscribe( 
-      null,
-      (error) => {
-
-      }
+      response => this.routerNav.navigate(['album-add/'+this.idAlbum])
     );
-
-    this.routerNav.navigate(['album-add/'+this.idAlbum]);
    }
 
 

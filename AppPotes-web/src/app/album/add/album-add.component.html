@@ -8,7 +8,11 @@
             </div>
 
             <div class="add-visuel">
-                <label for="add-visuel">Ajouter une vignette<span class="icon icon-add"><img *ngIf="album.artwork" [src]="host+'/img/'+album.artwork" alt="vignette album"></span></label>
+                <label for="add-visuel">Ajouter une vignette
+                    <span class="icon icon-add">
+                        <img *ngIf="isUpdate" [src]="host+'/img/'+album.artwork" alt="vignette album">
+                    </span>
+                </label>
                 <input id="add-visuel" (change)="onFileChange($event)" type="file">
             </div>
 
@@ -16,7 +20,7 @@
                 <label>Titre de l'album :</label>
                 <input type="name" placeholder="(max 00 caractères)" [value]="album.name" formControlName="name">
                 <label>Déscriptif de l’album :</label>
-                <textarea onkeyup="auto_grow(this)" placeholder="(max 00 caractères)" formControlName="description" cols="30" rows="1">{{ album.description }}</textarea>
+                <textarea placeholder="(max 00 caractères)" [value]="album.description" formControlName="description" cols="30" rows="2"></textarea>
             </div>
 
             <div class="content-btn-page">
@@ -42,7 +46,7 @@
             <!-- Gallery -->
 
             <!-- Add button -->
-            <ul class="btn-add">
+            <ul *ngIf="isUpdate" class="btn-add">
                 <a class="reveal" [routerLink]="'/photo-add/'+ album.id" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>vos photos</a>
             </ul>
             

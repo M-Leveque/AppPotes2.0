@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PhotoService } from './photo.service';
 import { Album } from '../models/Album.model';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AlbumService {
@@ -16,15 +18,15 @@ export class AlbumService {
     return this.http.get<any>(this.url);
   }
 
-  public get(id : Number){
+  public get(id : Number) : Observable<any>{
     return this.http.get<any>(this.url+"/infos/"+id);
   }
 
-  public getPhotos(id : Number){
+  public getPhotos(id : Number) : Observable<any>{
     return this.http.get<any>(this.url+"/"+id);
   }
 
-  public addAlbum(album: any){
+  public storeAlbum(album: any) : Observable<any>{
     return this.http.post<any>(this.url, album);
   }
 }

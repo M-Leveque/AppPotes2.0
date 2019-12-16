@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AlbumService } from './../../services/album.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ConstantService } from 'src/app/services/constant.service';
@@ -13,8 +13,10 @@ import { PhotoService } from 'src/app/services/photo.service';
 })
 export class AlbumAddComponent implements OnInit {
 
+  // Constants
   private host: String;
 
+  // Local variables
   private photos: any[];
   private album: Album;
   private albumInfosSubscription:  Subscription;
@@ -23,31 +25,45 @@ export class AlbumAddComponent implements OnInit {
   private fileName: String;
   private file: any;
 
+  private isUpdate = false;
+
   constructor(
     private albumService: AlbumService,
     private photoService: PhotoService,
     private router: ActivatedRoute,
+    private routerNav: Router,
     private formBuilder: FormBuilder,
-    private constantService: ConstantService) { }
+    private constantService: ConstantService) { 
+
+      this.album = new Album();
+      this.photos = [];
+      this.fileName = "Ajouter une couverture";
+      this.initForm();
+    }
 
   ngOnInit() { 
 
     this.host = this.constantService.host;
 
-    this.initForm();
-
     if(this.router.snapshot.params){
 
       let idAlbum = this.router.snapshot.params['id'];
 
-      this.albumInfosSubscription = this.albumService.get(idAlbum)
-        .subscribe(album => this.album = album);  
-
-      this.albumPhotosSubscription = this.albumService.getPhotos(idAlbum)
-        .subscribe(photos => this.photos = photos);
-    }    
+      if(idAlbum != undefined) {
+        this.isUpdate = true;
+      
+        this.albumInfosSubscription = this.albumService.get(idAlbum)
+          .subscribe(album => this.album = album);  
+  
+        this.albumPhotosSubscription = this.albumService.getPhotos(idAlbum)
+          .subscribe(photos => this.photos = photos);
+      }
+    }
   }
 
+  /**
+   * Form init
+   */
   initForm(){
     this.albumForm = this.formBuilder.group({
       name: '',
@@ -56,15 +72,21 @@ export class AlbumAddComponent implements OnInit {
     });
   }
 
+  /**
+   * Function call when
+   * User delete photo.
+   * @param id 
+   */
   deletePhoto(id){
-    console.log("componenet delete" + id);
+    // Retreive index of photo in photos array
+    var index = this.photos.findIndex((photo) => photo.id == id);
+    // Send to delete photo
     this.photoService.delete(id)
-      .subscribe(reponse => console.log(reponse)); 
-
-    this.refresh();
+      .subscribe(reponse => this.photos.splice(index, 1));
   };
 
   /**
+   * Funcion call
    * When file is selected
    * @param event 
    */
@@ -74,30 +96,50 @@ export class AlbumAddComponent implements OnInit {
       this.fileName = file.name;
       this.file = file;
     }
-    this.fileName = "Ajouter une couverture";
   }
   
   refresh(){
     this.ngOnInit();
   }
 
+  /**
+   * function call when
+   * form is validate.
+   * Send album data to backend.
+   */
   validate(){
-    console.log(this.album);
 
     // Data of form
-    let formValue = this.albumForm.value;
     let formData = new FormData();
+    let formValue = this.albumForm.value;  
 
-    formData.append('id', this.album.id.toString());
+    let name = (formValue.name ? formValue.name : this.album.name);
+    let description = (formValue.description ? formValue.description : this.album.description);
+
+    formData.append('name', name);
+    formData.append('description', description);
     formData.append('file', this.file);
-    formData.append('name', formValue['name']);
-    formData.append('description', formValue['description']);
-    formData.append('date', formValue['date']);
 
+    if(this.isUpdate){
+      formData.append('id', this.album.id.toString());
+    }
 
+    this.albumService.storeAlbum(formData).subscribe( 
+      (response) => this.routerNav.navigate(['album/'+this.album.id]),
+      (error) => {
+        // TODO : Error case.
+      }
+    );
+    
   }
 
-  cancel(){}
+  /**
+   * Fonction call to 
+   * reset form
+   */
+  cancel(){
+    this.routerNav.navigate(['album/'+this.album.id]);
+  }
 
   ngOnDestroy() {
     if(this.router.snapshot.params){
