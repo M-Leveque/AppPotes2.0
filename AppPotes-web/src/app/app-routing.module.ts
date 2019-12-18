@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {LoginComponent} from './login/login.component';
-import {HomePageComponent} from './home-page/home-page.component';
-import {AlbumComponent} from './album/album.component';
-import {AlbumAddComponent} from './album/add/album-add.component';
-import {AlbumListComponent} from './album/list/album-list.component';
-import {EventComponent} from './event/event.component';
-import {EventListComponent} from './event/list/event-list.component';
-import {PoolComponent} from './pool/pool.component';
-import {PhotoComponent} from './photo/photo.component';
-import {PhotoAddComponent} from './photo/add/photo-add.component';
-import {AccountComponent} from './account/account.component';
-import {AccountOptionComponent} from './account/option/account-option.component';
+import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
+import { LoginComponent } from './core/login/login.component';
+import { HomePageComponent } from './tabs/home-page/home-page.component';
+import { AlbumComponent } from './tabs/album/album.component';
+import { AlbumAddComponent } from './tabs/album/add/album-add.component';
+import { AlbumListComponent } from './tabs/album/list/album-list.component';
+import { EventComponent } from './tabs/event/event.component';
+import { EventListComponent } from './tabs/event/list/event-list.component';
+import { PoolComponent } from './tabs/pool/pool.component';
+import { AccountComponent } from './tabs/account/account.component';
+import { AccountOptionComponent } from './tabs/account/option/account-option.component';
+import { PhotoComponent } from './tabs/photo/photo.component';
+import { PhotoAddComponent } from './tabs/photo/add/photo-add.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent},

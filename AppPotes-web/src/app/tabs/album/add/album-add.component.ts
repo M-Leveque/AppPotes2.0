@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlbumService } from './../../services/album.service';
+import { AlbumService } from './../album.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ConstantService } from 'src/app/services/constant.service';
+import { ConstantService } from 'src/app/constant.service';
 import { Album } from 'src/app/models/Album.model';
-import { PhotoService } from 'src/app/services/photo.service';
+import { PhotoService } from 'src/app/tabs/photo/photo.service';
 
 @Component({
   selector: 'app-album-add',

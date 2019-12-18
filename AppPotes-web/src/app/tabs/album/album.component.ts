@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlbumService } from './../services/album.service';
+import { AlbumService } from 'src/app/tabs/album/album.service';
 import { Subscription } from 'rxjs';
-import { PhotoService } from '../services/photo.service';
-import { ConstantService } from '../services/constant.service';
+import { PhotoService } from 'src/app/tabs/photo/photo.service';
+import { ConstantService } from 'src/app/constant.service';
 
 @Component({
   selector: 'app-album',

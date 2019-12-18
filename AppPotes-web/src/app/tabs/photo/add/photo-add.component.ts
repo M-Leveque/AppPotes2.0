@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Photo } from 'src/app/models/Photo.model';
-import { PhotoService } from 'src/app/services/photo.service';
+import { PhotoService } from 'src/app/tabs/photo/photo.service';
 import { Subscription } from 'rxjs';
 import { formatDate } from '@angular/common';
-import { ConstantService } from 'src/app/services/constant.service';
+import { ConstantService } from 'src/app/constant.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 /**

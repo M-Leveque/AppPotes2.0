@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EventService } from '../services/event.service';
+import { EventService } from './event.service';
 import { interval } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { DatePipe } from '@angular/common';

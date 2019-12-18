@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlbumService } from './../services/album.service';
-import { EventService } from './../services/event.service';
-import { PoolService } from './../services/pool.service';
+import { AlbumService } from 'src/app/tabs/album/album.service';
+import { EventService } from 'src/app/tabs/event/event.service';
+import { PoolService } from 'src/app/tabs/pool/pool.service';
 import { Subscription } from 'rxjs';
-import { ConstantService } from './../services/constant.service';
+import { ConstantService } from 'src/app/constant.service';
 
 @Component({
   selector: 'app-home-page',

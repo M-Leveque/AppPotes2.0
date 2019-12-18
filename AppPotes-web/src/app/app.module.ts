@@ -4,25 +4,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { LoginComponent } from './login/login.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { AlbumComponent } from './album/album.component';
-import { AlbumAddComponent } from './album/add/album-add.component';
-import { AlbumListComponent } from './album/list/album-list.component';
-import { EventComponent } from './event/event.component';
-import { EventListComponent } from './event/list/event-list.component';
-import { PoolComponent } from './pool/pool.component';
-import { AccountComponent } from './account/account.component';
-import { AccountOptionComponent } from './account/option/account-option.component';
-import { AlbumService } from './services/album.service';
-import { EventService } from './services/event.service';
-import { PoolService } from './services/pool.service';
-import { ConstantService } from './services/constant.service';
+import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
+import { LoginComponent } from './core/login/login.component';
+import { NavBarComponent } from './core/nav-bar/nav-bar.component';
+import { HomePageComponent } from './tabs/home-page/home-page.component';
+import { AlbumComponent } from './tabs/album/album.component';
+import { AlbumAddComponent } from './tabs/album/add/album-add.component';
+import { AlbumListComponent } from './tabs/album/list/album-list.component';
+import { EventComponent } from './tabs/event/event.component';
+import { EventListComponent } from './tabs/event/list/event-list.component';
+import { PoolComponent } from './tabs/pool/pool.component';
+import { AccountComponent } from './tabs/account/account.component';
+import { AccountOptionComponent } from './tabs/account/option/account-option.component';
+import { AlbumService } from './tabs/album/album.service';
+import { EventService } from './tabs/event/event.service';
+import { PoolService } from './tabs/pool/pool.service';
+import { ConstantService } from './constant.service';
 import { HttpClientModule } from '@angular/common/http';
-import { PhotoComponent } from './photo/photo.component';
-import { PhotoAddComponent } from './photo/add/photo-add.component';
+import { PhotoComponent } from './tabs/photo/photo.component';
+import { PhotoAddComponent } from './tabs/photo/add/photo-add.component';
+import { UploadComponent } from './core/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PhotoAddComponent } from './photo/add/photo-add.component';
     AccountComponent,
     AccountOptionComponent,
     PhotoComponent,
-    PhotoAddComponent
+    PhotoAddComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
