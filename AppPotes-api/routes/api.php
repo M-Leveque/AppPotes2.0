@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Routes for Photos controller
+Route::delete('/photos/deleteTmpFile/{name}', 'PhotoController@destroyFile');
 Route::resource('photos','PhotoController');
 
 // Routes for Album controller

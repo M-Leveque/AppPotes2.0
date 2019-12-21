@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Album;
-use App\Shared\Constants;
-use Carbon\Carbon;
+use App\Services\AlbumService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class AlbumController extends Controller
 {
 
-    const PRIVATE_STATUS = 0;
-    const PUBLIC_STATUS = 0;
+    private $albumService;
 
     /**
      * Display a listing of the resource.
@@ -42,44 +40,24 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
+        $this->albumService = new AlbumService();
+
         $id = $request->input('id');
         $isUpdate = $id ? true : false;
-        $file = $request->file('file');
+
+        $cover = $request->cover;
+        $cover = $cover === "undefined" ? null : $cover;
         $name = $request->input('name');
-        $date = "";
         $description = $request->input('description');
-        if($file != null) {
-
-            $path = $name.".".$file->extension();
-            // Store album cover in serve
-            $file->storePubliclyAs(Constants::IMG_PATH, $path, 'public');
-        }
-
-        // Date now
-        $now = Carbon::now();
-
-        // Initialise date
-        if(!is_string($date) || empty($date)){
-            $date = $now->toDateTimeString();
-        }
-
-        if(!$isUpdate){
-            $album = new Album();
-        }
-        else {
-            $album = Album::find($id);
-        }
-
-        // Persist album in database
+        $idsPhoto = json_decode($request->input('ids-photo'), true);
+        
         try {
-            $album->name = $name;
-            $album->description = $description;
-            $album->status = self::PUBLIC_STATUS;
-            if($file != null) $album->artwork = $path;
-            $album->date = $now->toDateTimeString();
-            $album->date_created = $now->toDateTimeString();
-            $album->id_user = 1;
-            $album->save();
+            if($isUpdate){
+                $this->albumService->update($id, $cover, $name, $description, $idsPhoto);
+            }
+            else{
+                $this->albumService->create($cover, $name, $description, $idsPhoto);
+            }            
         }
         catch(Exception $e){
             return  response(json_encode('Error'), Response::HTTP_BAD_REQUEST);

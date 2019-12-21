@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PhotoService } from './photo.service';
-import { Album } from '../models/Album.model';
+import { PhotoService } from '../photo/photo.service';
+import { Album } from '../../models/Album.model';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

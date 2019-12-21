@@ -1557,7 +1557,44 @@ a .icon-link {
   object-fit: cover;
 }
 
+.add-photos {
+  width: 5.93vw; height: 5.93vw;
+  margin-bottom: 25px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  font-family: 'Trueno';
+  font-weight: 200;
+  font-style: normal;
+  font-size: 0.78vw;
+  border-radius: 100px;
+  background: rgba(142,197,252,1);
+  background: -moz-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(142,197,252,1)), color-stop(100%, rgba(224,195,252,1)));
+  background: -webkit-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -o-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -ms-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: linear-gradient(135deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ec5fc', endColorstr='#e0c3fc', GradientType=1 );
+  
+}
+
+.add-photos label {
+  position: relative;
+  border-radius: 100px;
+  text-align: center;
+  font-family: 'Trueno';
+  font-weight: 200;
+  font-style: normal;
+  font-size: 0.78vw;
+  background: #191919;
+  cursor: pointer;
+}
+
 #add-visuel {display: none;}
+#add-photos {display: none;}
 
 .icon-add {
   content: "\ea08";
@@ -1662,9 +1699,41 @@ a .icon-link {
   box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
 }
 
+.btn-add div {
+  width: 5.93vw; height: 5.93vw;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: 'Trueno';
+  font-weight: 200;
+  font-style: normal;
+  font-size: 0.78vw;
+  border-radius: 100px;
+  background: rgba(142,197,252,1);
+  background: -moz-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(142,197,252,1)), color-stop(100%, rgba(224,195,252,1)));
+  background: -webkit-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -o-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: -ms-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  background: linear-gradient(135deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ec5fc', endColorstr='#e0c3fc', GradientType=1 );
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+}
+
 .btn-add .icon {font-size: 2.55vw;}
 
 .btn-add li {
+  width: 5.93vw; height: 5.93vw;
+  margin-bottom: 10px;
+  list-style: none;
+  border-radius: 100px;
+  background-color: #191919;
+}
+
+.btn-add div {
   width: 5.93vw; height: 5.93vw;
   margin-bottom: 10px;
   list-style: none;
@@ -1691,6 +1760,13 @@ a .icon-link {
 
 .content-grid-add {
   width: 60%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.demo-gallery{
+  width: 100%;
 }
 
 .content-grid-add .demo-gallery > ul > li a > img {

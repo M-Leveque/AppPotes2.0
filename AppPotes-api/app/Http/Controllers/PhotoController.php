@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Photo;
 use App\Album;
+use App\Services\AlbumService;
 use App\Shared\Constants;
 use Carbon\Carbon;
 use Illuminate\Http\File;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PhotoController extends Controller
 {
+
+    private $albumService;
     
     /**
      * Display a listing of the resource.
@@ -43,43 +46,13 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {   
-        $idAlbum = $request->input('id');
+        $id = $request->input('id');
+        $file = $request->input('file');
+        $path = 'tmp/'.$id.".png";
 
-        // Get album infos
-        $album = Album::find($idAlbum);
+        AlbumService::uploadImg($file, $path);
 
-        $date = $request->input('date');
-        $name = $request->input('name');
-        $file = $request->file('file');
-        $path = $album->name .'/'.$name.".".$file->extension();
-
-        // Store photo in serve
-        $file->storePubliclyAs(Constants::IMG_PATH, $path, 'public');
-
-        // Date now
-        $now = Carbon::now();
-
-        // Initialise date
-        if(!is_string($date) || empty($date)){
-            $date = $now->toDateTimeString();
-        }
-
-        // Store photo in database
-        try {
-            $photo = new Photo();
-            $photo->name = $name;
-            $photo->path = $path;
-            $photo->date = $date;
-            $photo->date_upload = $now->toDateTimeString();
-            $photo->id_user = 1;
-            $photo->id_album = $idAlbum;
-            $photo->save();
-        }
-        catch(Exception $e){
-            return Response::create("Error during store the new photo", Response::HTTP_BAD_REQUEST);
-        }
-
-        return response(json_encode('Photo created'), Response::HTTP_OK);
+        return response(json_encode(array('id' => $id)), Response::HTTP_OK);
     }
 
     /**
@@ -130,7 +103,7 @@ class PhotoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return void
+     * @return httpResponse
      */
     public function destroy(int $id)
     {   
@@ -147,6 +120,17 @@ class PhotoController extends Controller
         // Delete photo in database
         $photo->delete();
 
-        return  response(json_encode('Photo deleted'), Response::HTTP_OK);
+        return response(json_encode('Photo deleted'), Response::HTTP_OK);
+    }
+
+    /**
+     *  Remove file in serveur.
+     * @param int $id
+     * @return httpResponse
+     */
+    public function destroyFile(int $id)
+    {
+        Storage::disk('public')->delete(Constants::IMG_PATH."tmp/".$id.'.png');
+        return response(json_encode('File deleted'), Response::HTTP_OK);
     }
 }

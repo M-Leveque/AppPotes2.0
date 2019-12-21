@@ -1,7 +1,7 @@
 <app-nav-bar></app-nav-bar>
 <main>
     <!-- ADD FORM -->
-    <form id="content-add-album" [formGroup]="albumForm" (ngSubmit)="onSubmitForm()">
+    <form id="content-add-album" [formGroup]="albumForm">
         <section class="content-add">
             <div class="title">
                 <h2>Ajout<br>album</h2>
@@ -13,7 +13,7 @@
                         <img *ngIf="isUpdate" [src]="host+'/img/'+album.artwork" alt="vignette album">
                     </span>
                 </label>
-                <input id="add-visuel" (change)="onFileChange($event)" type="file">
+                <input id="add-visuel" (change)="handleFileSelect($event, true)" type="file">
             </div>
 
             <div class="content-form-add">
@@ -24,8 +24,8 @@
             </div>
 
             <div class="content-btn-page">
-                <a class="btn-page" (click)="cancel()"><span>Annuler</span></a>
-                <a class="btn-page" (click)="validate()"><span>Valider</span></a>
+                <button class="btn-page" (click)="cancel()"><span>Annuler</span></button>
+                <button class="btn-page" (click)="validate()" [disabled]="disableValidate"><span>Valider</span></button>
             </div>
         </section>
 
@@ -41,14 +41,22 @@
                             <span (click)="deletePhoto(photo.id)" class="icon icon-close"></span>
                         </div>
                     </li>
+
+                    <li *ngFor="let addPhoto of idsPhoto" >
+                        <img width="100px" height="100px" class="img-responsive" [src]="host+'/img/tmp/'+addPhoto+'.png'" alt="Thumb-1">
+                    </li>
                 </ul>
             </div>
             <!-- Gallery -->
 
-            <!-- Add button -->
-            <ul *ngIf="isUpdate" class="btn-add">
-                <a class="reveal" [routerLink]="'/photo-add/'+ album.id" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>vos photos</a>
-            </ul>
+            <!-- Add button -->               
+            <!-- <a class="reveal" [routerLink]="'/photo-add/'+ album.id" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>vos photos</a> --> 
+            <div class="add-photos">
+                <label for="add-photos">
+                    <span class="icon-btn icon icon-add-pic"></span>
+                </label>
+                <input id="add-photos" type="file" (click)="resetPhotos()" (change)="handleFileSelect($event, false)" multiple/>
+            </div>
             
         </section>
     </form>

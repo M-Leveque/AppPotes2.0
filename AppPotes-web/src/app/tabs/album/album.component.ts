@@ -22,7 +22,7 @@ export class AlbumComponent implements OnInit {
               private router: ActivatedRoute, private constantService: ConstantService ) {}
 
   ngOnInit() {
-  
+
     this.host = this.constantService.host;
     let idAlbum = this.router.snapshot.params['id'];
 

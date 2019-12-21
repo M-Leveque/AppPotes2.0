@@ -32,7 +32,10 @@ export class PhotoService {
    * @param id photo
    */
   public delete(id: Number){
-    console.log("service delete");
     return this.http.delete<any>(this.url + id);
+  }
+
+  public clearTmp(id: String){
+    return this.http.delete<any>(this.url + "deleteTmpFile/" + id)
   }
 }

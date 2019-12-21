@@ -1,7 +1,8 @@
 export class Photo {
     constructor(
-        public id: Number,
+        public id: Number = null,
         public name: String,
-        public path: any
+        public path: String = null,
+        public file: any = null
     ){}
 }
