@@ -1,0 +1,15 @@
+<div *ngIf="!isMultipleUpload" class="add-visuel">
+  <label for="add-visuel">Ajouter une vignette
+      <span class="icon icon-add">
+          <img *ngIf="isUpdate" [src]="host+'/img/'+album.artwork" alt="vignette album">
+      </span>
+  </label>
+  <input id="add-visuel" (change)="handleFileSelect($event)" type="file">
+</div>
+
+<div *ngIf="isMultipleUpload" class="add-photos">
+  <label for="add-photos">
+      <span class="icon-btn icon icon-add-pic"></span>
+  </label>
+  <input id="add-photos" type="file" (click)="resetPhotos()" (change)="handleFileSelect($event)" multiple/>
+</div>     

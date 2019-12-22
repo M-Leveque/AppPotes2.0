@@ -38,4 +38,22 @@ export class PhotoService {
   public clearTmp(id: String){
     return this.http.delete<any>(this.url + "deleteTmpFile/" + id)
   }
+
+    /**
+   * Fonction to delete files
+   * store in tmp.
+   */
+  public clearTmpFiles(idsPhoto){
+    if(idsPhoto) {
+      for(let i=0; i < idsPhoto.length; i++){
+        
+        // Retreive index of tmpPhoto in photos array
+        this.clearTmp(idsPhoto[i].toString())
+        .subscribe(reponse => {
+          let index = idsPhoto.findIndex((id) => id == idsPhoto[i])
+          idsPhoto.splice(index, 1);
+        });
+      }
+    }
+  }
 }

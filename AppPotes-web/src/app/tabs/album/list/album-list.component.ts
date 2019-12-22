@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from 'src/app/tabs/album/album.service';
 import { ConstantService } from 'src/app/constant.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-album-list',
@@ -20,7 +21,8 @@ export class AlbumListComponent implements OnInit {
   private allAlbums : any[];
 
   constructor(private albumService : AlbumService,
-              private constantService: ConstantService
+              private constantService: ConstantService,
+              private spinner: NgxSpinnerService
               ) { 
     this.allAlbums = this.albums;
   }
@@ -28,11 +30,13 @@ export class AlbumListComponent implements OnInit {
   ngOnInit() {
 
     this.host = this.constantService.host;
+    this.spinner.show();
 
     this.albumSubscription = this.albumService.all()
     .subscribe( (albums) => {
       this.sharedAlbum = albums.shift();
       this.albums = albums;
+      this.spinner.hide();
     });  
   }
 

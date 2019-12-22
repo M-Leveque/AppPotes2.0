@@ -23,7 +23,8 @@ import { ConstantService } from './constant.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PhotoComponent } from './tabs/photo/photo.component';
 import { PhotoAddComponent } from './tabs/photo/add/photo-add.component';
-import { UploadComponent } from './core/upload/upload.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { UploadImagesComponent } from './core/upload/upload-images/upload-images.component';
 
 @NgModule({
   declarations: [
@@ -42,14 +43,15 @@ import { UploadComponent } from './core/upload/upload.component';
     AccountOptionComponent,
     PhotoComponent,
     PhotoAddComponent,
-    UploadComponent
+    UploadImagesComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxSpinnerModule
   ],
   providers: [
     AlbumService,

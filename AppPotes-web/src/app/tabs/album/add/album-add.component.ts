@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ConstantService } from 'src/app/constant.service';
 import { Album } from 'src/app/models/Album.model';
 import { PhotoService } from 'src/app/tabs/photo/photo.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-album-add',
@@ -27,7 +28,6 @@ export class AlbumAddComponent implements OnInit {
   private b64Cover: any;
 
   private isUpdate = false;
-  private disableValidate: boolean;
 
   constructor(
     private albumService: AlbumService,
@@ -35,7 +35,8 @@ export class AlbumAddComponent implements OnInit {
     private router: ActivatedRoute,
     private routerNav: Router,
     private formBuilder: FormBuilder,
-    private constantService: ConstantService) { 
+    private constantService: ConstantService,
+    private spinner: NgxSpinnerService) { 
 
       this.album = new Album();
       this.photos = [];
@@ -98,107 +99,15 @@ export class AlbumAddComponent implements OnInit {
       .subscribe(reponse => this.photos.splice(index, 1));
   };
 
-  resetPhotos(){
-    this.clearTmpFiles();
-    this.idsPhoto.length = 0;
-  }
-
-  handleFileSelect(evt, isCover){
-
-    var files = evt.target.files;
-
-    let callback = null
-
-    // Define is the cover that should be set.
-    if(isCover) callback = this.loadCover;
-    else callback = this.loadPhoto;
-
-    if (files) {
-
-      // Browse file add
-      for(let file of files){
-
-        // Send img to backend
-        this.sendFile(file, callback);
-      }
-
-    }
-  }
-
-  /**
-   * This method send img 
-   * to back for mass upload.
-   * @param file 
-   * @param callback 
-   */
-  sendFile(file: any, callback: any){
-
-    // Read file add
-    var reader = new FileReader();
-    reader.onload = callback.bind(this);
-
-    reader.readAsBinaryString(file);
-  }
-
-  /**
-   * Convert cover img to base64 string.
-   */
-  loadCover(evt) {
-    var binary = evt.target.result;
-    let img = btoa(binary);
-    this.b64Cover = img;
-  }
-
-  /**
-   * Convert select photos to 
-   * base64 string en store this
-   * on tmp zone.
-   * @param evt 
-   */
-  loadPhoto(evt) {
-    var binary = evt.target.result;
-    let img = btoa(binary);
-    this.disableValidate = true;
-
-    // Data of form
-    let formData = new FormData();
-
-    // Generate unique img id
-    let id = this.generateID(10);
-
-    // Prepare datas
-    formData.append('file', img);
-    formData.append('id', id);
-
-    this.photoService.add(formData).subscribe( 
-      response => {
-        this.idsPhoto.push(response.id);
-        this.disableValidate = false;
-      }
-    );
-  }
-
-  /**
-   * Generate random id.
-   * @param lenght 
-   */
-  generateID(lenght: Number){
-
-    var id = "";
-
-    for(var i=0; i< lenght; i++){
-      id += Math.floor((Math.random() * 9) + 1).toString();
-    }
-
-    return id;
-  }
-
   /**
    * function call when
    * form is validate.
    * Send album data to backend.
    */
   validate(){
+
+    // Start loader
+    this.spinner.show();
 
     // Data of form
     let formData = new FormData();
@@ -222,6 +131,9 @@ export class AlbumAddComponent implements OnInit {
       (response) => {
         // Delete cache for update new photos
         this.routerNav.navigate(['album']);
+
+        // Done loader
+        this.spinner.hide();
       },
       (error) => {
         // TODO : Error case.
@@ -230,22 +142,8 @@ export class AlbumAddComponent implements OnInit {
     
   }
 
-  /**
-   * Fonction to delete files
-   * store in tmp.
-   */
-  clearTmpFiles(){
-    if(this.idsPhoto) {
-      for(let i=0; i < this.idsPhoto.length; i++){
-        
-        // Retreive index of tmpPhoto in photos array
-        this.photoService.clearTmp(this.idsPhoto[i].toString())
-        .subscribe(reponse => {
-          let index = this.idsPhoto.findIndex((id) => id == this.idsPhoto[i])
-          this.idsPhoto.splice(index, 1);
-        });
-      }
-    }
+  storeCover(binary){
+    let img = btoa(binary);
   }
 
   /**
@@ -253,13 +151,13 @@ export class AlbumAddComponent implements OnInit {
    * reset form
    */
   cancel(){
-    this.clearTmpFiles();
+    this.photoService.clearTmpFiles(this.idsPhoto);
     //this.routerNav.navigate(['album/'+this.album.id]);
   }
 
   ngOnDestroy() {
     if(this.router.snapshot.params){
-      this.clearTmpFiles();
+      this.photoService.clearTmpFiles(this.idsPhoto);
       this.albumInfosSubscription.unsubscribe();
       this.albumPhotosSubscription.unsubscribe();
     }
