@@ -12,6 +12,7 @@ export class AlbumListComponent implements OnInit {
   private host: String;
 
   private showInputSearch = false;
+  private selected = "";
   
   private albumSubscription;
   private sharedAlbum = {};
@@ -24,7 +25,6 @@ export class AlbumListComponent implements OnInit {
               private constantService: ConstantService,
               private spinner: NgxSpinnerService
               ) { 
-    this.allAlbums = this.albums;
   }
 
   ngOnInit() {
@@ -36,6 +36,7 @@ export class AlbumListComponent implements OnInit {
     .subscribe( (albums) => {
       this.sharedAlbum = albums.shift();
       this.albums = albums;
+      this.allAlbums = this.albums;
       this.spinner.hide();
     });  
   }
@@ -46,13 +47,14 @@ export class AlbumListComponent implements OnInit {
       let v1 : any;
       let v2 : any;
 
-      if(value === 'title'){
-        v1 = a.title;
-        v2 = b.title;
+      if(value === 'name'){
+        v1 = a.name;
+        v2 = b.name;
       }
       else{
-        v1 = a.date;
-        v2 = b.date;
+        // convert date to epoch format
+        v1 = new Date(a.date).getTime() / 1000;
+        v2 = new Date(b.date).getTime() / 1000;
       }
 
       if( v1 > v2 )
@@ -69,7 +71,7 @@ export class AlbumListComponent implements OnInit {
     searchText = searchText.toLowerCase();
 
     this.albums = this.allAlbums.filter( it => {
-      return it.title.toLowerCase().includes(searchText);
+      return it.name.toLowerCase().includes(searchText);
     });
   }
 
