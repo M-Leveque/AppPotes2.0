@@ -20,7 +20,7 @@ class CreateAlbumsTable extends Migration
             $table->date('date');
             $table->date('date_created');
             $table->boolean('status');
-            $table->string('artwork');
+            $table->string('artwork')->nullable();
             $table->integer('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->nullable();
         });

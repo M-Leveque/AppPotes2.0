@@ -4,6 +4,7 @@ import { AlbumService } from 'src/app/tabs/album/album.service';
 import { Subscription } from 'rxjs';
 import { PhotoService } from 'src/app/tabs/photo/photo.service';
 import { ConstantService } from 'src/app/constant.service';
+import { Album } from 'src/app/models/Album.model';
 
 @Component({
   selector: 'app-album',
@@ -23,6 +24,8 @@ export class AlbumComponent implements OnInit {
 
   ngOnInit() {
 
+    this.album = new Album();
+    
     this.host = this.constantService.host;
     let idAlbum = this.router.snapshot.params['id'];
 
@@ -33,6 +36,7 @@ export class AlbumComponent implements OnInit {
     // Get photo informations
     this.albumPhotosSubscription = this.albumService.getPhotos(idAlbum)
       .subscribe(photos => this.photos = photos);
+
   }
 
   ngOnDestroy() {

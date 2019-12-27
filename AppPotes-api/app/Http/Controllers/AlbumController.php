@@ -45,19 +45,20 @@ class AlbumController extends Controller
         $id = $request->input('id');
         $isUpdate = $id ? true : false;
 
-        $cover = $request->cover;
-        $cover = $cover === "undefined" ? null : $cover;
+        $idCover = $request->input('id-cover');
         $name = $request->input('name');
         $description = $request->input('description');
         $idsPhoto = json_decode($request->input('ids-photo'), true);
+
+        if($idCover === "undefined") $idCover = false;
         
         try {
             if($isUpdate){
-                $this->albumService->update($id, $cover, $name, $description, $idsPhoto);
+                $this->albumService->update($id, $idCover, $name, $description, $idsPhoto);
             }
             else{
-                $this->albumService->create($cover, $name, $description, $idsPhoto);
-            }            
+                $this->albumService->create($idCover, $name, $description, $idsPhoto);
+            }               
         }
         catch(Exception $e){
             return  response(json_encode('Error'), Response::HTTP_BAD_REQUEST);
@@ -128,8 +129,22 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return Response
      */
-    public function destroy(Album $album)
+    public function destroy($id)
     {
-        //
+        $album = Album::find($id);
+
+        if(isset($album)){
+                    // delete photo link to this album
+            $album->photos()->delete();
+
+            // delete album
+            $album->delete();
+            $response =  response(json_encode('Album delete'), Response::HTTP_OK);
+        }
+        else {
+            $response = reponse(\json_encode('Album not found'), Response::HTTP_BAD_REQUEST);
+        }
+
+        return $response;
     }
 }

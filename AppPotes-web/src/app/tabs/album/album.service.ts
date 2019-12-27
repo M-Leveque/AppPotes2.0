@@ -29,4 +29,8 @@ export class AlbumService {
   public storeAlbum(album: any) : Observable<any>{
     return this.http.post<any>(this.url, album);
   }
+
+  public delete(id: Number) : Observable<any>{
+    return this.http.delete<any>(this.url+"/"+id);
+  }
 }

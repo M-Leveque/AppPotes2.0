@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PhotoService } from 'src/app/tabs/photo/photo.service';
+import { SimplePlaceholderMapper } from '@angular/compiler/src/i18n/serializers/serializer';
+import { ConstantService } from 'src/app/constant.service';
 
 @Component({
   selector: 'app-upload-images',
@@ -11,18 +13,20 @@ export class UploadImagesComponent implements OnInit {
 
   @Input() isMultipleUpload: boolean;
   @Input() idsImages: Number[];
-  @Input() img: String;
-
-  @Input() initImage : Function;
+  @Input() idSimpleImage: Number[];
+  @Input() simpleImagePath: String;
 
   private nbFilesToUpload = 0;
   private nbFileUploaded: number;
+  private host: String;
 
   constructor( private spinner: NgxSpinnerService,
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private constantService: ConstantService
   ) { }
 
   ngOnInit() {
+    this.host = this.constantService.host;
   }
 
   resetPhotos(){
@@ -72,8 +76,14 @@ export class UploadImagesComponent implements OnInit {
    * Convert cover img to base64 string.
    */
   loadImage(evt) {
-    var binary = evt.target.result;
-    this.initImage(binary);
+    var context = this;
+    var callToReponse = function(response){
+      context.idSimpleImage.push(response.id);
+      context.simpleImagePath = '/tmp/'+response.id+'.png'
+      context.spinner.hide();
+    }
+
+    this.uploadImageTmp(evt, callToReponse);
   }
 
   /**
@@ -84,6 +94,18 @@ export class UploadImagesComponent implements OnInit {
    */
   loadImages(evt) {
 
+    var context = this;
+    var callToReponse = function(response){
+      context.idsImages.push(response.id);
+      context.nbFileUploaded++;
+
+      if(context.nbFileUploaded == context.nbFilesToUpload)context.spinner.hide();
+    }
+
+    this.uploadImageTmp(evt, callToReponse);
+  }
+
+  uploadImageTmp(evt, callToReponse){
     var binary = evt.target.result;
 
     // Start loader
@@ -100,14 +122,7 @@ export class UploadImagesComponent implements OnInit {
     formData.append('file', img);
     formData.append('id', id);
 
-    this.photoService.add(formData).subscribe( 
-      response => {
-        this.idsImages.push(response.id);
-        this.nbFileUploaded++;
-
-        if(this.nbFileUploaded == this.nbFilesToUpload)this.spinner.hide();
-      }
-    );
+    this.photoService.add(formData).subscribe(callToReponse);
   }
 
   /**

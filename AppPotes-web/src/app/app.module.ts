@@ -25,6 +25,9 @@ import { PhotoComponent } from './tabs/photo/photo.component';
 import { PhotoAddComponent } from './tabs/photo/add/photo-add.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { UploadImagesComponent } from './core/upload/upload-images/upload-images.component';
+import { PopupComponent } from './core/popup/popup.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,8 @@ import { UploadImagesComponent } from './core/upload/upload-images/upload-images
     AccountOptionComponent,
     PhotoComponent,
     PhotoAddComponent,
-    UploadImagesComponent
+    UploadImagesComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +55,9 @@ import { UploadImagesComponent } from './core/upload/upload-images/upload-images
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     AlbumService,
@@ -59,6 +65,7 @@ import { UploadImagesComponent } from './core/upload/upload-images/upload-images
     PoolService,
     ConstantService,
   ],
+  entryComponents: [PopupComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

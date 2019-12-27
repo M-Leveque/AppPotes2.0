@@ -20,7 +20,7 @@ class AlbumService
      * @param cover
      * @param name
      */
-    public static function uploadImg($b64File, $path){
+    public static function uploadImg($b64File, $path) {
 
         $b64File = str_replace('data:image/png;base64,', '', $b64File);
         $b64File = str_replace(' ', '+', $b64File);
@@ -37,9 +37,8 @@ class AlbumService
      * @param path
      */
     public static function moveImg($id, $path){
-
         $tmpFile = Constants::IMG_PATH.'tmp/'.$id.'.png';
-        $file = Constants::IMG_PATH.$path.'/'.$id.'.png';
+        $file = Constants::IMG_PATH.$path;
 
         Storage::disk('public')->move($tmpFile, $file);
         
@@ -56,7 +55,7 @@ class AlbumService
 
         // Create new album object
         $album = new Album();
-       
+
         $this->persist($album, $name, $description, $cover, $idsPhoto);
 
     }
@@ -73,6 +72,7 @@ class AlbumService
         // Create new album object
         $album = Album::find($id);
 
+        // If cover change -> delete oldCover
         if($cover){
             $this->deleteOldCover($album->artwork);
         }
@@ -93,25 +93,9 @@ class AlbumService
         // Date now
         $now = Carbon::now();
 
-        if($cover){
-            $path = $this->generatePath($name.$now->timestamp);
-            self::uploadImg($cover, $path);
-        } 
-
-        $photos = [];
-
-        // Move photo tmp store to album.
-        if(!empty($idsPhoto)){
-            foreach($idsPhoto as $id){
-                self::moveImg($id, $name);
-                array_push($photos, $this->convertPhoto($id, $name));
-            }
-        }
-
         $album->name = $name;
         $album->description = $description;
         $album->status = self::PUBLIC_STATUS;
-        if($cover) $album->artwork = $path;
         $album->date = $now->toDateTimeString();
         $album->date_created = $now->toDateTimeString();
         $album->id_user = 1;
@@ -119,15 +103,35 @@ class AlbumService
         // Persist album
         $album->save();
 
+        // Move tmp img to albums.
+        if($cover){
+            $path = $this->generatePath($album->id.'-'.$now->timestamp);
+            self::moveImg($cover, $path);
+
+            $album->artwork = $path;
+            $album->save();
+        }
+        
+
+        $photos = [];
+
+        // Move photo tmp store to album.
+        if(!empty($idsPhoto)){
+            foreach($idsPhoto as $id){
+                $path = $this->generatePath($id, $album->id);
+                self::moveImg($id, $path);
+                array_push($photos, $this->convertPhoto($id, $path));
+            }
+        }
+
         // Persist photos
         $album->photos()->saveMany($photos);
     }
 
-    public function convertPhoto($id, $albumName) {
+    public function convertPhoto($id, $path) {
 
         // Date now
         $now = Carbon::now();
-        $path = $this->generatePath($id, $albumName);
         
         $photo = new Photo();
         $photo->name = $id;
@@ -146,16 +150,14 @@ class AlbumService
      * @param name
      */
     private function deleteOldCover($artwork){
-
         // Store album cover on server
         Storage::disk('public')->delete(Constants::IMG_PATH.$artwork);
-
     }
 
-    private function generatePath($name,$albumName = null){
+    private function generatePath($name,$idAlbum = null){
 
         $path = "";
-        if($albumName) $path .= $albumName.'/';
+        if($idAlbum) $path .= $idAlbum.'/';
         return $path.$name.'.png';
     }
 }

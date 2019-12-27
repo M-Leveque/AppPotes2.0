@@ -5,10 +5,15 @@
     <form id="content-add-album" [formGroup]="albumForm">
         <section class="content-add">
             <div class="title">
-                <h2>Ajout<br>album</h2>
+                <h2 *ngIf="!isUpdate">Ajout<br>album</h2>
+                <h2 *ngIf="isUpdate">Modifier<br>album</h2>
+                <button *ngIf="isUpdate && album.id != 1" class="btn-page" (click)="delete()"><span>Supprimer</span></button>
             </div>
-
-            <app-upload-images [isMultipleUpload]="false" [initImage]="storeCover" ></app-upload-images>
+            
+            <app-upload-images
+            [isMultipleUpload]="false" 
+            [idSimpleImage]="idCover"
+            [simpleImagePath]="album.artwork" ></app-upload-images>
 
             <div class="content-form-add">
                 <label>Titre de l'album :</label>
