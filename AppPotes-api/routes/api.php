@@ -17,6 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Routes for api auth
+Route::post('login',[ 'as' => 'login', 'uses' => 'Auth\LoginController@login']);
+Route::post('register', 'Auth\RegisterController@create');
+
 // Routes for Photos controller
 Route::delete('/photos/deleteTmpFile/{name}', 'PhotoController@destroyFile');
 Route::resource('photos','PhotoController');

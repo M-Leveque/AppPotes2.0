@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotoService {
+
+  httpOptions = {};
   url:string= "http://127.0.0.1:8000/api/photos/";
   private photo = {};
   private error;
 
-  public constructor(private http : HttpClient){}
+  public constructor(private http : HttpClient){
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer gokKqRpQvqo2cdpc1hTM7H1BTeOPfIl6TuFWasUZmIwr0YzFaCX4amieEbtg'
+      })
+    };
+  }
 
   /**
    * Method POST to add photo to database.
    * @param photo 
    */
   public add(photo: any){
-    return this.http.post<any>(this.url, photo);
+    return this.http.post<any>(this.url, photo, this.httpOptions);
   }
 
   /**
@@ -24,7 +32,7 @@ export class PhotoService {
    * @param id photo
    */
   public get(id: Number){
-    return this.http.get<any>(this.url + id);
+    return this.http.get<any>(this.url + id, this.httpOptions);
   }
 
   /**
@@ -32,11 +40,11 @@ export class PhotoService {
    * @param id photo
    */
   public delete(id: Number){
-    return this.http.delete<any>(this.url + id);
+    return this.http.delete<any>(this.url + id, this.httpOptions);
   }
 
   public clearTmp(id: String){
-    return this.http.delete<any>(this.url + "deleteTmpFile/" + id)
+    return this.http.delete<any>(this.url + "deleteTmpFile/" + id, this.httpOptions)
   }
 
     /**
