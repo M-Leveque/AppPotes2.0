@@ -78,6 +78,7 @@ export class UploadImagesComponent implements OnInit {
   loadImage(evt) {
     var context = this;
     var callToReponse = function(response){
+      console.log(response);
       context.idSimpleImage.push(response.id);
       context.simpleImagePath = '/tmp/'+response.id+'.png'
       context.spinner.hide();
