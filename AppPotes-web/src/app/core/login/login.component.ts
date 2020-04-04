@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConstantService } from 'src/app/constant.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService,
     private formBuilder: FormBuilder,
-    private constant: ConstantService) {
+    private constant: ConstantService,
+    private routerNav: Router) {
     this.displayToggle = false;
    }
 
@@ -43,9 +45,10 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(formData).subscribe( 
       (response) => {
-        console.log(response);
         localStorage.setItem('token', response.token);
         localStorage.setItem('userId', response.id);
+        // Redirect to login
+        this.routerNav.navigate(['home-page']);
       },
       (error) => {
         // TODO : Error case.

@@ -13,21 +13,22 @@ import { AccountComponent } from './tabs/account/account.component';
 import { AccountOptionComponent } from './tabs/account/option/account-option.component';
 import { PhotoComponent } from './tabs/photo/photo.component';
 import { PhotoAddComponent } from './tabs/photo/add/photo-add.component';
+import { AuthGuardService as AuthGuard } from './core/login/auth-guard.service';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent},
-    { path: 'home-page', component: HomePageComponent},
-    { path: 'album', component: AlbumListComponent},
-    { path: 'album/:id', component: AlbumComponent},
-    { path: 'album-add', component: AlbumAddComponent},
-    { path: 'album-add/:id', component: AlbumAddComponent},
-    { path: 'account', component: AccountComponent},
-    { path: 'account-option', component: AccountOptionComponent},
-    { path: 'event', component: EventListComponent},
-    { path: 'event/:id', component: EventComponent},
-    { path: 'pool', component: PoolComponent},
-    { path: 'photo/:id', component: PhotoComponent},
-    { path: 'photo-add/:idAlbum', component: PhotoAddComponent},
+    { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
+    { path: 'album', component: AlbumListComponent, canActivate: [AuthGuard] },
+    { path: 'album/:id', component: AlbumComponent, canActivate: [AuthGuard] },
+    { path: 'album-add', component: AlbumAddComponent, canActivate: [AuthGuard] },
+    { path: 'album-add/:id', component: AlbumAddComponent, canActivate: [AuthGuard] },
+    { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+    { path: 'account-option', component: AccountOptionComponent, canActivate: [AuthGuard] },
+    { path: 'event', component: EventListComponent, canActivate: [AuthGuard] },
+    { path: 'event/:id', component: EventComponent, canActivate: [AuthGuard] },
+    { path: 'pool', component: PoolComponent, canActivate: [AuthGuard] },
+    { path: 'photo/:id', component: PhotoComponent, canActivate: [AuthGuard] },
+    { path: 'photo-add/:idAlbum', component: PhotoAddComponent, canActivate: [AuthGuard] },
     { path: 'not-found', component: PageNotFoundComponent },
     { path: '**', redirectTo: 'not-found' }
 ];

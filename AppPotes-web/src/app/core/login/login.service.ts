@@ -14,4 +14,11 @@ export class LoginService {
   public login(data: any) : Observable<any>{
     return this.http.post<any>(this.url, data);
   }
+
+  public isAuthenticated(): boolean {
+    var token = localStorage.getItem("token");
+    var userId = localStorage.getItem("userId");
+
+    return !(token == "undefined" || userId == "undefined");
+  }
 }

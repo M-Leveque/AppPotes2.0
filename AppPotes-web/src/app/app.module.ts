@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 import { LoginComponent } from './core/login/login.component';
 import { LoginService } from './core/login/login.service';
+import { AuthGuardService } from './core/login/auth-guard.service';
 import { NavBarComponent } from './core/nav-bar/nav-bar.component';
 import { HomePageComponent } from './tabs/home-page/home-page.component';
 import { AlbumComponent } from './tabs/album/album.component';
@@ -69,6 +70,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PoolService,
     AccountService,
     ConstantService,
+    AuthGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true }
   ],
   entryComponents: [PopupComponent],

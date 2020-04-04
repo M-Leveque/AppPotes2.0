@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { AccountService } from './account.service';
 import { User } from 'src/app/models/User.model';
 import { ConstantService } from 'src/app/constant.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -15,13 +16,18 @@ export class AccountComponent implements OnInit {
 
   private user: User;
   private host: String;
+  private path;
 
-  constructor(private accountService : AccountService,
-    private constantService: ConstantService) {}
+  constructor(
+    private accountService : AccountService,
+    private constantService: ConstantService,
+    private routerNav: Router
+  ) {}
 
   ngOnInit() {
 
     this.host = this.constantService.host;
+    this.path = this.constantService.path;
     // Get connected user
     var cnxUserId = +localStorage.getItem("userId");
     if(cnxUserId){   
@@ -30,6 +36,11 @@ export class AccountComponent implements OnInit {
     }
   }
 
-
+  logout(){
+    localStorage.setItem("token", undefined);
+    localStorage.setItem("userId", undefined);
+    // Redirect to login
+    this.routerNav.navigate(['/login']);
+  }
 
 }

@@ -16,6 +16,7 @@ export class HomePageComponent implements OnInit {
   albums : any[] = [];
   sharedAlbum : any = {};
   host: String;
+  path;
 
   events : any[];
   pools : any[];
@@ -30,6 +31,7 @@ export class HomePageComponent implements OnInit {
   ngOnInit(){
 
     this.host = this.constantService.host;
+    this.path = this.constantService.path;
 
     this.albumSubscription = this.albumService.all()
     .subscribe( (albums) => {

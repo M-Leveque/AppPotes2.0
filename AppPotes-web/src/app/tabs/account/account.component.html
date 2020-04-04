@@ -3,7 +3,7 @@
 	
   <section class="info-compte">
     <div class="profil-pic">
-      <img [src]="host+'/img/profiles/'+user.id+'.jpg'" alt="photo de profile du compte"/>
+      <img [src]="host+path.profiles+user.id+'.jpg'" alt="photo de profile du compte"/>
     </div>
 
     <div class="title">
@@ -11,8 +11,8 @@
     </div>
 
     <div class="profil-opt">
-      <a class="icon icon-down" href="?action=Deconnecter"></a>
-      <a class="icon icon-sitting" href="?action=OptionCompte"></a>
+      <a class="icon icon-down" (click)="logout()"></a>
+      <a class="icon icon-sitting" [routerLink]="'/account-option'"></a>
     </div>
   </section>
 
