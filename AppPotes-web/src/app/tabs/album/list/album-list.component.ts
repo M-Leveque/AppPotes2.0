@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class AlbumListComponent implements OnInit {
   
   private host: String;
+  private path: Object;
 
   private showInputSearch = false;
   private selected = "";
@@ -30,6 +31,8 @@ export class AlbumListComponent implements OnInit {
   ngOnInit() {
 
     this.host = this.constantService.host;
+    this.path = this.constantService.path;
+    
     this.spinner.show();
 
     this.albumSubscription = this.albumService.all()

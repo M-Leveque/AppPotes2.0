@@ -46,8 +46,12 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            $auth = array(
+                "id" => $user->id, 
+                "token" => $user->api_token
+            );
             // Authentication passed...
-            return response(json_encode($user->api_token));
+            return response(json_encode($auth));
         }
 
         return response('', Response::HTTP_BAD_REQUEST);

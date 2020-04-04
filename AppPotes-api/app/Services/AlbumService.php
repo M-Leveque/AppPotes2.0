@@ -38,7 +38,7 @@ class AlbumService
      */
     public static function moveImg($id, $path){
         $tmpFile = Constants::IMG_PATH.'tmp/'.$id.'.png';
-        $file = Constants::IMG_PATH.$path;
+        $file = Constants::IMG_PATH.Constants::ALBUMS_PATH.$path;
 
         Storage::disk('public')->move($tmpFile, $file);
         

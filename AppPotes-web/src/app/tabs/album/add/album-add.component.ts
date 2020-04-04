@@ -18,6 +18,7 @@ export class AlbumAddComponent implements OnInit {
 
   // Constants
   private host: String;
+  private path: Object;
 
   // Local variables
   private photos: any[];
@@ -55,6 +56,7 @@ export class AlbumAddComponent implements OnInit {
   ngOnInit() { 
 
     this.host = this.constantService.host;
+    this.path = this.constantService.path;
 
     if(this.router.snapshot.params['id']){
 

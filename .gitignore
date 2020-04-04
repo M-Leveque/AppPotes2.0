@@ -4,3 +4,4 @@
 /AppPotes-api/vendor/*
 /AppPotes-api/storage/app/public/*
 /AppPotes-api/public/storage/*
+AppPotes-web/package-lock.json

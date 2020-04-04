@@ -3,11 +3,11 @@
 	
   <section class="info-compte">
     <div class="profil-pic">
-      <img src="ressources/img/profile/pic-3.jpg" alt="photo de profile du compte"/>
+      <img [src]="host+'/img/profiles/'+user.id+'.jpg'" alt="photo de profile du compte"/>
     </div>
 
     <div class="title">
-      <h2>Hey !<br/>Corantin 😀</h2>
+      <h2>Hey !<br/>{{user.name}} 😀</h2>
     </div>
 
     <div class="profil-opt">

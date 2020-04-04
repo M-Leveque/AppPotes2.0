@@ -29,3 +29,6 @@ Route::resource('photos','PhotoController');
 Route::get('/albums/infos/{id}', 'AlbumController@infos');
 Route::post('/albums/{id}', 'AlbumController@update');
 Route::resource('albums','AlbumController');
+
+// Routes for User controller
+Route::resource('user','UserController');

@@ -3,7 +3,7 @@
 	<!-- HEADER ALBUM -->
 	<section id="header-pic">
 		<!-- Vignette album -->
-		<img [src]="host+'/img/'+album.artwork" alt="Couverture l'album">
+		<img [src]="host+path.albums+album.artwork" alt="Couverture l'album">
 		
 		<!-- Infos album -->
     <div>
@@ -25,8 +25,8 @@
 
           <!-- Show each photo -->
           <li *ngFor="let photo of photos" class="col-xs-6 col-sm-4 col-md-3">
-            <a [href]="host+'/img/'+photo.path">
-              <img class="img-responsive" [src]="host+'/img/'+photo.path" alt="Thumb-1">
+            <a [href]="host+path.albums+photo.path">
+              <img class="img-responsive" [src]="host+path.albums+photo.path" alt="Thumb-1">
             </a>
           </li>
           

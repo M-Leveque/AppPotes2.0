@@ -18,6 +18,7 @@ export class AlbumComponent implements OnInit {
   albumInfosSubscription: Subscription;
   albumPhotosSubscription : Subscription;
   host: String;
+  path: Object;
 
   constructor(private albumService: AlbumService, private photoService: PhotoService, 
               private router: ActivatedRoute, private constantService: ConstantService ) {}
@@ -25,8 +26,8 @@ export class AlbumComponent implements OnInit {
   ngOnInit() {
 
     this.album = new Album();
-    
     this.host = this.constantService.host;
+    this.path = this.constantService.path;
     let idAlbum = this.router.snapshot.params['id'];
 
     // Get albums

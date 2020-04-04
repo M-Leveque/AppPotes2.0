@@ -20,10 +20,12 @@ import { AccountOptionComponent } from './tabs/account/option/account-option.com
 import { AlbumService } from './tabs/album/album.service';
 import { EventService } from './tabs/event/event.service';
 import { PoolService } from './tabs/pool/pool.service';
+import { AccountService } from './tabs/account/account.service';
 import { ConstantService } from './constant.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PhotoComponent } from './tabs/photo/photo.component';
 import { PhotoAddComponent } from './tabs/photo/add/photo-add.component';
+import { authInterceptor } from './core/interceptors/authInterceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { UploadImagesComponent } from './core/upload/upload-images/upload-images.component';
 import { PopupComponent } from './core/popup/popup.component';
@@ -65,7 +67,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AlbumService,
     EventService,
     PoolService,
+    AccountService,
     ConstantService,
+    { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true }
   ],
   entryComponents: [PopupComponent],
   bootstrap: [AppComponent]

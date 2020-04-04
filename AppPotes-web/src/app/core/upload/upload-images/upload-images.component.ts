@@ -19,6 +19,8 @@ export class UploadImagesComponent implements OnInit {
   private nbFilesToUpload = 0;
   private nbFileUploaded: number;
   private host: String;
+  private path;
+  private imagePath: String;
 
   constructor( private spinner: NgxSpinnerService,
     private photoService: PhotoService,
@@ -27,6 +29,7 @@ export class UploadImagesComponent implements OnInit {
 
   ngOnInit() {
     this.host = this.constantService.host;
+    this.path = this.constantService.path;
   }
 
   resetPhotos(){
@@ -139,5 +142,19 @@ export class UploadImagesComponent implements OnInit {
     }
 
     return id;
+  }
+
+  /**
+   * Type of image.
+   * Check if image is tmp or not
+   */
+  getPath($img: String){
+
+    console.log($img);
+    if($img.includes("tmp")){
+      return this.host + "/img"+$img; 
+    }
+
+    return this.host + this.path.albums + $img;
   }
 }

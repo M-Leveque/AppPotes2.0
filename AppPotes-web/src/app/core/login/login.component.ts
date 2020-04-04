@@ -44,7 +44,8 @@ export class LoginComponent implements OnInit {
     this.loginService.login(formData).subscribe( 
       (response) => {
         console.log(response);
-        localStorage.setItem('token', response);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('userId', response.id);
       },
       (error) => {
         // TODO : Error case.

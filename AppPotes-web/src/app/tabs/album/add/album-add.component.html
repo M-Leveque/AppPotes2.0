@@ -36,7 +36,7 @@
                 <ul id="lightgallery" class="list-unstyled row" class="col-xs-6 col-sm-4 col-md-3">
                     <li *ngFor="let photo of photos" >
                         <div class="pic-delete">
-                            <img width="100px" height="100px" class="img-responsive" [src]="host+'/img/'+photo.path" alt="Thumb-1">
+                            <img width="100px" height="100px" class="img-responsive" [src]="host+path.albums+photo.path" alt="Thumb-1">
                             <span (click)="deletePhoto(photo.id)" class="icon icon-close"></span>
                         </div>
                     </li>
