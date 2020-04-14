@@ -32,6 +32,13 @@ import { UploadImagesComponent } from './core/upload/upload-images/upload-images
 import { PopupComponent } from './core/popup/popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PasswordDialogComponent } from './tabs/account/option/password-dialog/password-dialog.component';
+import {
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRippleModule
+} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -51,7 +58,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PhotoComponent,
     PhotoAddComponent,
     UploadImagesComponent,
-    PopupComponent
+    PopupComponent,
+    PasswordDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +70,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgxSpinnerModule,
     MatDialogModule,
     BrowserAnimationsModule,
+    MatFormFieldModule
   ],
   providers: [
     LoginService,
@@ -73,7 +82,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AuthGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true }
   ],
-  entryComponents: [PopupComponent],
+  entryComponents: [PopupComponent, PasswordDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

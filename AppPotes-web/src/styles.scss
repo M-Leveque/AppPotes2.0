@@ -1305,15 +1305,6 @@ a .icon-link {
   width: 6vw; height: 6vw;
   margin-right: 3.75VW;
   padding: 1px;
-  border-radius: 100%;
-  background: rgba(142,197,252,1);
-  background: -moz-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
-  background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(142,197,252,1)), color-stop(100%, rgba(224,195,252,1)));
-  background: -webkit-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
-  background: -o-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
-  background: -ms-linear-gradient(-45deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
-  background: linear-gradient(135deg, rgba(142,197,252,1) 0%, rgba(224,195,252,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ec5fc', endColorstr='#e0c3fc', GradientType=1 );
 }
 
 .profil-pic img {
@@ -1326,6 +1317,15 @@ a .icon-link {
   display: flex;
   flex-direction: column;
   font-size: 2.08vw;
+}
+
+#modif-pic {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
 }
 
 .icon-down {margin-bottom: 10px;}
@@ -1388,7 +1388,7 @@ a .icon-link {
 	OPTION COMPTE STYLE
 ------------------------*/
 #content-optcompte {
-  width: 26.3vw; height: 100%;
+  width: 26.3vw;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -1404,8 +1404,8 @@ a .icon-link {
   align-items: center;
 }
 
-#content-optcompte .profil-pic a {
-  width: 10VW; height: 10vw;
+#content-optcompte .profil-pic > a {
+  height: 10vw;
   padding: 2px;
   border-radius: 100px;
   background: rgba(142,197,252,1);
@@ -1425,23 +1425,16 @@ a .icon-link {
   width: 10VW; height: 10vw;
 }
 
-#content-optcompte .profil-pic button {
-  margin-top: 10px;
-  padding-bottom: 13px;
-  color: #FFFFFF;
-  text-decoration: underline;
-  font-size: 0.78vw;
-  font-family: 'Trueno';
-  font-weight: 600;
-  font-style: normal;
-}
-
 #content-optcompte form span {
   margin-bottom: 20px;
   font-size: 1.3vw;
   font-family: 'Trueno';
   font-weight: 600;
   font-style: normal;
+}
+
+#content-optcompte button, label {
+  margin-top: 25px;
 }
 
 #content-optcompte form {
@@ -1469,37 +1462,33 @@ a .icon-link {
 }
 
 /* MODAL CHANGEMENT MOT DE PASSE */
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
+
+.mat-dialog-container {
+  background-color: #000;
+}
+
+.mat-label {
+  padding-top: 10px;
 }
 
 .modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0,0,0,0.3);
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.modal-enter {opacity: 0;}
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  color: #F2F2F2;
+  padding: 10px;
+}
 
-.modal-leave-active {opacity: 0;}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+.modal-form input, .modal-form label {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 /*---------------------------------------------------------------------------------------------------
@@ -1802,3 +1791,5 @@ a .icon-link {
 }
 
 .icon-add-people-no::before {content: "\ea05";}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
