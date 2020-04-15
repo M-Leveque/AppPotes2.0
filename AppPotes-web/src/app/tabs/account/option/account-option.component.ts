@@ -3,6 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import {PasswordDialogComponent} from './password-dialog/password-dialog.component';
 import { PopupComponent } from 'src/app/core/popup/popup.component';
 import { Router } from '@angular/router';
+import { AccountService } from '../account.service';
+import { ConstantService } from 'src/app/constant.service';
+import { User } from 'src/app/models/User.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account-option',
@@ -10,12 +14,28 @@ import { Router } from '@angular/router';
 })
 export class AccountOptionComponent implements OnInit {
 
+  private accountSubscription:  Subscription;
+
+  private user: User;
+  private host: String;
+  private path;
+
   constructor(
     public dialog: MatDialog, 
-    public router: Router
+    public router: Router,
+    private accountService : AccountService,
+    private constantService: ConstantService
   ) { }
 
   ngOnInit() {
+    this.host = this.constantService.host;
+    this.path = this.constantService.path;
+    // Get connected user
+    var cnxUserId = +localStorage.getItem("userId");
+    if(cnxUserId){   
+      this.accountSubscription = this.accountService.get(cnxUserId)
+        .subscribe(user => this.user = user);  
+    }
   }
 
   openCancel(): void {

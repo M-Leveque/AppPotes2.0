@@ -2,19 +2,22 @@
 <main id="content-optcompte">
     <div class="profil-pic">
         <a>
-            <img src="ressources/img/profile/pic-3.jpg" alt="Votre photo de profile">
+            <img [src]="host+path.profiles+user.id+'.jpg'" alt="Votre photo de profile">
         </a>
         <label for="modif-pic" class="btn-page" ><span>modifier</span></label>
         <input id="modif-pic" type="file">
     </div>
-
+    
     <form>
-        <span>Pseudo :</span>
-        <input type="name" name="pseudo">
-        <span>Adresse mail de connexion :</span>
-        <input type="email" name="pseudo">
+        <mat-form-field appearance="fill">
+            <mat-label>Pseudo :</mat-label>
+            <input matInput type="name" name="pseudo" [ngModel]="user.name">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Adresse mail de connexion :</mat-label>
+            <input matInput type="email" name="mail" [ngModel]="user.email">
+        </mat-form-field>
     </form>
-
     <button class="btn-page" (click)="openDialog()" rel="modal:open"><span>Changer de mot de passe</span></button>
 
     <section class="content-btn-page">

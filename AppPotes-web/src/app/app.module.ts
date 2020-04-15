@@ -70,7 +70,10 @@ import {
     NgxSpinnerModule,
     MatDialogModule,
     BrowserAnimationsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatRippleModule
   ],
   providers: [
     LoginService,
