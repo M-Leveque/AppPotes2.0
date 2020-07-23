@@ -26,7 +26,6 @@ Route::delete('/photos/deleteTmpFile/{name}', 'PhotoController@destroyFile');
 Route::resource('photos','PhotoController');
 
 // Routes for Album controller
-Route::get('/albums/infos/{id}', 'AlbumController@infos');
 Route::post('/albums/{id}', 'AlbumController@update');
 Route::resource('albums','AlbumController');
 

@@ -4,6 +4,6 @@ namespace App\Shared;
 
 class Constants {
     const IMG_PATH = "img/";
-    const ALBUMS_PATH = "albums/";
-    const PROFILES_PATH = "profiles/";
+    const ALBUMS_PATH = self::IMG_PATH."albums/";
+    const PROFILES_PATH = self::IMG_PATH."profiles/";
 }

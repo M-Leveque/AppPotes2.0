@@ -12,6 +12,13 @@ class AlbumController extends Controller
 
     private $albumService;
 
+    private const UNDEFINED = "undefined";
+    private const FIELD_ID = "id";
+    private const FIELD_ID_COVER = "id_cover";
+    private const FIELD_NAME = "name";
+    private const FIELD_DESCRIPTION = "description";
+    private const ERROR = "ALBUM ERROR :";
+
     /**
      * Create a new controller instance.
      *
@@ -20,6 +27,7 @@ class AlbumController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->albumService = new AlbumService();
     }
 
     /**
@@ -50,30 +58,24 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        $this->albumService = new AlbumService();
-
-        $id = $request->input('id');
+        // Feed fields
+        $id             = $request->input(self::FIELD_ID);
+        $idCover        = $request->input(self::FIELD_ID_COVER);
+        $name           = $request->input(self::FIELD_NAME);
+        $description    = $request->input(self::FIELD_DESCRIPTION);
         $isUpdate = $id ? true : false;
-
-        $idCover = $request->input('id-cover');
-        $name = $request->input('name');
-        $description = $request->input('description');
-        $idsPhoto = json_decode($request->input('ids-photo'), true);
-
-        if($idCover === "undefined") $idCover = false;
-        
+        $idCover = $idCover === self::UNDEFINED ? false : $idCover;
         try {
             if($isUpdate){
-                $this->albumService->update($id, $idCover, $name, $description, $idsPhoto);
+                $this->albumService->update($id, $idCover, $name, $description);
             }
             else{
-                $this->albumService->create($idCover, $name, $description, $idsPhoto);
+                $this->albumService->create($idCover, $name, $description);
             }               
         }
-        catch(Exception $e){
-            return  response(json_encode('Error'), Response::HTTP_BAD_REQUEST);
+        catch(\Exception $e){
+            return  response(json_encode(SELF::ERROR." Store : ".$e->getTraceAsString()), Response::HTTP_BAD_REQUEST);
         }
-
         return response(json_encode('Album created'), Response::HTTP_OK);
     }
 
@@ -86,29 +88,12 @@ class AlbumController extends Controller
     public function show(int $idAlbum)
     {
         try{
-            $photos = Album::find($idAlbum)->photos;
+            $photos = Album::find($idAlbum);
         }
         catch(\Exception $e){
-            return  response(json_encode('Error during show album'), Response::HTTP_BAD_REQUEST);
+            return  response(json_encode(SELF::ERROR."Show"), Response::HTTP_BAD_REQUEST);
         }
         return $photos;
-    }
-
-    /**
-     * Get informations about album.
-     *  
-     * @param int $idAlbum
-     * @return Response
-     */
-    public function infos(int $idAlbum)
-    {
-        try{
-            $album = Album::find($idAlbum);
-        }
-        catch(\Exception $e){
-            return  response(json_encode('Error during infos album'), Response::HTTP_BAD_REQUEST);
-        }
-        return $album;
     }
 
     /**
@@ -149,10 +134,10 @@ class AlbumController extends Controller
 
             // delete album
             $album->delete();
-            $response =  response(json_encode('Album delete'), Response::HTTP_OK);
+            $response =  response(\json_encode('Album delete'), Response::HTTP_OK);
         }
         else {
-            $response = reponse(\json_encode('Album not found'), Response::HTTP_BAD_REQUEST);
+            $response = response(\json_encode('Album not found'), Response::HTTP_BAD_REQUEST);
         }
 
         return $response;

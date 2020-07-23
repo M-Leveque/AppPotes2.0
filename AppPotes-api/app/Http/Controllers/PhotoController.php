@@ -63,6 +63,11 @@ class PhotoController extends Controller
         AlbumService::uploadImg($file, $path);
 
         return response(json_encode(array('id' => $id)), Response::HTTP_OK);
+
+        // Move photo tmp store to album.
+        $path = ImageService::generatePath(Constants::ALBUMS_PATH, $id, $album->id);
+        ImageService::moveImg($id, $path);
+        array_push($photos, PhotoService::convertPhoto($id, $path));
     }
 
     /**
