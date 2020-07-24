@@ -136,11 +136,11 @@ class PhotoController extends Controller
         $photo = Photo::find($id);
         
         if($photo == null) {
-            return  response(json_encode('Photo deleted'), Response::HTTP_BAD_REQUEST);
+            return  response(json_encode('Photo not found'), Response::HTTP_NOT_FOUND);
         }
 
-        //Delete photo on server
-        Storage::disk('public')->delete(Constants::IMG_PATH.$photo->path);
+        // Delete photo on server
+        $this->destroyFile($photo);
 
         // Delete photo in database
         $photo->delete();
@@ -153,9 +153,9 @@ class PhotoController extends Controller
      * @param int $id
      * @return httpResponse
      */
-    public function destroyFile(int $id)
+    public function destroyFile(Photo $photo)
     {
-        Storage::disk('public')->delete(Constants::IMG_PATH."tmp/".$id.'.png');
-        return response(json_encode('File deleted'), Response::HTTP_OK);
+        $path = ImageService::generatePath(Constants::IMG_PATH, $photo->name, $photo->id_album);
+        Storage::disk('public')->delete($path);
     }
 }

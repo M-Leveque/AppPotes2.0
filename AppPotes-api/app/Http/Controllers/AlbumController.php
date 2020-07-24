@@ -129,7 +129,7 @@ class AlbumController extends Controller
         $album = Album::find($id);
 
         if(isset($album)){
-                    // delete photo link to this album
+            // delete photo link to this album
             $album->photos()->delete();
 
             // delete album
