@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Photo;
 use App\Album;
 use App\Services\AlbumService;
+use App\Services\ImageService;
 use App\Shared\Constants;
 use Carbon\Carbon;
 use Illuminate\Http\File;
@@ -56,18 +57,37 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {   
-        $id = $request->input('id');
-        $file = $request->input('file');
-        $path = 'tmp/'.$id.".png";
+        // Get fields
+        $idalbum = $request->input('id_album');
+        $name = $request->input('name');
+        $file = $request->input('b64_image');
 
-        AlbumService::uploadImg($file, $path);
+        // Check if name exist
+        $photo = Photo::query()->where("name", '=', $name)->first();
+        if($photo != null) return response(json_encode("Image name already exist"), Response::HTTP_BAD_REQUEST);
 
-        return response(json_encode(array('id' => $id)), Response::HTTP_OK);
+        // Date now
+        $now = Carbon::now();
 
-        // Move photo tmp store to album.
-        $path = ImageService::generatePath(Constants::ALBUMS_PATH, $id, $album->id);
-        ImageService::moveImg($id, $path);
-        array_push($photos, PhotoService::convertPhoto($id, $path));
+        // Construct path
+        $album = Album::find($idalbum);
+        $path = ImageService::generatePath(Constants::IMG_PATH, $name, $album->id);
+
+        // Store photo to bdd
+        $photo = new Photo();
+        $photo->name = $name;
+        // Add 'storage/'.
+        $photo->path = Constants::STORAGE_PATH.$path;
+        $photo->date = $now->toDateTimeString();
+        $photo->date_upload = $now->toDateTimeString();
+        $photo->id_user = 1;
+        $photo->id_album = $idalbum;
+        $photo->save();
+
+        // Store photo on serveur
+        ImageService::uploadB64Img($file, $path);
+
+        return response(json_encode($photo), Response::HTTP_OK);
     }
 
     /**
@@ -78,17 +98,7 @@ class PhotoController extends Controller
      */
     public function show(int $id)
     {
-        $photo = Photo::query()->where("id", '=', $id)->first();
-
-        if($photo == null)
-        {
-            return Response::create("Photo not found", Response::HTTP_NOT_FOUND);
-        }
-
-        $path = $path = asset(Constants::IMG_PATH . $photo->path);
-        $ext = explode('.',$photo->path);
-
-        return response()->download($path, $photo->path, ['Content-Type' => $ext]);
+        return Photo::find($id);
     }
 
     /**
