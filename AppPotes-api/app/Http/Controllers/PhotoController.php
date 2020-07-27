@@ -4,20 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Photo;
 use App\Album;
-use App\Services\AlbumService;
+use App\Services\PhotoService;
 use App\Services\ImageService;
 use App\Shared\Constants;
-use Carbon\Carbon;
-use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhotoController extends Controller
 {
 
-    private $albumService;
+    private $photoService;
 
     /**
      * Create a new controller instance.
@@ -27,6 +24,8 @@ class PhotoController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+
+        $this->photoService = new PhotoService();
     }
     
     /**
@@ -46,7 +45,12 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        //
+        $array = array(
+            "id_album" => 0,
+            "name" => null,
+            "b64_image" => "");
+            
+        return response()->json($array);
     }
 
     /**
@@ -58,70 +62,90 @@ class PhotoController extends Controller
     public function store(Request $request)
     {   
         // Get fields
-        $idalbum = $request->input('id_album');
+        $idAlbum = $request->input('id_album');
         $name = $request->input('name');
         $file = $request->input('b64_image');
 
-        // Check if name exist
-        $photo = Photo::query()->where("name", '=', $name)->first();
-        if($photo != null) return response(json_encode("Image name already exist"), Response::HTTP_BAD_REQUEST);
+        if(!$this->photoService->checkValidity($name)){
+            return response(json_encode("Image name already exist"), Response::HTTP_BAD_REQUEST);
+        } 
 
-        // Date now
-        $now = Carbon::now();
+        $path = $this->photoService->generatePath($idAlbum, $name);
 
-        // Construct path
-        $album = Album::find($idalbum);
-        $path = ImageService::generatePath(Constants::IMG_PATH, $name, $album->id);
-
-        // Store photo to bdd
-        $photo = new Photo();
-        $photo->name = $name;
-        // Add 'storage/'.
-        $photo->path = Constants::STORAGE_PATH.$path;
-        $photo->date = $now->toDateTimeString();
-        $photo->date_upload = $now->toDateTimeString();
-        $photo->id_user = 1;
-        $photo->id_album = $idalbum;
-        $photo->save();
+        // Persist photo
+        $photo = $this->photoService->persist($name, $path, $idAlbum);
 
         // Store photo on serveur
         ImageService::uploadB64Img($file, $path);
 
-        return response(json_encode($photo), Response::HTTP_OK);
+        return response()->json($photo);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Photo $photo
      * @return Response
      */
-    public function show(int $id)
+    public function show(Photo $photo)
     {
-        return Photo::find($id);
+        return response()->json($photo);
+    }
+
+    /**
+     * Display Photos link to album.
+     *
+     * @param  int $idAlbum
+     * @return Response
+     */
+    public function showByAlbum(int $idAlbum)
+    {   
+        $album = Album::find($idAlbum);
+        return response()->json($album);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param Photo $photo
      * @return void
      */
-    public function edit(int $id)
+    public function edit(Photo $photo)
     {
-        //
+        $array = array(
+            "id_album" => 0,
+            "name" => null,
+            "b64_image" => "");
+            
+        return response()->json($array);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param int $id
+     * @param Photo photo
      * @return Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Photo $photo)
     {
+        // Get fields
+        $idAlbum = $request->input('id_album');
+        $name = $request->input('name');
+        $file = $request->input('b64_image');
 
+        if(!$this->photoService->checkValidity($name)){
+            return response(json_encode("Image name already exist"), Response::HTTP_BAD_REQUEST);
+        } 
+
+        $path = $this->photoService->generatePath($idAlbum, $name);
+
+        $photo = $this->photoService->update($name, $path, $idAlbum, $photo);
+
+        // Store photo on serveur
+        ImageService::uploadB64Img($file, $path);
+
+        return response()->json($photo);
     }
 
     /**
@@ -136,7 +160,7 @@ class PhotoController extends Controller
         $photo = Photo::find($id);
         
         if($photo == null) {
-            return  response(json_encode('Photo not found'), Response::HTTP_NOT_FOUND);
+            return response()->json("Photo not found", Response::HTTP_NOT_FOUND);
         }
 
         // Delete photo on server
@@ -144,8 +168,7 @@ class PhotoController extends Controller
 
         // Delete photo in database
         $photo->delete();
-
-        return response(json_encode('Photo deleted'), Response::HTTP_OK);
+        return response()->json('Photo deleted');
     }
 
     /**
@@ -155,7 +178,8 @@ class PhotoController extends Controller
      */
     public function destroyFile(Photo $photo)
     {
-        $path = ImageService::generatePath(Constants::IMG_PATH, $photo->name, $photo->id_album);
+        $path = ImageService::generatePath(Constants::ALBUMS_PATH, $photo->name, $photo->id_album);
         Storage::disk('public')->delete($path);
+        return response();
     }
 }

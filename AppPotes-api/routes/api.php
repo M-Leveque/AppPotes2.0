@@ -22,11 +22,10 @@ Route::post('login',[ 'as' => 'login', 'uses' => 'Auth\LoginController@login']);
 Route::post('register', 'Auth\RegisterController@create');
 
 // Routes for Photos controller
-Route::delete('/photos/deleteTmpFile/{name}', 'PhotoController@destroyFile');
 Route::resource('photos','PhotoController');
+Route::get('/photos/byAlbum/{id}', 'PhotoController@showByAlbum');
 
 // Routes for Album controller
-Route::post('/albums/{id}', 'AlbumController@update');
 Route::resource('albums','AlbumController');
 
 // Routes for User controller

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Album;
 use App\Services\AlbumService;
+use App\Services\ImageService;
+use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -12,7 +14,6 @@ class AlbumController extends Controller
 
     private $albumService;
 
-    private const UNDEFINED = "undefined";
     private const FIELD_ID = "id";
     private const FIELD_ID_COVER = "id_cover";
     private const FIELD_NAME = "name";
@@ -47,7 +48,11 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
+        $album = new album();
+        $album->id_cover= null;
+        $album->name=null;
+        $album->description=null;
+        return $album;
     }
 
     /**
@@ -59,19 +64,11 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
         // Feed fields
-        $id             = $request->input(self::FIELD_ID);
         $idCover        = $request->input(self::FIELD_ID_COVER);
         $name           = $request->input(self::FIELD_NAME);
         $description    = $request->input(self::FIELD_DESCRIPTION);
-        $isUpdate = $id ? true : false;
-        $idCover = $idCover === self::UNDEFINED ? false : $idCover;
         try {
-            if($isUpdate){
-                $this->albumService->update($id, $idCover, $name, $description);
-            }
-            else{
-                $this->albumService->create($idCover, $name, $description);
-            }               
+            $this->albumService->create($idCover, $name, $description);
         }
         catch(\Exception $e){
             return  response(json_encode(SELF::ERROR." Store : ".$e->getTraceAsString()), Response::HTTP_BAD_REQUEST);
@@ -85,15 +82,9 @@ class AlbumController extends Controller
      * @param int $idAlbum
      * @return Response
      */
-    public function show(int $idAlbum)
+    public function show(Album $album)
     {
-        try{
-            $photos = Album::find($idAlbum);
-        }
-        catch(\Exception $e){
-            return  response(json_encode(SELF::ERROR."Show"), Response::HTTP_BAD_REQUEST);
-        }
-        return $photos;
+        return $album;
     }
 
     /**
@@ -104,7 +95,11 @@ class AlbumController extends Controller
      */
     public function edit(Album $album)
     {
-        //
+        $album = new album();
+        $album->id_cover= null;
+        $album->name=null;
+        $album->description=null;
+        return $album;
     }
 
     /**
@@ -115,7 +110,16 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $idCover        = $request->input(self::FIELD_ID_COVER);
+        $name           = $request->input(self::FIELD_NAME);
+        $description    = $request->input(self::FIELD_DESCRIPTION);
+        try {
+                $this->albumService->update($id, $idCover, $name, $description);          
+        }
+        catch(\Exception $e){
+            return  response(json_encode(SELF::ERROR." Update : ".$e->getTraceAsString()), Response::HTTP_BAD_REQUEST);
+        }
+        return response(json_encode('Album created'), Response::HTTP_OK);
     }
 
     /**
@@ -124,22 +128,18 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Album $album)
     {
-        $album = Album::find($id);
-
-        if(isset($album)){
-            // delete photo link to this album
-            $album->photos()->delete();
-
-            // delete album
-            $album->delete();
-            $response =  response(\json_encode('Album delete'), Response::HTTP_OK);
+        // Delete photos on serveur
+        foreach($album->photos() as $photo ){
+            $path = ImageService::generatePath(Constants::ALBUMS_PATH, $photo->name, $album->id);
+            ImageService::deleteImage($path);
         }
-        else {
-            $response = response(\json_encode('Album not found'), Response::HTTP_BAD_REQUEST);
-        }
+        // Delete photos in BDD
+        $album->photos()->delete();
 
-        return $response;
+        // Delete album
+        $album->delete();
+        return response(\json_encode('Album delete'), Response::HTTP_OK);
     }
 }

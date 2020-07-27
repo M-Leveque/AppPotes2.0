@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
-use App\Shared\Constants;
 
 class ImageService
 {
@@ -24,20 +23,6 @@ class ImageService
         // Store album cover on server
         Storage::disk('public')->put($path, base64_decode($b64File));
 
-    }
-
-    /**
-     * This function move Image
-     * from tmp to specific folder.
-     * @param id
-     * @param path
-     */
-    public static function moveImg($id, $path){
-        $tmpFile = Constants::IMG_PATH.'tmp/'.$id.'.png';
-        $file = Constants::IMG_PATH.$path;
-
-        Storage::disk('public')->move($tmpFile, $file);
-        
     }
 
     /**
