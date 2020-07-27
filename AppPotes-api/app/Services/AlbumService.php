@@ -3,9 +3,8 @@
 namespace App\Services;
 
 use App\Album;
+use App\Photo;
 use Carbon\Carbon;
-use App\Services\ImageService;
-use App\Shared\Constants;
 
 class AlbumService
 {
@@ -22,6 +21,7 @@ class AlbumService
     public function create($idCover, $name, $description) {
         // Create new album object
         $album = new Album();
+        $this->checkValidity($album, $idCover);
         $this->persist($album, $name, $description, $idCover);
     }
 
@@ -35,10 +35,7 @@ class AlbumService
     public function update($id, $idCover, $name, $description) {
         // Create new album object
         $album = Album::find($id);
-        // If update -> delete old cover
-        if($idCover){
-            ImageService::deleteImage(Constants::ALBUMS_PATH.$album->artwork);
-        }
+        $this->checkValidity($album, $idCover);
         $this->persist($album, $name, $description, $idCover);
     }
 
@@ -60,8 +57,19 @@ class AlbumService
         $album->date = $now->toDateTimeString();
         $album->date_created = $now->toDateTimeString();
         $album->id_user = 1;
-        $album->id_photo = $idCover;
+        $album->id_photo = isset($idCover) ? $idCover : 0;
         // Persist on bdd
         $album->save();
+    }
+
+    /**
+     * Check if album and cover exist in bdd or is new one.
+     */
+    private function checkValidity($album, $idCover){
+        // Check if album exist
+        if(is_null($album)) throw new \Exception('Album not exist');
+        $photo = Photo::find($idCover);
+        // Check if photo exist
+        if(is_null($photo)) throw new \Exception('Cover not exist');
     }
 }

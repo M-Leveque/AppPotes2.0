@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // Routes for api auth
 Route::post('login',[ 'as' => 'login', 'uses' => 'Auth\LoginController@login']);
 Route::post('register', 'Auth\RegisterController@create');
@@ -29,4 +25,4 @@ Route::get('/photos/byAlbum/{id}', 'PhotoController@showByAlbum');
 Route::resource('albums','AlbumController');
 
 // Routes for User controller
-Route::resource('user','UserController');
+Route::resource('users','UserController');

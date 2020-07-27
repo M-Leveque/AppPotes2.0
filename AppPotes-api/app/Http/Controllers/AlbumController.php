@@ -14,8 +14,7 @@ class AlbumController extends Controller
 
     private $albumService;
 
-    private const FIELD_ID = "id";
-    private const FIELD_ID_COVER = "id_cover";
+    private const FIELD_ID_COVER = "id_photo";
     private const FIELD_NAME = "name";
     private const FIELD_DESCRIPTION = "description";
     private const ERROR = "ALBUM ERROR :";
@@ -67,11 +66,12 @@ class AlbumController extends Controller
         $idCover        = $request->input(self::FIELD_ID_COVER);
         $name           = $request->input(self::FIELD_NAME);
         $description    = $request->input(self::FIELD_DESCRIPTION);
+
         try {
             $this->albumService->create($idCover, $name, $description);
         }
         catch(\Exception $e){
-            return  response(json_encode(SELF::ERROR." Store : ".$e->getTraceAsString()), Response::HTTP_BAD_REQUEST);
+            return  response(json_encode(SELF::ERROR." Store : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
         }
         return response(json_encode('Album created'), Response::HTTP_OK);
     }
@@ -117,7 +117,7 @@ class AlbumController extends Controller
                 $this->albumService->update($id, $idCover, $name, $description);          
         }
         catch(\Exception $e){
-            return  response(json_encode(SELF::ERROR." Update : ".$e->getTraceAsString()), Response::HTTP_BAD_REQUEST);
+            return  response(json_encode(SELF::ERROR." Update : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
         }
         return response(json_encode('Album created'), Response::HTTP_OK);
     }

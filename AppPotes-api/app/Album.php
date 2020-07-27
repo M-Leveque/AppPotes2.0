@@ -12,6 +12,15 @@ class Album extends Model
 
     public $timestamps      = false;
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id_user', 'date'
+    ];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

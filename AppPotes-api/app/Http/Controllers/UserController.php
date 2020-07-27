@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -15,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return User::all();
     }
 
     /**
@@ -25,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -36,24 +35,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // task completed by register
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\User  user
      * @return \Illuminate\Http\Response
      */
-    public function show(int $idUser)
+    public function show(User $user)
     {
-        try{
-            $user = User::find($idUser);
-        }
-        catch(\Exception $e){
-            return  response(json_encode("Error on find user"), Response::HTTP_BAD_REQUEST);
-        }
-        return $user;
+        return response()->json($user);
     }
 
     /**
@@ -79,9 +72,6 @@ class UserController extends Controller
 
         // Convert body to user
         $userUpdate = json_decode($request->getContent());
-
-        // Check user fields
-        
 
         // Update user infos
         $user->name = $userUpdate->name;
