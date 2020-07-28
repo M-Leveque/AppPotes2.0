@@ -18,11 +18,11 @@ class AlbumService
      * @param $description
      * @param $photos
      */
-    public function create($idCover, $name, $description) {
+    public function create($idCover, $name, $description, $authUser) {
         // Create new album object
         $album = new Album();
         $this->checkValidity($album, $idCover);
-        $this->persist($album, $name, $description, $idCover);
+        $this->persist($album, $name, $description, $idCover, $authUser);
     }
 
     /**
@@ -32,11 +32,11 @@ class AlbumService
      * @param $description
      * @param $photos
      */
-    public function update($id, $idCover, $name, $description) {
+    public function update($id, $idCover, $name, $description, $authUser) {
         // Create new album object
         $album = Album::find($id);
         $this->checkValidity($album, $idCover);
-        $this->persist($album, $name, $description, $idCover);
+        $this->persist($album, $name, $description, $idCover, $authUser);
     }
 
     /**
@@ -47,7 +47,7 @@ class AlbumService
      * @param $description
      * @param $path
      */
-    private function persist($album, $name, $description, $idCover){
+    private function persist($album, $name, $description, $idCover, $authUser){
         // Date now
         $now = Carbon::now();
         // Feed album fields
@@ -56,7 +56,7 @@ class AlbumService
         $album->status = self::PUBLIC_STATUS;
         $album->date = $now->toDateTimeString();
         $album->date_created = $now->toDateTimeString();
-        $album->id_user = 1;
+        $album->id_user = $authUser->id;
         $album->id_photo = isset($idCover) ? $idCover : 0;
         // Persist on bdd
         $album->save();

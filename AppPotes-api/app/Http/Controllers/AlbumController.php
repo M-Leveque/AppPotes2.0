@@ -8,16 +8,20 @@ use App\Services\ImageService;
 use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\Builder;
 
 class AlbumController extends Controller
 {
 
     private $albumService;
+    private $authUser;
 
     private const FIELD_ID_COVER = "id_photo";
     private const FIELD_NAME = "name";
     private const FIELD_DESCRIPTION = "description";
     private const ERROR = "ALBUM ERROR :";
+    private const STATUS_PUBLIC = 1;
+    private const STATUS_PRIVATE = 0;
 
     /**
      * Create a new controller instance.
@@ -28,6 +32,7 @@ class AlbumController extends Controller
     {
         $this->middleware('auth:api');
         $this->albumService = new AlbumService();
+        $this->authUser = auth()->guard('api')->user();
     }
 
     /**
@@ -37,7 +42,14 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return Album::all();
+        $user = $this->authUser;
+        $status = self::STATUS_PUBLIC;
+
+        return Album::orWhere(function (Builder $query) use ($status) {
+            return $query->where('status', $status);
+        })->orWhere(function (Builder $query) use ($user) {
+            return $query->where('id_user', $user->id);
+        })->get();
     }
 
     /**
@@ -68,7 +80,7 @@ class AlbumController extends Controller
         $description    = $request->input(self::FIELD_DESCRIPTION);
 
         try {
-            $this->albumService->create($idCover, $name, $description);
+            $this->albumService->create($idCover, $name, $description, $this->authUser);
         }
         catch(\Exception $e){
             return  response(json_encode(SELF::ERROR." Store : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
@@ -84,7 +96,14 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        return $album;
+        $user = $this->authUser;
+        $status = self::STATUS_PUBLIC;
+
+        return Album::where('id', $album->id)
+        ->where(function($q) use ($user, $status){
+            $q->where('id_user', $user->id)
+            ->orWhere('status', $status);
+        })->get();
     }
 
     /**
@@ -96,9 +115,9 @@ class AlbumController extends Controller
     public function edit(Album $album)
     {
         $album = new album();
-        $album->id_cover= null;
-        $album->name=null;
-        $album->description=null;
+        $album->id_cover    =null;
+        $album->name        =null;
+        $album->description =null;
         return $album;
     }
 
@@ -110,11 +129,14 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Check user right
+        if($this->authUser->id != $id) return response()->json("Only creator can update album", Response::HTTP_FORBIDDEN);
+        // Get field
         $idCover        = $request->input(self::FIELD_ID_COVER);
         $name           = $request->input(self::FIELD_NAME);
         $description    = $request->input(self::FIELD_DESCRIPTION);
         try {
-                $this->albumService->update($id, $idCover, $name, $description);          
+                $this->albumService->update($id, $idCover, $name, $description, $this->authUser);          
         }
         catch(\Exception $e){
             return  response(json_encode(SELF::ERROR." Update : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
@@ -130,6 +152,8 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
+        // Check user right
+        if($this->authUser->id != $album->id_user) return response()->json("Only creator can delete album", Response::HTTP_FORBIDDEN);
         // Delete photos on serveur
         foreach($album->photos() as $photo ){
             $path = ImageService::generatePath(Constants::ALBUMS_PATH, $photo->name, $album->id);
@@ -137,7 +161,6 @@ class AlbumController extends Controller
         }
         // Delete photos in BDD
         $album->photos()->delete();
-
         // Delete album
         $album->delete();
         return response(\json_encode('Album delete'), Response::HTTP_OK);
