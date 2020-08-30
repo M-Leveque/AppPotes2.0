@@ -5,11 +5,20 @@ namespace App\Services;
 use App\Album;
 use App\Photo;
 use Carbon\Carbon;
+use Hamcrest\Type\IsBoolean;
+use Illuminate\Database\Eloquent\Builder;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class AlbumService
 {
     const PRIVATE_STATUS = 0;
     const PUBLIC_STATUS = 1;
+
+    private UserService $userService;
+
+    public function __construct(UserService $userService){
+        $this->userService = $userService;
+    }
 
     /**
      * This prepare and persist new album.
@@ -18,11 +27,11 @@ class AlbumService
      * @param $description
      * @param $photos
      */
-    public function create($idCover, $name, $description, $authUser) {
+    public function create($idCover, $name, $description, $authUser, $isPublic) {
         // Create new album object
         $album = new Album();
-        $this->checkValidity($album, $idCover);
-        $this->persist($album, $name, $description, $idCover, $authUser);
+        $this->checkValidity($album, $isPublic);
+        $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
     }
 
     /**
@@ -32,11 +41,12 @@ class AlbumService
      * @param $description
      * @param $photos
      */
-    public function update($id, $idCover, $name, $description, $authUser) {
+    public function update($id, $idCover, $name, $description, $authUser, $isPublic) {
         // Create new album object
         $album = Album::find($id);
-        $this->checkValidity($album, $idCover);
-        $this->persist($album, $name, $description, $idCover, $authUser);
+        $this->userService->checkUserRights($album, $authUser);
+        $this->checkValidity($album, $isPublic);
+        $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
     }
 
     /**
@@ -47,13 +57,13 @@ class AlbumService
      * @param $description
      * @param $path
      */
-    private function persist($album, $name, $description, $idCover, $authUser){
+    private function persist($album, $name, $description, $idCover, $authUser, $isPublic){
         // Date now
         $now = Carbon::now();
         // Feed album fields
         $album->name = $name;
         $album->description = $description;
-        $album->status = self::PUBLIC_STATUS;
+        $album->status = $isPublic ? self::PUBLIC_STATUS : self::PRIVATE_STATUS;
         $album->date = $now->toDateTimeString();
         $album->date_created = $now->toDateTimeString();
         $album->id_user = $authUser->id;
@@ -65,11 +75,35 @@ class AlbumService
     /**
      * Check if album and cover exist in bdd or is new one.
      */
-    private function checkValidity($album, $idCover){
+    private function checkValidity($album, $isPublic){
         // Check if album exist
         if(is_null($album)) throw new \Exception('Album not exist');
-        $photo = Photo::find($idCover);
-        // Check if photo exist
-        if(is_null($photo)) throw new \Exception('Cover not exist');
+        // Check public value
+        if(!is_bool($isPublic) || is_null($isPublic)) throw new \Exception('Public field has a wrong type');
+    }
+
+    /**
+     * Return all albums where user has authorisation
+     */
+    public function getAlbumsByUser($user){
+        
+        $status = self::PUBLIC_STATUS;
+
+        return Album::orWhere(function (Builder $query) use ($status) {
+            return $query->where('status', $status);
+        })->orWhere(function (Builder $query) use ($user) {
+            return $query->where('id_user', $user->id);
+        })->get();
+    }
+
+    public function getAlbumByUser($user, $album){
+        
+        $status = self::PUBLIC_STATUS;
+
+        return Album::where('id', $album->id)
+        ->where(function($q) use ($user, $status){
+            $q->where('id_user', $user->id)
+            ->orWhere('status', $status);
+        })->get();
     }
 }

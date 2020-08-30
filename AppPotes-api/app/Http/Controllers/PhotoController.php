@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Photo;
 use App\Album;
+use App\Services\AlbumService;
 use App\Services\PhotoService;
 use App\Services\ImageService;
 use App\Shared\Constants;
@@ -15,6 +16,8 @@ class PhotoController extends Controller
 {
 
     private $photoService;
+    private $albumService;
+    private $authUser;
 
     /**
      * Create a new controller instance.
@@ -24,8 +27,9 @@ class PhotoController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-
-        $this->photoService = new PhotoService();
+        $this->albumService = new AlbumService();
+        $this->photoService = new PhotoService($this->albumService);
+        $this->authUser = auth()->guard('api')->user();
     }
     
     /**
@@ -66,6 +70,12 @@ class PhotoController extends Controller
         $name = $request->input('name');
         $file = $request->input('b64_image');
 
+        // Check right
+        if(!$this->photoService->checkRigths($this->authUser, $idAlbum)){
+            return response(json_encode("User has no right to this album"), Response::HTTP_FORBIDDEN);
+        }
+
+        // Check validity
         if(!$this->photoService->checkValidity($name)){
             return response(json_encode("Image name already exist"), Response::HTTP_BAD_REQUEST);
         } 

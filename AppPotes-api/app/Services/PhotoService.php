@@ -6,10 +6,17 @@ use Carbon\Carbon;
 use App\Photo;
 use App\Album;
 use App\Shared\Constants;
-use Symfony\Component\HttpFoundation\Response;
+use App\User;
 
 class PhotoService
 {
+
+    private AlbumService $albumService;
+
+    public function __construct(AlbumService $albumService){
+        $this->albumService = $albumService;
+    }
+
     /**
      * Persist photo in bdd
      */
@@ -54,6 +61,20 @@ class PhotoService
         $photo = Photo::query()->where("name", '=', $name)->first();
         if($photo != null) return false;
         return true;
+    }
+
+    /**
+     * Check if user is allowed to use this album
+     */
+    public function checkRigths(User $user ,int $idAlbum) :bool{
+        // Get access albums
+        $albums = $this->albumService->getAlbumsByUser($user);
+
+        foreach($albums as $album){
+            if ($album->id === $idAlbum) return true;
+        }
+
+        return false;
     }
 
     /**

@@ -5,23 +5,23 @@ namespace App\Http\Controllers;
 use App\Album;
 use App\Services\AlbumService;
 use App\Services\ImageService;
+use App\Services\UserService;
 use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Database\Eloquent\Builder;
 
 class AlbumController extends Controller
 {
 
     private $albumService;
+    private $userService;
     private $authUser;
 
     private const FIELD_ID_COVER = "id_photo";
     private const FIELD_NAME = "name";
     private const FIELD_DESCRIPTION = "description";
+    private const FIELD_PUBLIC = "public";
     private const ERROR = "ALBUM ERROR :";
-    private const STATUS_PUBLIC = 1;
-    private const STATUS_PRIVATE = 0;
 
     /**
      * Create a new controller instance.
@@ -31,7 +31,8 @@ class AlbumController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-        $this->albumService = new AlbumService();
+        $this->userService = new UserService();
+        $this->albumService = new AlbumService($this->userService);
         $this->authUser = auth()->guard('api')->user();
     }
 
@@ -43,13 +44,7 @@ class AlbumController extends Controller
     public function index()
     {
         $user = $this->authUser;
-        $status = self::STATUS_PUBLIC;
-
-        return Album::orWhere(function (Builder $query) use ($status) {
-            return $query->where('status', $status);
-        })->orWhere(function (Builder $query) use ($user) {
-            return $query->where('id_user', $user->id);
-        })->get();
+        return $this->albumService->getAlbumsByUser($user);
     }
 
     /**
@@ -78,9 +73,10 @@ class AlbumController extends Controller
         $idCover        = $request->input(self::FIELD_ID_COVER);
         $name           = $request->input(self::FIELD_NAME);
         $description    = $request->input(self::FIELD_DESCRIPTION);
+        $isPublic       = $request->input(self::FIELD_PUBLIC);
 
         try {
-            $this->albumService->create($idCover, $name, $description, $this->authUser);
+            $this->albumService->create($idCover, $name, $description, $this->authUser, $isPublic);
         }
         catch(\Exception $e){
             return  response(json_encode(SELF::ERROR." Store : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
@@ -97,13 +93,7 @@ class AlbumController extends Controller
     public function show(Album $album)
     {
         $user = $this->authUser;
-        $status = self::STATUS_PUBLIC;
-
-        return Album::where('id', $album->id)
-        ->where(function($q) use ($user, $status){
-            $q->where('id_user', $user->id)
-            ->orWhere('status', $status);
-        })->get();
+        return $this->albumService->getAlbumByUser($user, $album);
     }
 
     /**
@@ -135,8 +125,10 @@ class AlbumController extends Controller
         $idCover        = $request->input(self::FIELD_ID_COVER);
         $name           = $request->input(self::FIELD_NAME);
         $description    = $request->input(self::FIELD_DESCRIPTION);
+        $isPublic       = $request->input(self::FIELD_PUBLIC);
+
         try {
-                $this->albumService->update($id, $idCover, $name, $description, $this->authUser);          
+                $this->albumService->update($id, $idCover, $name, $description, $this->authUser, $isPublic);          
         }
         catch(\Exception $e){
             return  response(json_encode(SELF::ERROR." Update : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
