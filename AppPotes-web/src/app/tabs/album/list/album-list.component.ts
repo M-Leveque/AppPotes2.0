@@ -24,8 +24,7 @@ export class AlbumListComponent implements OnInit {
 
   constructor(private albumService : AlbumService,
               private constantService: ConstantService,
-              private spinner: NgxSpinnerService
-              ) { 
+              private spinner: NgxSpinnerService) { 
   }
 
   ngOnInit() {
@@ -56,8 +55,8 @@ export class AlbumListComponent implements OnInit {
       }
       else{
         // convert date to epoch format
-        v1 = new Date(a.date).getTime() / 1000;
-        v2 = new Date(b.date).getTime() / 1000;
+        v1 = new Date(a.date_created).getTime() / 1000;
+        v2 = new Date(b.date_created).getTime() / 1000;
       }
 
       if( v1 > v2 )
@@ -81,6 +80,10 @@ export class AlbumListComponent implements OnInit {
   public setShowSearch(value: boolean){
     this.showInputSearch = value;
     this.albums = this.allAlbums;
+  }
+
+  public getCover(album){
+    return this.albumService.getCovers(album);
   }
 
 }

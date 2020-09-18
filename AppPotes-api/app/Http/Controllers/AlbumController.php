@@ -20,7 +20,7 @@ class AlbumController extends Controller
     private const FIELD_ID_COVER = "id_photo";
     private const FIELD_NAME = "name";
     private const FIELD_DESCRIPTION = "description";
-    private const FIELD_PUBLIC = "public";
+    private const FIELD_PUBLIC = "status";
     private const ERROR = "ALBUM ERROR :";
 
     /**
@@ -74,14 +74,15 @@ class AlbumController extends Controller
         $name           = $request->input(self::FIELD_NAME);
         $description    = $request->input(self::FIELD_DESCRIPTION);
         $isPublic       = $request->input(self::FIELD_PUBLIC);
+        $album = null;
 
         try {
-            $this->albumService->create($idCover, $name, $description, $this->authUser, $isPublic);
+            $album = $this->albumService->create($idCover, $name, $description, $this->authUser, $isPublic);
         }
         catch(\Exception $e){
             return  response(json_encode(SELF::ERROR." Store : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
         }
-        return response(json_encode('Album created'), Response::HTTP_OK);
+        return response($album, Response::HTTP_OK);
     }
 
     /**
@@ -119,21 +120,21 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Check user right
-        if($this->authUser->id != $id) return response()->json("Only creator can update album", Response::HTTP_FORBIDDEN);
         // Get field
         $idCover        = $request->input(self::FIELD_ID_COVER);
         $name           = $request->input(self::FIELD_NAME);
         $description    = $request->input(self::FIELD_DESCRIPTION);
         $isPublic       = $request->input(self::FIELD_PUBLIC);
 
+        $album = null;
+
         try {
-                $this->albumService->update($id, $idCover, $name, $description, $this->authUser, $isPublic);          
+                $album = $this->albumService->update($id, $idCover, $name, $description, $this->authUser, $isPublic);          
         }
         catch(\Exception $e){
             return  response(json_encode(SELF::ERROR." Update : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
         }
-        return response(json_encode('Album created'), Response::HTTP_OK);
+        return response($album, Response::HTTP_OK);
     }
 
     /**

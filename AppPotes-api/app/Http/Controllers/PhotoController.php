@@ -7,6 +7,7 @@ use App\Album;
 use App\Services\AlbumService;
 use App\Services\PhotoService;
 use App\Services\ImageService;
+use App\Services\UserService;
 use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +28,7 @@ class PhotoController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-        $this->albumService = new AlbumService();
+        $this->albumService = new AlbumService(new UserService());
         $this->photoService = new PhotoService($this->albumService);
         $this->authUser = auth()->guard('api')->user();
     }
@@ -77,7 +78,7 @@ class PhotoController extends Controller
 
         // Check validity
         if(!$this->photoService->checkValidity($name)){
-            return response(json_encode("Image name already exist"), Response::HTTP_BAD_REQUEST);
+            return response(json_encode("Image is not valid"), Response::HTTP_BAD_REQUEST);
         } 
 
         $path = $this->photoService->generatePath($idAlbum, $name);
@@ -110,7 +111,7 @@ class PhotoController extends Controller
      */
     public function showByAlbum(int $idAlbum)
     {   
-        $album = Album::find($idAlbum);
+        $album = Album::find($idAlbum)->photos;
         return response()->json($album);
     }
 

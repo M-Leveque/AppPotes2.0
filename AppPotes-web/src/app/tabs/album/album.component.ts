@@ -14,28 +14,31 @@ import { Album } from 'src/app/models/Album.model';
 export class AlbumComponent implements OnInit {
 
   album : any;
+  idAlbum: any;
   photos : any[];
   albumInfosSubscription: Subscription;
   albumPhotosSubscription : Subscription;
   host: String;
   path: Object;
 
-  constructor(private albumService: AlbumService, private photoService: PhotoService, 
-              private router: ActivatedRoute, private constantService: ConstantService ) {}
+  constructor(private albumService: AlbumService, 
+    private photoService: PhotoService, 
+    private router: ActivatedRoute, 
+    private constantService: ConstantService ) {}
 
   ngOnInit() {
 
     this.album = new Album();
     this.host = this.constantService.host;
     this.path = this.constantService.path;
-    let idAlbum = this.router.snapshot.params['id'];
+    this.idAlbum = this.router.snapshot.params['id'];
 
     // Get albums
-    this.albumInfosSubscription = this.albumService.get(idAlbum)
-      .subscribe(album => this.album = album);
+    this.albumInfosSubscription = this.albumService.get(this.idAlbum)
+      .subscribe(album => this.album = album[0]);
     
     // Get photo informations
-    this.albumPhotosSubscription = this.albumService.getPhotos(idAlbum)
+    this.albumPhotosSubscription = this.photoService.getByAlbum(this.idAlbum)
       .subscribe(photos => this.photos = photos);
 
   }
@@ -43,6 +46,10 @@ export class AlbumComponent implements OnInit {
   ngOnDestroy() {
     this.albumInfosSubscription.unsubscribe();
     this.albumPhotosSubscription.unsubscribe();
+  }
+
+  getCover(){
+    return this.albumService.getCovers(this.album);
   }
 
 }

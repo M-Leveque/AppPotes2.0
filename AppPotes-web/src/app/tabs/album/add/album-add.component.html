@@ -11,15 +11,21 @@
             </div>
             
             <app-upload-images
-            [isMultipleUpload]="false" 
-            [idSimpleImage]="idCover"
-            [simpleImagePath]="album.artwork" ></app-upload-images>
+            [isMultipleUpload]="false"
+            [fileToUpload]="cover"
+            [simpleImagePath]="getCover()"
+            (newCoverEvent)="updateCover($event)" ></app-upload-images>
 
             <div class="content-form-add">
                 <label>Titre de l'album :</label>
                 <input type="name" placeholder="(max 00 caractères)" [value]="album.name" formControlName="name">
                 <label>Déscriptif de l’album :</label>
-                <textarea placeholder="(max 00 caractères)" [value]="album.description" formControlName="description" cols="30" rows="2"></textarea>
+                <textarea placeholder="(max 00 caractères)" [value]="album.description" formControlName="description" cols="30" rows="1"></textarea>
+                <label>Rendre l'album public :</label>
+                <mat-radio-group class="content-form-radio" formControlName="isPublic">
+                  <mat-radio-button [checked]="album.status == 1" value="1">oui</mat-radio-button>
+                  <mat-radio-button [checked]="album.status == 0" value="0">non</mat-radio-button>
+                </mat-radio-group>
             </div>
 
             <div class="content-btn-page">
@@ -36,21 +42,21 @@
                 <ul id="lightgallery" class="list-unstyled row" class="col-xs-6 col-sm-4 col-md-3">
                     <li *ngFor="let photo of photos" >
                         <div class="pic-delete">
-                            <img width="100px" height="100px" class="img-responsive" [src]="host+path.albums+photo.path" alt="Thumb-1">
+                            <img width="100px" height="100px" class="img-responsive" [src]="host+photo.path" alt="Thumb-1">
                             <span (click)="deletePhoto(photo.id)" class="icon icon-close"></span>
                         </div>
                     </li>
-
-                    <li *ngFor="let addPhoto of idsPhoto" >
-                        <img width="100px" height="100px" class="img-responsive" [src]="host+'/img/tmp/'+addPhoto+'.png'" alt="Thumb-1">
+                    <li *ngFor="let uploadPhoto of photosToUpload">
+                        <div class="pic-delete">
+                            <img id="uploadPhoto" width="100px" height="100px" [src]="uploadPhoto.b64_image" class="img-responsive" alt="Thumb-1">
+                            <span (click)="deleteTmpPhoto(uploadPhoto.id)" class="icon icon-close"></span>
+                        </div>
                     </li>
                 </ul>
             </div>
-            <!-- Gallery -->
 
             <!-- Add button -->               
-            <!-- <a class="reveal" [routerLink]="'/photo-add/'+ album.id" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>vos photos</a> --> 
-            <app-upload-images [isMultipleUpload]="true" [idsImages]="idsPhoto"></app-upload-images>    
+            <app-upload-images [isMultipleUpload]="true" [filesToUpload]="photosToUpload"></app-upload-images>    
         </section>
     </form>
 </main>

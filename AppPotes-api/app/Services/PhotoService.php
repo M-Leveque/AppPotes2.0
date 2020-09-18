@@ -57,6 +57,8 @@ class PhotoService
      * Check photo validity
      */
     public function checkValidity($name){
+        // Check if name is null
+        if($name == null) return false;
         // Check if name exist
         $photo = Photo::query()->where("name", '=', $name)->first();
         if($photo != null) return false;

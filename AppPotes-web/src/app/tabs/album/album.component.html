@@ -3,21 +3,18 @@
 	<!-- HEADER ALBUM -->
 	<section id="header-pic">
 		<!-- Vignette album -->
-		<img [src]="host+path.albums+album.artwork" alt="Couverture l'album">
+		<img [src]="host+getCover(album)" alt="Couverture l'album">
 		
 		<!-- Infos album -->
     <div>
-      <p>Créé le <span>{{ album.date }}</span></p>
+      <p>Créé le <span>{{ album.date_created }}</span></p>
       <h1>{{ album.name }}</h1>
       <p>{{ album.description }}</p>
     </div>
-		
-		<!-- Bouton joindre -->
-		<button>Joindre à un événement</button>
 	</section>
 
 	<section id="grid-pic">
-		<a class="reveal" [routerLink]="'/album-add/'+album.id" routerLinkActive="active"><div class="icon-btn icon icon-add-pic"></div>Ajouter<br>vos photos</a>
+		<a class="reveal" [routerLink]="'/album-add/'+idAlbum" routerLinkActive="active"><div class="icon-btn icon icon-add-pic"></div>Ajouter<br>vos photos</a>
 
     <!-- GALLERY -->
     <div class="demo-gallery">
@@ -25,8 +22,8 @@
 
           <!-- Show each photo -->
           <li *ngFor="let photo of photos" class="col-xs-6 col-sm-4 col-md-3">
-            <a [href]="host+path.albums+photo.path">
-              <img class="img-responsive" [src]="host+path.albums+photo.path" alt="Thumb-1">
+            <a [href]="host+photo.path">
+              <img class="img-responsive" [src]="host+photo.path" alt="Thumb-1">
             </a>
           </li>
           

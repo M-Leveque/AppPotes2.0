@@ -36,6 +36,15 @@ export class PhotoService {
   }
 
   /**
+   * Method GET for get photos
+   * by albums
+   * @param id 
+   */
+  public getByAlbum(id: Number){
+    return this.http.get<any>(this.url +"byAlbum/"+ id, this.httpOptions);
+  }
+
+  /**
    * Method DELETE for delete photo
    * @param id photo
    */

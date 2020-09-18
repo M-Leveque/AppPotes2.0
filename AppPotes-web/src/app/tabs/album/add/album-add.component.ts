@@ -9,6 +9,7 @@ import { PopupComponent } from 'src/app/core/popup/popup.component';
 import { PhotoService } from 'src/app/tabs/photo/photo.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialog } from '@angular/material/dialog';
+import { Photo } from 'src/app/models/Photo.model';
 
 @Component({
   selector: 'app-album-add',
@@ -22,8 +23,8 @@ export class AlbumAddComponent implements OnInit {
 
   // Local variables
   private photos: any[];
-  private idsPhoto: Number[];
-  private idCover: Number[];
+  private photosToUpload: Photo[];
+  private cover: Photo;
   private album: Album;
   private albumInfosSubscription:  Subscription;
   private albumPhotosSubscription: Subscription;
@@ -44,8 +45,8 @@ export class AlbumAddComponent implements OnInit {
 
       this.album = new Album();
       this.photos = [];
-      this.idsPhoto = [];
-      this.idCover = [];
+      this.photosToUpload = [];
+      this.cover = new Photo(0, null);
       this.fileName = "Ajouter une couverture";
       this.initForm();
     }
@@ -66,9 +67,9 @@ export class AlbumAddComponent implements OnInit {
         this.isUpdate = true;
       
         this.albumInfosSubscription = this.albumService.get(idAlbum)
-          .subscribe(album => this.album = album);  
+          .subscribe(album => this.album = album[0]);  
   
-        this.albumPhotosSubscription = this.albumService.getPhotos(idAlbum)
+        this.albumPhotosSubscription = this.photoService.getByAlbum(idAlbum)
           .subscribe(photos => this.photos = photos);
       }
     }
@@ -88,6 +89,7 @@ export class AlbumAddComponent implements OnInit {
     this.albumForm = this.formBuilder.group({
       name: '',
       description: '',
+      isPublic: [],
       date: ''
     });
   }
@@ -100,10 +102,31 @@ export class AlbumAddComponent implements OnInit {
   deletePhoto(id){
     // Retreive index of photo in photos array
     var index = this.photos.findIndex((photo) => photo.id == id);
-    // Send to delete photo
-    this.photoService.delete(id)
-      .subscribe(reponse => this.photos.splice(index, 1));
+    if(index != -1) {
+      // Send to delete photo
+      this.photoService.delete(id)
+        .subscribe(reponse => this.photos.splice(index, 1));
+    }
   };
+
+  /**
+   * Function call when
+   * User delete photo.
+   * @param id 
+   */
+  deleteTmpPhoto(id){
+    // Retreive index of photo in photos array
+    var index = this.photosToUpload.findIndex((photo) => photo.id == id);
+    if(index != -1) this.photosToUpload.splice(index,1);
+  };
+
+  /**
+   * Event for cover updated
+   * @param cover 
+   */
+  updateCover(cover: Photo){
+    this.cover = cover;
+  }
 
   /**
    * function call when
@@ -115,38 +138,104 @@ export class AlbumAddComponent implements OnInit {
     // Start loader
     this.spinner.show();
 
-    // Data of form
-    let formData = new FormData();
-    let formValue = this.albumForm.value;  
-
-    // Check if value's update.
-    let name = (formValue.name ? formValue.name : this.album.name);
-    let description = (formValue.description ? formValue.description : this.album.description);
-    let idCover = (this.idCover[0] ? this.idCover[0].toString() : undefined);
-
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('id-cover', idCover);
-
-    // Add numbers of photos to back
-    formData.append('ids-photo', JSON.stringify(this.idsPhoto));
+    var coverUpdate =  this.cover.b64_image != null;
     
-    if(this.isUpdate){
-      formData.append('id', this.album.id.toString());
-    }
+    // Update album
+    let formValues = this.albumForm.value;
+    this.album.name = formValues["name"] ? formValues["name"] : this.album.name;
+    this.album.description = formValues["description"] ? formValues["description"] : this.album.description;
+    this.album.date = formValues["date"] ? formValues["date"] : this.album.date;
+    formValues["isPublic"] == "1" ? this.album.status = true : this.album.status = false;
 
-    this.albumService.storeAlbum(formData).subscribe( 
+    // Store cover
+    if(coverUpdate){
+      this.cover.id_album = 6;
+      this.cover.b64_image = this.formatSrcToB64Image(this.cover.b64_image);
+      this.photoService.add(this.cover).subscribe(
+        (response) => {
+          let id_cover = response.id;
+          if(this.isUpdate){
+            this.updateAlbum(id_cover);
+          }
+          else {
+            this.storeAlbum(id_cover);
+          }
+        }
+      )
+    }
+    else {
+      if(this.isUpdate){
+        this.updateAlbum(null);
+      }
+      else {
+        this.storeAlbum(null);
+      }
+    }
+  }
+
+  /**
+   * Fonction for update album 
+   * on server
+   */
+  updateAlbum($idCover){
+    if($idCover != null) this.album.id_photo = $idCover
+    /* Update Album */
+    this.albumService.updateAlbum(this.album).subscribe( 
       (response) => {
+        // Store photos
+        this.storePhotos();
         // Done loader
         this.spinner.hide();
         // Delete cache for update new photos
         this.routerNav.navigate(['album']);
       },
       (error) => {
-        // TODO : Error case.
+        // Done loader
+        this.spinner.hide();
       }
     );
+  }
+
+  /**
+   * Fonction for store album 
+   * on server
+   */
+  storeAlbum($idCover){
     
+    if($idCover != null) this.album.id_photo = $idCover
+    /* Update Album */
+    this.albumService.storeAlbum(this.album).subscribe( 
+      (response) => {
+        // Store photos
+        this.storePhotos();
+        // Done loader
+        this.spinner.hide();
+        // Delete cache for update new photos
+        this.routerNav.navigate(['album']);
+      },
+      (error) => {
+        // Done loader
+        this.spinner.hide();
+      }
+    );
+  }
+
+  /**
+   * Strore new photos on server
+   */
+  storePhotos(){
+    var photosUpdate = this.photosToUpload.length > 0;
+    if(photosUpdate){
+      for(let photoToUpload of this.photosToUpload){
+        photoToUpload.id_album = this.album.id;
+        photoToUpload.b64_image = this.formatSrcToB64Image(photoToUpload.b64_image);
+        this.photoService.add(photoToUpload).subscribe(
+          (response) => {
+            console.log("Photo : " + photoToUpload.name + " is upload");
+          }
+        )
+      }
+    }
   }
 
   /**
@@ -154,7 +243,6 @@ export class AlbumAddComponent implements OnInit {
    * reset form
    */
   cancel(){
-    this.photoService.clearTmpFiles(this.idsPhoto);
     this.routerNav.navigate(['album/'+this.album.id]);
   }
 
@@ -181,18 +269,28 @@ export class AlbumAddComponent implements OnInit {
   }
 
   deleteAlbum(context){
-    console.log("delete album");
     context.albumService.delete(context.album.id)
     .subscribe(response => console.log(response));
   }
 
+  getCover(){
+    return this.albumService.getCovers(this.album);
+  }
+
+  formatSrcToB64Image(b64_image){
+    var b64 = "";
+    var baliseb64 = "base64";
+    var indexStart = b64_image.indexOf(baliseb64);
+    if(b64 != null){
+      b64 = b64_image.substring(indexStart + baliseb64.length);
+    }
+    return b64;
+  }
+
   ngOnDestroy() {
     if(this.isUpdate){
-      this.photoService.clearTmpFiles(this.idsPhoto);
       this.albumInfosSubscription.unsubscribe();
       this.albumPhotosSubscription.unsubscribe();
     }
   }
- 
-
 }

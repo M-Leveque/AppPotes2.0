@@ -21,7 +21,14 @@ export class AlbumService {
   }
 
   public get(id : Number) : Observable<any>{
-    return this.http.get<any>(this.url+"/infos/"+id, this.httpOptions);
+    return this.http.get<any>(this.url+"/"+id, this.httpOptions);
+  }
+
+  public getCovers(album){
+    if(album.photo == null){
+      return 'storage/img/albums/6/Default.png';
+    }
+    return album.photo.path;
   }
 
   public getPhotos(id : Number) : Observable<any>{
@@ -30,6 +37,10 @@ export class AlbumService {
 
   public storeAlbum(album: any) : Observable<any>{
     return this.http.post<any>(this.url, album, this.httpOptions);
+  }
+
+  public updateAlbum(album: any) : Observable<any>{
+    return this.http.put<any>(this.url+"/"+album.id, album, this.httpOptions);
   }
 
   public delete(id: Number) : Observable<any>{

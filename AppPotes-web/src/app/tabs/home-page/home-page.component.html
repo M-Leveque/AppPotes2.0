@@ -13,8 +13,8 @@
 
     <a routerLink="/album/1" routerLinkActive="active">
       <div id="album-com" class="album" >
-        <img [src]="host+path.albums+sharedAlbum.artwork" alt="vignette de l'album commun"/> 
-        <p>{{ sharedAlbum.title }}</p> 
+        <img [src]="host+getCover(sharedAlbum)" alt="vignette de l'album commun"/> 
+        <p>{{ sharedAlbum.name }}</p> 
       </div> 
     </a>
 
@@ -22,59 +22,10 @@
     <div class="grid-album">
       <a *ngFor="let album of albums" [routerLink]="'/album/'+album.id" routerLinkActive="active">
         <div id="album album-grid" class="album">
-          <img [src]="host+path.albums+album.artwork" alt="vignette de l'album commun"/> 
-          <p>{{ album.title }}</p> 
+          <img [src]="host+getCover(album)" alt="vignette de l'album commun"/> 
+          <p>{{ album.name }}</p> 
         </div> 
       </a>
     </div>
-  </section>
-
-  <!-- EVENEMENTS -->
-  <section>
-    <!-- title -->
-    <a routerLink="/event" routerLinkActive="active">
-      <div class="title title-section">
-        <h2>Événements</h2>
-        <span class="icon icon-arrow-26"></span>
-      </div>
-    </a>
-
-    <!-- GRID EVENEMENTS -->
-    <a *ngFor="let event of events" class="even">
-      <div class="content-even">
-        <span>{{event.icon}}</span>
-        <div class="desc-even">
-          <h6>{{event.title}}</h6>
-          <p>{{event.description}}</p>
-        </div>
-        <div class="date-even">
-          <p>{{event.date | date : 'EEE'}}</p>
-          <span>{{event.date | date : 'L'}}</span>
-          <p>{{event.date | date : 'LLL'}}</p>
-        </div>
-      </div>
-    </a>
-  </section>
-
-  <!-- CAGNOTTES -->
-  <section>
-    <!-- title -->
-    <a routerLink="/pool" routerLinkActive="active">
-      <div class="title title-section">
-        <h2>Cagnottes</h2>
-        <span class="icon icon-arrow-26"></span>
-      </div>
-    </a>
-
-    <!-- content cagnotte -->
-    <div *ngFor="let pool of pools" class="content-cagn">
-        <div class="desc-cagn">
-            <h5>{{pool.title}}</h5>
-            <p>{{pool.description}}</p>
-            <button>Participer</button>
-        </div>
-        <div class="prix-cagn"><span>{{pool.cash}}</span><p>Fin le <span>{{pool.endDate}}</span></p></div>
-    </div>
-    
   </section>
 </main>

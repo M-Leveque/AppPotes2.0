@@ -36,6 +36,7 @@ import { PasswordDialogComponent } from './tabs/account/option/password-dialog/p
 import {
   MatButtonModule,
   MatFormFieldModule,
+  MatRadioModule,
   MatInputModule,
   MatRippleModule
 } from '@angular/material';
@@ -71,6 +72,7 @@ import {
     MatDialogModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    MatRadioModule,
     MatButtonModule,
     MatInputModule,
     MatRippleModule

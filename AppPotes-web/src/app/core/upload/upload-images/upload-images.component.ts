@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { PhotoService } from 'src/app/tabs/photo/photo.service';
-import { SimplePlaceholderMapper } from '@angular/compiler/src/i18n/serializers/serializer';
+import { Photo } from 'src/app/models/Photo.model';
 import { ConstantService } from 'src/app/constant.service';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upload-images',
@@ -12,20 +11,16 @@ import { ConstantService } from 'src/app/constant.service';
 export class UploadImagesComponent implements OnInit {
 
   @Input() isMultipleUpload: boolean;
-  @Input() idsImages: Number[];
-  @Input() idSimpleImage: Number[];
+  @Input() filesToUpload: Photo[];
+  @Input() fileToUpload: Photo;
   @Input() simpleImagePath: String;
 
-  private nbFilesToUpload = 0;
-  private nbFileUploaded: number;
+  @Output() newCoverEvent = new EventEmitter<Photo>();
+
   private host: String;
   private path;
-  private imagePath: String;
 
-  constructor( private spinner: NgxSpinnerService,
-    private photoService: PhotoService,
-    private constantService: ConstantService
-  ) { }
+  constructor(private constantService: ConstantService) {}
 
   ngOnInit() {
     this.host = this.constantService.host;
@@ -33,128 +28,48 @@ export class UploadImagesComponent implements OnInit {
   }
 
   resetPhotos(){
-    this.photoService.clearTmpFiles(this.idsImages);
-    this.idsImages.length = 0;
+    this.filesToUpload.length = 0;
   }
 
-  handleFileSelect(evt){
-    this.nbFilesToUpload = 0;
+  handleFileSelect(event){
 
-    var files = evt.target.files;
-    this.nbFilesToUpload = files.length;
-    this.nbFileUploaded = 0;
+    if(event.target.files && event.target.files[0]){
+      var currentContext = this;
 
-    if (files) {
-
-      // Browse file add
-      for(let file of files){
-
-        // Send img to backend
-        this.sendFile(file);
+      // Case one image upload
+      if(!this.isMultipleUpload){
+        var photo = new Photo( 0, null, null, null );
+        var reader = new FileReader();
+        reader.onload = function(file) {
+          photo.b64_image = this.result;
+          photo.name = currentContext.formatImageName(event.target.files[0].name);
+          currentContext.newCoverEvent.emit(photo);
+        }
+        reader.readAsDataURL(event.target.files[0]);
       }
-
-    }
-  }
-
-  /**
-   * This method send img 
-   * to back for mass upload.
-   * @param file 
-   * @param callback 
-   */
-  sendFile(file: any){
-
-    var callback = null;
-    if(this.isMultipleUpload) callback = this.loadImages;
-    else callback = this.loadImage;
-
-    // Read file add
-    var reader = new FileReader();
-    reader.onload = callback.bind(this);
-
-    reader.readAsBinaryString(file);
-  }
-
-  /**
-   * Convert cover img to base64 string.
-   */
-  loadImage(evt) {
-    var context = this;
-    var callToReponse = function(response){
-      console.log(response);
-      context.idSimpleImage.push(response.id);
-      context.simpleImagePath = '/tmp/'+response.id+'.png'
-      context.spinner.hide();
+      // Case multi image upload
+      else {
+        for(let file of event.target.files){
+          var reader = new FileReader();
+          reader.onload = function(fre) {
+            var photo = new Photo( currentContext.filesToUpload.length, null, null, null );
+            photo.b64_image = this.result;
+            photo.name = currentContext.formatImageName(file.name);
+            currentContext.filesToUpload.push(photo);
+            console.log(currentContext.filesToUpload);
+          }
+          reader.readAsDataURL(file);
+        }
+      }
     }
 
-    this.uploadImageTmp(evt, callToReponse);
   }
 
-  /**
-   * Convert select photos to 
-   * base64 string en store this
-   * on tmp zone.
-   * @param evt 
-   */
-  loadImages(evt) {
-
-    var context = this;
-    var callToReponse = function(response){
-      context.idsImages.push(response.id);
-      context.nbFileUploaded++;
-
-      if(context.nbFileUploaded == context.nbFilesToUpload)context.spinner.hide();
+  formatImageName(name: String){
+    let batman = name.split('.');
+    if(batman.length > 1) {
+      name = batman.slice(0, -1).join('.');
     }
-
-    this.uploadImageTmp(evt, callToReponse);
-  }
-
-  uploadImageTmp(evt, callToReponse){
-    var binary = evt.target.result;
-
-    // Start loader
-    this.spinner.show();
-    let img = btoa(binary);
-
-    // Data of form
-    let formData = new FormData();
-
-    // Generate unique img id
-    let id = this.generateID(10);
-
-    // Prepare datas
-    formData.append('file', img);
-    formData.append('id', id);
-
-    this.photoService.add(formData).subscribe(callToReponse);
-  }
-
-  /**
-   * Generate random id.
-   * @param lenght 
-   */
-  generateID(lenght: Number){
-
-    var id = "";
-
-    for(var i=0; i< lenght; i++){
-      id += Math.floor((Math.random() * 9) + 1).toString();
-    }
-
-    return id;
-  }
-
-  /**
-   * Type of image.
-   * Check if image is tmp or not
-   */
-  getPath($img: String){
-
-    console.log($img);
-    if($img.includes("tmp")){
-      return this.host + "/img"+$img; 
-    }
-
-    return this.host + this.path.albums + $img;
+    return name;
   }
 }

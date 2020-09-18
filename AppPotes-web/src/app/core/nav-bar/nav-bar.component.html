@@ -3,8 +3,6 @@
     <ul>
       <li><a routerLink="/home-page" routerLinkActive="active"><div class="icon icon-home"></div><span>Home</span></a></li>
       <li><a routerLink="/album" routerLinkActive="active"><div class="icon icon-pic"></div><span>Albums</span></a></li>
-      <li><a routerLink="/event" routerLinkActive="active"><div class="icon icon-calendar"></div><span>Événements</span></a></li>
-      <li><a routerLink="/pool" routerLinkActive="active"><div class="icon icon-cash"></div><span>Cagnottes</span></a></li>
       <li><a routerLink="/account" routerLinkActive="active"><div class="icon icon-people"></div><span>Profile</span></a></li>
     </ul>
   </nav>
@@ -72,7 +70,5 @@
 <section *ngIf="showMenu" id="add-menu">
   <ul>
     <a class="reveal" routerLink="/album-add" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>un album</a>
-    <a class="reveal" routerLink="/home-page" routerLinkActive="active"><li><div class="icon-btn icon icon-add-calendar"></div></li>Ajouter<br>un événement</a>
-    <a class="reveal" routerLink="/home-page" routerLinkActive="active"><li><div class="icon-btn icon icon-add-cash"></div></li>Ajouter<br>une cagnotte</a>
   </ul>
 </section>

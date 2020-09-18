@@ -37,9 +37,13 @@ export class HomePageComponent implements OnInit {
     .subscribe( (albums) => {
       this.sharedAlbum = albums.shift();
       this.albums = albums;
-    });  
+    });
 
     this.events = this.eventService.events;
     this.pools = this.poolService.pools;
+  }
+
+  getCover(album){
+    return this.albumService.getCovers(album);
   }
 }

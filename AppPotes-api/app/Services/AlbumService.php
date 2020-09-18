@@ -47,6 +47,7 @@ class AlbumService
         $this->userService->checkUserRights($album, $authUser);
         $this->checkValidity($album, $isPublic);
         $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
+        return $album;
     }
 
     /**
@@ -89,7 +90,7 @@ class AlbumService
         
         $status = self::PUBLIC_STATUS;
 
-        return Album::orWhere(function (Builder $query) use ($status) {
+        return Album::with('photo')->orWhere(function (Builder $query) use ($status) {
             return $query->where('status', $status);
         })->orWhere(function (Builder $query) use ($user) {
             return $query->where('id_user', $user->id);
@@ -100,7 +101,7 @@ class AlbumService
         
         $status = self::PUBLIC_STATUS;
 
-        return Album::where('id', $album->id)
+        return Album::with('photo')->where('id', $album->id)
         ->where(function($q) use ($user, $status){
             $q->where('id_user', $user->id)
             ->orWhere('status', $status);

@@ -6,8 +6,9 @@ export class Album {
         public id: Number = undefined,
         public name: String = "",
         public description: String = "",
+        public status: boolean = true,
         public date: String = undefined,
-        public artwork: String = undefined,
+        public id_photo: String = undefined,
         public User: User = undefined,
         public Photos: Photo[] = undefined
     ){}
