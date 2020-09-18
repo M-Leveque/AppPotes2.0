@@ -1,6 +1,9 @@
 # AppPotes2.0
 Serveur photo avec un système d'évènements pour groupe d'amis.
 
+## Organisation
+Trello : https://trello.com/b/Moevi557/apppotes20
+
 ## Installation de l'environnement de développement
 
 ### Installation des logiciels et outils 
