@@ -7,7 +7,7 @@
             <div class="title">
                 <h2 *ngIf="!isUpdate">Ajout<br>album</h2>
                 <h2 *ngIf="isUpdate">Modifier<br>album</h2>
-                <button *ngIf="isUpdate && album.id != 1" class="btn-page" (click)="delete()"><span>Supprimer</span></button>
+                <button *ngIf="isUpdate && album.id != 1" class="btn-page" (click)="delete(album.id, 'album')"><span>Supprimer</span></button>
             </div>
             
             <app-upload-images
@@ -17,15 +17,21 @@
             (newCoverEvent)="updateCover($event)" ></app-upload-images>
 
             <div class="content-form-add">
-                <label>Titre de l'album :</label>
-                <input type="name" placeholder="(max 00 caractères)" [value]="album.name" formControlName="name">
-                <label>Déscriptif de l’album :</label>
-                <textarea placeholder="(max 00 caractères)" [value]="album.description" formControlName="description" cols="30" rows="1"></textarea>
-                <label>Rendre l'album public :</label>
-                <mat-radio-group class="content-form-radio" formControlName="isPublic">
-                  <mat-radio-button [checked]="album.status == 1" value="1">oui</mat-radio-button>
-                  <mat-radio-button [checked]="album.status == 0" value="0">non</mat-radio-button>
-                </mat-radio-group>
+                <mat-form-field appearance="fill">
+                    <mat-label>Titre de l'album :</mat-label>
+                    <input matInput type="name" placeholder="(max 00 caractères)" [value]="album.name" formControlName="name">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Descriptif de l’album :</mat-label>
+                    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="6" placeholder="(max 00 caractères)" [value]="album.description" formControlName="description" cols="30" rows="1"></textarea>
+                </mat-form-field>
+                <div class="form-radio-btn">
+                    <label>Rendre l'album public :</label>
+                    <mat-radio-group appearance="fill" class="content-form-radio" formControlName="isPublic">
+                        <mat-radio-button matInput [checked]="album.status == 1" value="1">oui</mat-radio-button>
+                        <mat-radio-button matInput [checked]="album.status == 0" value="0">non</mat-radio-button>
+                    </mat-radio-group>
+                </div>
             </div>
 
             <div class="content-btn-page">
@@ -43,7 +49,7 @@
                     <li *ngFor="let photo of photos" >
                         <div class="pic-delete">
                             <img width="100px" height="100px" class="img-responsive" [src]="host+photo.path" alt="Thumb-1">
-                            <span (click)="deletePhoto(photo.id)" class="icon icon-close"></span>
+                            <span (click)="delete(photo.id, 'photo')" class="icon icon-close"></span>
                         </div>
                     </li>
                     <li *ngFor="let uploadPhoto of photosToUpload">

@@ -322,6 +322,7 @@ button {
 /* Angular material */
 .mat-form-field-label {
   color: white !important;
+  font-size: 3em;
 }
 
 .mat-focused .mat-form-field-label {
@@ -340,6 +341,48 @@ button {
   -webkit-box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
   -moz-box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
   box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+}
+
+.mat-radio-container{
+  height: 10px;
+  width: 10px;
+}
+.mat-radio-outer-circle{
+  height: 10px;
+  width: 10px;
+  border-color: rgba(142,197,252,1);
+}
+
+.mat-radio-button .mat-radio-ripple .mat-ripple-element.mat-radio-persistent-ripple {
+  background-color: transparent!important;
+}
+
+.mat-radio-button .mat-radio-ripple .mat-ripple-element {
+  opacity: 0.5;
+  background-color: rgba(224,195,252,1)!important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: rgba(142,197,252,1);
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: rgba(142,197,252,1);
+}
+
+.mat-dialog-container {
+  padding: 5px !important;
+  overflow: hidden !important;
+}
+
+.content-form-add textarea.mat-input-element {
+  margin-top: 1vw;
+  resize: none;
+  overflow: hidden;
+}
+
+.content-form-radio mat-radio-button {
+  margin-right: 1.5vw;
 }
 
 /* CLASS & ID */
@@ -599,6 +642,19 @@ a .icon, .icon-btn {
 .icon-add-pic::before {content: "\ea07";}
 .icon-add-calendar::before {content: "\ea02";}
 .icon-add-cash::before {content: "\ea03";}
+
+
+/*---------------------------------------------------------------------------------------------------
+    POP UP
+---------------------------------------------------------------------------------------------------*/
+
+.popup {
+  width: 100%;
+}
+
+.popup-container {
+  color: white;
+}
 
 /*---------------------------------------------------------------------------------------------------
 	HOMEPAGE
@@ -1638,7 +1694,6 @@ a .icon-link {
 
 .content-form-add input {
   margin-top: 20px;
-  border-bottom: solid 2px #FFFFFF;
   font-family: 'Trueno';
   font-weight: normal;
   font-style: normal;
@@ -1651,7 +1706,6 @@ a .icon-link {
   max-width: 100%;
   background: none;
   border: none;
-  border-bottom: solid 2px #FFFFFF;
   font-family: 'Trueno';
   font-weight: 300;
   font-style: normal;
@@ -1660,8 +1714,14 @@ a .icon-link {
   outline: none;
 }
 
-.content-form-radio mat-radio-button {
-  margin-right: 1.5vw;
+.content-form-add .form-radio-btn{
+  display: flex;
+  flex-direction: column;
+  padding-left: .75em;
+}
+
+.content-form-add .form-radio-btn label{
+  width: 100%;
 }
 
 .content-form-add input::placeholder,

@@ -71,9 +71,8 @@ class PhotoService
     public function checkRigths(User $user ,int $idAlbum) :bool{
         // Get access albums
         $albums = $this->albumService->getAlbumsByUser($user);
-
         foreach($albums as $album){
-            if ($album->id === $idAlbum) return true;
+            if ($album->id == $idAlbum) return true;
         }
 
         return false;

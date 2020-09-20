@@ -48,11 +48,13 @@
 
   <!-- GRID ALBUMS -->
   <section class="grid-gen grid-album">
-    <a *ngFor="let album of albums" [routerLink]="'/album/'+album.id" routerLinkActive="active">
-      <div id="album album-grid" class="album" >
-        <img [src]="host+getCover(album)" alt="vignette de l'album commun"/> 
-        <p>{{ album.name }}</p> 
-      </div> 
-    </a>
+    <ng-container *ngFor="let album of albums">
+      <a *ngIf="album.id > 1" [routerLink]="'/album/'+album.id" routerLinkActive="active">
+        <div id="album album-grid" class="album" >
+          <img [src]="host+getCover(album)" alt="vignette de l'album commun"/> 
+          <p>{{ album.name }}</p> 
+        </div>
+      </a>
+    </ng-container>
   </section>
 </main>

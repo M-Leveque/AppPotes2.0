@@ -36,7 +36,9 @@ export class AlbumListComponent implements OnInit {
 
     this.albumSubscription = this.albumService.all()
     .subscribe( (albums) => {
-      this.sharedAlbum = albums.shift();
+      for(let album of albums){
+        if (album.id == 1) this.sharedAlbum = album;
+      }
       this.albums = albums;
       this.allAlbums = this.albums;
       this.spinner.hide();

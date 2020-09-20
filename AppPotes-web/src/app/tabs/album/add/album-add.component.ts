@@ -99,21 +99,6 @@ export class AlbumAddComponent implements OnInit {
    * User delete photo.
    * @param id 
    */
-  deletePhoto(id){
-    // Retreive index of photo in photos array
-    var index = this.photos.findIndex((photo) => photo.id == id);
-    if(index != -1) {
-      // Send to delete photo
-      this.photoService.delete(id)
-        .subscribe(reponse => this.photos.splice(index, 1));
-    }
-  };
-
-  /**
-   * Function call when
-   * User delete photo.
-   * @param id 
-   */
   deleteTmpPhoto(id){
     // Retreive index of photo in photos array
     var index = this.photosToUpload.findIndex((photo) => photo.id == id);
@@ -149,7 +134,7 @@ export class AlbumAddComponent implements OnInit {
 
     // Store cover
     if(coverUpdate){
-      this.cover.id_album = 6;
+      this.cover.id_album = 0;
       this.cover.b64_image = this.formatSrcToB64Image(this.cover.b64_image);
       this.photoService.add(this.cover).subscribe(
         (response) => {
@@ -246,19 +231,29 @@ export class AlbumAddComponent implements OnInit {
     this.routerNav.navigate(['album/'+this.album.id]);
   }
 
-  
   /**
    * Fonction call to 
    * reset form
    */
-  delete(){
+  delete(id, type){
+    var currentContext = this;
+    var callback = undefined;
+    currentContext["idToDelete"] = id;
+
+    if(type == "album"){
+      callback = this.deleteAlbum;
+    }
+    else if(type == "photo"){
+      callback = this.deletePhoto;
+    }
+
     const dialogRef = this.dialog.open(PopupComponent, {
       width: '450px',
       data: {
-        title: "Suppression de l'album", 
-        msg: "Voulez-vous vraiment supprimer cet album ?",
-        callback: this.deleteAlbum,
-        context: this
+        title: "Suppression", 
+        msg: "Voulez-vous vraiment supprimer ?",
+        callback: callback,
+        context: currentContext
 
       },
     });
@@ -269,9 +264,19 @@ export class AlbumAddComponent implements OnInit {
   }
 
   deleteAlbum(context){
-    context.albumService.delete(context.album.id)
+    context.albumService.delete(context.idToDelete)
     .subscribe(response => console.log(response));
   }
+
+  deletePhoto(context){
+    // Retreive index of photo in photos array
+    var index = context.photos.findIndex((photo) => photo.id == context.idToDelete);
+    if(index != -1) {
+      // Send to delete photo
+      context.photoService.delete(context.idToDelete)
+        .subscribe(reponse => context.photos.splice(index, 1));
+    }
+  };
 
   getCover(){
     return this.albumService.getCovers(this.album);
