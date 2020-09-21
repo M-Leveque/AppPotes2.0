@@ -375,6 +375,10 @@ button {
   overflow: hidden !important;
 }
 
+.mat-select-value {
+  color: white;
+}
+
 .content-form-add textarea.mat-input-element {
   margin-top: 1vw;
   resize: none;
@@ -927,8 +931,9 @@ h5 {
 }
 
 .content-search-album {
-  margin-bottom: 50px;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  height: 5vw;
 }
 
 .content-search-album svg {

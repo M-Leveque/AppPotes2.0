@@ -168,7 +168,7 @@ export class AlbumAddComponent implements OnInit {
     this.albumService.updateAlbum(this.album).subscribe( 
       (response) => {
         // Store photos
-        this.storePhotos();
+        this.storePhotos(this.album.id);
         // Done loader
         this.spinner.hide();
         // Delete cache for update new photos
@@ -192,7 +192,7 @@ export class AlbumAddComponent implements OnInit {
     this.albumService.storeAlbum(this.album).subscribe( 
       (response) => {
         // Store photos
-        this.storePhotos();
+        this.storePhotos(response.id);
         // Done loader
         this.spinner.hide();
         // Delete cache for update new photos
@@ -208,16 +208,14 @@ export class AlbumAddComponent implements OnInit {
   /**
    * Strore new photos on server
    */
-  storePhotos(){
+  storePhotos(idAlbum){
     var photosUpdate = this.photosToUpload.length > 0;
     if(photosUpdate){
       for(let photoToUpload of this.photosToUpload){
-        photoToUpload.id_album = this.album.id;
+        photoToUpload.id_album = idAlbum;
         photoToUpload.b64_image = this.formatSrcToB64Image(photoToUpload.b64_image);
         this.photoService.add(photoToUpload).subscribe(
-          (response) => {
-            console.log("Photo : " + photoToUpload.name + " is upload");
-          }
+          (response) => { }
         )
       }
     }
@@ -265,7 +263,10 @@ export class AlbumAddComponent implements OnInit {
 
   deleteAlbum(context){
     context.albumService.delete(context.idToDelete)
-    .subscribe(response => console.log(response));
+    .subscribe(response => {
+      // Delete cache for update new photos
+      context.routerNav.navigate(['album']);
+    });
   }
 
   deletePhoto(context){

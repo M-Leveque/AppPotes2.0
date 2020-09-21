@@ -37,6 +37,7 @@ import {
   MatButtonModule,
   MatFormFieldModule,
   MatRadioModule,
+  MatSelectModule,
   MatInputModule,
   MatRippleModule
 } from '@angular/material';
@@ -74,6 +75,7 @@ import {
     MatFormFieldModule,
     MatRadioModule,
     MatButtonModule,
+    MatSelectModule,
     MatInputModule,
     MatRippleModule
   ],

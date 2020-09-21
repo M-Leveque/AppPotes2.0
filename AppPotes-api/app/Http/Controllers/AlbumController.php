@@ -154,6 +154,8 @@ class AlbumController extends Controller
         }
         // Delete photos in BDD
         $album->photos()->delete();
+        // Delete cover
+        $album->photo()->delete();
         // Delete album
         $album->delete();
         return response(\json_encode('Album delete'), Response::HTTP_OK);

@@ -32,6 +32,7 @@ class AlbumService
         $album = new Album();
         $this->checkValidity($album, $isPublic);
         $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
+        return $album;
     }
 
     /**
