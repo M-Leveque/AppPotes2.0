@@ -1,12 +1,10 @@
 <app-nav-bar></app-nav-bar>
 <main id="content-optcompte">
-    <div class="profil-pic">
-        <a>
-            <img [src]="host+path.profiles+user.id+'.jpg'" alt="Votre photo de profile">
-        </a>
-        <label for="modif-pic" class="btn-page" ><span>modifier</span></label>
-        <input id="modif-pic" type="file">
-    </div>
+    <app-upload-images
+    [isMultipleUpload]="false"
+    [fileToUpload]="profileCover"
+    [simpleImagePath]="getProfileCover()"
+    (newCoverEvent)="updateProfileCover($event)" ></app-upload-images>
     
     <form>
         <mat-form-field appearance="fill">
@@ -18,10 +16,9 @@
             <input matInput type="email" name="mail" [ngModel]="user.email">
         </mat-form-field>
     </form>
-    <button class="btn-page" (click)="openDialog()" rel="modal:open"><span>Changer de mot de passe</span></button>
-
     <section class="content-btn-page">
         <button class="btn-page" (click)="openCancel()"><span>Annuler</span></button>
+        <button class="btn-page" (click)="openDialog()" rel="modal:open"><span>Changer de mot de passe</span></button>
         <button class="btn-page" (click)="openConfirm()"><span>Valider</span></button>
     </section>
 </main>

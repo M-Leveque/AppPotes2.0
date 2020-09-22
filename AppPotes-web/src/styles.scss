@@ -1412,6 +1412,10 @@ a .icon-link {
   font-size: 2.08vw;
 }
 
+.profil-opt a{
+  cursor: pointer;
+}
+
 #modif-pic {
   width: 0.1px;
 	height: 0.1px;
@@ -1481,7 +1485,8 @@ a .icon-link {
 	OPTION COMPTE STYLE
 ------------------------*/
 #content-optcompte {
-  width: 26.3vw;
+  width: 40vw;
+  height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

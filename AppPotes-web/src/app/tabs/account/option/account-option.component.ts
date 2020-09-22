@@ -7,6 +7,7 @@ import { AccountService } from '../account.service';
 import { ConstantService } from 'src/app/constant.service';
 import { User } from 'src/app/models/User.model';
 import { Subscription } from 'rxjs';
+import { Photo } from 'src/app/models/Photo.model';
 
 @Component({
   selector: 'app-account-option',
@@ -19,6 +20,7 @@ export class AccountOptionComponent implements OnInit {
   private user: User;
   private host: String;
   private path;
+  private profileCover: Photo;
 
   constructor(
     public dialog: MatDialog, 
@@ -71,6 +73,14 @@ export class AccountOptionComponent implements OnInit {
 
   redirectToCompte(context: any): void {
     context.router.navigate(['account']);
+  }
+
+  getProfileCover(){
+    return this.path.profiles+this.user.id+'.jpg'
+  }
+
+  updateProfileCover(cover: Photo){
+    this.profileCover = cover;
   }
 
 }

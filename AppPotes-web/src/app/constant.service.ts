@@ -4,7 +4,7 @@ export class ConstantService {
 
     host: String = "http://localhost:8000/";
     path: Object = {
-        "albums" : "/img/albums/",
-        "profiles": "/img/profiles/"
+        "albums" : "storage/img/albums/",
+        "profiles": "storage/img/profiles/"
     }
 }

@@ -7,7 +7,7 @@ import { ConstantService } from 'src/app/constant.service';
 export class AccountService {
   
   httpOptions = {};
-  url:string= "http://127.0.0.1:8000/api/user";
+  url:string= "http://127.0.0.1:8000/api/users";
   private album = {};
   private error;
 
