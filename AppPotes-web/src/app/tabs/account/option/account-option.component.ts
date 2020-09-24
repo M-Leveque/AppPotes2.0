@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { Photo } from 'src/app/models/Photo.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PhotoService } from '../../photo/photo.service';
+import { ImageUtils } from 'src/app/core/utils/ImageUtils';
 
 @Component({
   selector: 'app-account-option',
@@ -25,6 +26,7 @@ export class AccountOptionComponent implements OnInit {
   private host: String;
   private path;
   private profileCover: Photo;
+  private imageUtils: ImageUtils;
 
   constructor(
     public dialog: MatDialog, 
@@ -38,6 +40,7 @@ export class AccountOptionComponent implements OnInit {
   ngOnInit() {
     this.host = this.constantService.host;
     this.path = this.constantService.path;
+    this.imageUtils = new ImageUtils();
     this.initForm();
     // Get connected user
     var cnxUserId = +localStorage.getItem("userId");
@@ -91,7 +94,10 @@ export class AccountOptionComponent implements OnInit {
   }
 
   getProfileCover(){
-    return this.path.profiles+this.user.id+'.png'
+    if(this.user.photo != null){
+      return this.user.photo.path;
+    }
+    return this.path.albums+this.user.id+'.png'
   }
 
   updateProfileCover(cover: Photo){
@@ -104,18 +110,28 @@ export class AccountOptionComponent implements OnInit {
     context.user.email = formValues.email ? formValues.email : context.user.email;
     context.user.description = formValues.description ? formValues.description : context.user.description;
 
-    context.accountService.update(context.user).subscribe(
-      (response) => {
-        if(context.profileCover != undefined){
-          context.profileCover.id_album = 2;
-          context.photoService.add(context.profileCover).subscribe(
-            (response) => {
-              console.log(response);
-            }
-          )
-
+    if(context.profileCover != undefined){
+      context.profileCover.id_album = 2;
+      context.profileCover.b64_image = context.imageUtils.formatSrcToB64Image(context.profileCover.b64_image);
+      context.photoService.add(context.profileCover).subscribe(
+        (response) => {
+          console.log(response);
+          context.user.photo = response;
+          context.updateUser();
         }
-        //context.router.navigate(['account']);
+      )
+    }
+    else {
+      context.updateUser();
+    }
+  }
+
+  updateUser(){
+    this.accountService.update(this.user).subscribe(
+      (response) => {
+        // Update user
+        console.log(response);
+        //context.router.navigate(['account'  ]);
       }
     )
   }

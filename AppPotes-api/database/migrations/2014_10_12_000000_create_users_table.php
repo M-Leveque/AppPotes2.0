@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('api_token', 80)->unique()
                         ->nullable()
                         ->default(null);
+            $table->integer('id_photo')->unsigned()->references('id')->on('photos')->nullable();
             $table->timestamps();
         });
     }

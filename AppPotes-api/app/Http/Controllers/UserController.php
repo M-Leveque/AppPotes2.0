@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user);
+        return response()->json(User::with('photo')->find($user->id));
     }
 
     /**
@@ -78,6 +78,7 @@ class UserController extends Controller
         $user->name = $userUpdate->name;
         $user->description = $userUpdate->description;
         $user->email = $userUpdate->email;
+        $user->id_photo = $userUpdate->photo->id;
         $user->save();
                 
         return $user;

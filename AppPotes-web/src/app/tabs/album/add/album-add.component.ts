@@ -10,6 +10,7 @@ import { PhotoService } from 'src/app/tabs/photo/photo.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialog } from '@angular/material/dialog';
 import { Photo } from 'src/app/models/Photo.model';
+import { ImageUtils } from 'src/app/core/utils/ImageUtils'
 
 @Component({
   selector: 'app-album-add',
@@ -30,6 +31,7 @@ export class AlbumAddComponent implements OnInit {
   private albumPhotosSubscription: Subscription;
   private albumForm: FormGroup;
   private fileName: String;
+  private imageUtils: ImageUtils;
 
   private isUpdate = false;
 
@@ -44,6 +46,7 @@ export class AlbumAddComponent implements OnInit {
     public dialog: MatDialog) { 
 
       this.album = new Album();
+      this.imageUtils = new ImageUtils();
       this.photos = [];
       this.photosToUpload = [];
       this.cover = new Photo(0, null);
@@ -135,7 +138,7 @@ export class AlbumAddComponent implements OnInit {
     // Store cover
     if(coverUpdate){
       this.cover.id_album = 0;
-      this.cover.b64_image = this.formatSrcToB64Image(this.cover.b64_image);
+      this.cover.b64_image = this.imageUtils.formatSrcToB64Image(this.cover.b64_image);
       this.photoService.add(this.cover).subscribe(
         (response) => {
           let id_cover = response.id;
@@ -213,7 +216,7 @@ export class AlbumAddComponent implements OnInit {
     if(photosUpdate){
       for(let photoToUpload of this.photosToUpload){
         photoToUpload.id_album = idAlbum;
-        photoToUpload.b64_image = this.formatSrcToB64Image(photoToUpload.b64_image);
+        photoToUpload.b64_image = this.imageUtils.formatSrcToB64Image(photoToUpload.b64_image);
         this.photoService.add(photoToUpload).subscribe(
           (response) => { }
         )
@@ -281,16 +284,6 @@ export class AlbumAddComponent implements OnInit {
 
   getCover(){
     return this.albumService.getCovers(this.album);
-  }
-
-  formatSrcToB64Image(b64_image){
-    var b64 = "";
-    var baliseb64 = "base64";
-    var indexStart = b64_image.indexOf(baliseb64);
-    if(b64 != null){
-      b64 = b64_image.substring(indexStart + baliseb64.length);
-    }
-    return b64;
   }
 
   ngOnDestroy() {
