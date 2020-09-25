@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from './password-dialog-data.interface';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-password-dialog',
@@ -9,15 +10,32 @@ import { DialogData } from './password-dialog-data.interface';
 })
 export class PasswordDialogComponent implements OnInit {
 
+  public passwdForm : FormGroup;
+
   constructor(
     public dialogRef: MatDialogRef<PasswordDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+      this.initForm();
+    }
 
   ngOnInit() {
   }
 
-  onNoClick(): void {
+  initForm(){
+    this.passwdForm = this.formBuilder.group({
+      oldPassword: '',
+      newPassword: '',
+      newPassword2: ''
+    })
+  }
+
+  onCancel(): void {
     this.dialogRef.close();
+  }
+
+  onValidate(): void {
+    console.log(this.passwdForm.value);
   }
 
 }

@@ -145,9 +145,8 @@ class PhotoController extends Controller
         $name = $request->input('name');
         $file = $request->input('b64_image');
 
-        if(!$this->photoService->checkValidity($name)){
-            return response(json_encode("Image name already exist"), Response::HTTP_BAD_REQUEST);
-        } 
+        // Delete old photo on serveur
+        $this->destroyFile($photo);
 
         $path = $this->photoService->generatePath($idAlbum, $name);
 

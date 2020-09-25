@@ -6,7 +6,7 @@
     [simpleImagePath]="getProfileCover()"
     (newCoverEvent)="updateProfileCover($event)" ></app-upload-images>
     
-    <form [formGroup]="userForm" (ngSubmit)="validate()">
+    <form *ngIf="user" [formGroup]="userForm">
         <mat-form-field appearance="fill">
             <mat-label>Pseudo :</mat-label>
             <input matInput type="name" name="pseudo" [ngModel]="user.name" formControlName="name">

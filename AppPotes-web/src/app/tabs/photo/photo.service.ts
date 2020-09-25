@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Photo } from 'src/app/models/Photo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,16 @@ export class PhotoService {
    * Method POST to add photo to database.
    * @param photo 
    */
-  public add(photo: any){
+  public add(photo: Photo){
     return this.http.post<any>(this.url, photo, this.httpOptions);
+  }
+
+  /**
+   * Method PUT to update photo in database.
+   * @param photo 
+   */
+  public update(newPhoto: Photo, idOldPhoto: Number){
+    return this.http.put<any>(this.url+idOldPhoto, newPhoto, this.httpOptions);
   }
 
   /**

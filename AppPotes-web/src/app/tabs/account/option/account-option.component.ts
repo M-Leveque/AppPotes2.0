@@ -11,6 +11,7 @@ import { Photo } from 'src/app/models/Photo.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PhotoService } from '../../photo/photo.service';
 import { ImageUtils } from 'src/app/core/utils/ImageUtils';
+import { CONTEXT_NAME } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-account-option',
@@ -94,10 +95,10 @@ export class AccountOptionComponent implements OnInit {
   }
 
   getProfileCover(){
-    if(this.user.photo != null){
+    if(this.user && this.user.photo != null){
       return this.user.photo.path;
     }
-    return this.path.albums+this.user.id+'.png'
+    return 'storage/img/albums/6/Default.png';
   }
 
   updateProfileCover(cover: Photo){
@@ -109,21 +110,44 @@ export class AccountOptionComponent implements OnInit {
     context.user.name = formValues.name ? formValues.name : context.user.name;
     context.user.email = formValues.email ? formValues.email : context.user.email;
     context.user.description = formValues.description ? formValues.description : context.user.description;
-
+    // Upload cover if user has select one.
     if(context.profileCover != undefined){
       context.profileCover.id_album = 2;
       context.profileCover.b64_image = context.imageUtils.formatSrcToB64Image(context.profileCover.b64_image);
-      context.photoService.add(context.profileCover).subscribe(
-        (response) => {
-          console.log(response);
-          context.user.photo = response;
-          context.updateUser();
-        }
-      )
+      // Update profil cover if user already has cover.
+      if(context.user.photo != null ){
+        context.updateCover();
+      }
+      // Store profile cover for user without cover
+      else {
+        context.storeCover();
+      }
     }
     else {
       context.updateUser();
     }
+  }
+
+  storeCover(){
+    console.log("Store cover");
+    this.photoService.add(this.profileCover).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.photo = response;
+        this.updateUser();
+      }
+    )
+  }
+
+  updateCover(){
+    console.log("Update cover");
+    this.photoService.update(this.profileCover, this.user.photo.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.photo = response;
+        this.updateUser();
+      }
+    )
   }
 
   updateUser(){

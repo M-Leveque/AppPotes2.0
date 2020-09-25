@@ -8,9 +8,10 @@ export class Album {
         public description: String = "",
         public status: boolean = true,
         public date: String = undefined,
-        public id_photo: String = undefined,
-        public User: User = undefined,
-        public Photos: Photo[] = undefined
+        public id_photo: Number = undefined,
+        public user: User = undefined,
+        public photos: Photo[] = undefined,
+        public photo: Photo = undefined
     ){}
 
 }
