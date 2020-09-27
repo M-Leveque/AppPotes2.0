@@ -13,19 +13,12 @@ import { HomePageComponent } from './tabs/home-page/home-page.component';
 import { AlbumComponent } from './tabs/album/album.component';
 import { AlbumAddComponent } from './tabs/album/add/album-add.component';
 import { AlbumListComponent } from './tabs/album/list/album-list.component';
-import { EventComponent } from './tabs/event/event.component';
-import { EventListComponent } from './tabs/event/list/event-list.component';
-import { PoolComponent } from './tabs/pool/pool.component';
 import { AccountComponent } from './tabs/account/account.component';
 import { AccountOptionComponent } from './tabs/account/option/account-option.component';
 import { AlbumService } from './tabs/album/album.service';
-import { EventService } from './tabs/event/event.service';
-import { PoolService } from './tabs/pool/pool.service';
 import { AccountService } from './tabs/account/account.service';
 import { ConstantService } from './constant.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { PhotoComponent } from './tabs/photo/photo.component';
-import { PhotoAddComponent } from './tabs/photo/add/photo-add.component';
 import { authInterceptor } from './core/interceptors/authInterceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { UploadImagesComponent } from './core/upload/upload-images/upload-images.component';
@@ -52,13 +45,8 @@ import {
     AlbumComponent,
     AlbumAddComponent,
     AlbumListComponent,
-    EventComponent,
-    EventListComponent,
-    PoolComponent,
     AccountComponent,
     AccountOptionComponent,
-    PhotoComponent,
-    PhotoAddComponent,
     UploadImagesComponent,
     PopupComponent,
     PasswordDialogComponent
@@ -82,8 +70,6 @@ import {
   providers: [
     LoginService,
     AlbumService,
-    EventService,
-    PoolService,
     AccountService,
     ConstantService,
     AuthGuardService,
