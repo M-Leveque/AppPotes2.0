@@ -11,7 +11,6 @@ import { Photo } from 'src/app/models/Photo.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PhotoService } from '../../photo/photo.service';
 import { ImageUtils } from 'src/app/core/utils/ImageUtils';
-import { CONTEXT_NAME } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-account-option',
@@ -86,7 +85,7 @@ export class AccountOptionComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(PasswordDialogComponent, {
       width: '800px',
-      data: {}
+      data: {'user': this.user }
     });
   }
 
@@ -129,7 +128,6 @@ export class AccountOptionComponent implements OnInit {
   }
 
   storeCover(){
-    console.log("Store cover");
     this.photoService.add(this.profileCover).subscribe(
       (response) => {
         console.log(response);
@@ -140,7 +138,6 @@ export class AccountOptionComponent implements OnInit {
   }
 
   updateCover(){
-    console.log("Update cover");
     this.photoService.update(this.profileCover, this.user.photo.id).subscribe(
       (response) => {
         console.log(response);
@@ -154,8 +151,7 @@ export class AccountOptionComponent implements OnInit {
     this.accountService.update(this.user).subscribe(
       (response) => {
         // Update user
-        console.log(response);
-        //context.router.navigate(['account'  ]);
+        this.router.navigate(['account'  ]);
       }
     )
   }

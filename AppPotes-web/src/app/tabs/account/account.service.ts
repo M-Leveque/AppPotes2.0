@@ -29,4 +29,8 @@ export class AccountService {
     return this.http.put<any>(this.url+"/"+user.id, user, this.httpOptions);
   }
 
+  public updatePassword(passwdObj: any, userId: Number): Observable<any>{
+    return this.http.put<any>(this.url+"/"+userId+"/update/password", passwdObj, this.httpOptions);
+  }
+
 }

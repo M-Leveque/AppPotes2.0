@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -82,6 +84,30 @@ class UserController extends Controller
         $user->save();
                 
         return $user;
+    }
+
+    /**
+     * Update password for specified user
+     */
+    public function updatePassword(Request $request, User $user){
+        // Convert body to user
+        $password = $request->input('password');
+        $oldPassword = $request->input('oldPassword');
+
+        if($password != null && $oldPassword != null){
+
+            $credentials = ['email'=> $user->email, 'password' => $oldPassword];
+            if (Auth::attempt($credentials)) {
+                $user->password = Hash::make($password);
+                $user->api_token = Str::random(60);
+                $user->save();
+            }
+            else {
+                return response("Wrong password", 403);
+            }
+        }
+
+        return response($user);
     }
 
     /**

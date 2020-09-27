@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from './password-dialog-data.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AccountService } from '../../account.service';
 
 @Component({
   selector: 'app-password-dialog',
@@ -10,11 +11,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class PasswordDialogComponent implements OnInit {
 
-  public passwdForm : FormGroup;
+   public passwdForm : FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<PasswordDialogComponent>,
     private formBuilder: FormBuilder,
+    private accountService: AccountService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
       this.initForm();
     }
@@ -35,7 +37,18 @@ export class PasswordDialogComponent implements OnInit {
   }
 
   onValidate(): void {
-    console.log(this.passwdForm.value);
+    var formValues = this.passwdForm.value;
+    if(formValues.newPassword == formValues.newPassword2){
+      var objPassword = {
+        "password": formValues.newPassword,
+        "oldPassword": formValues.oldPassword
+      }
+      this.accountService.updatePassword(objPassword, this.data.user.id).subscribe(
+        (response)=>{
+          this.dialogRef.close();
+        }
+      );
+    }
   }
 
 }

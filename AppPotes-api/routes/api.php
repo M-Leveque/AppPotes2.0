@@ -24,5 +24,6 @@ Route::get('/photos/byAlbum/{id}', 'PhotoController@showByAlbum');
 // Routes for Album controller
 Route::resource('albums','AlbumController');
 
-// Routes for User controller
+// Routes for User controlle
 Route::resource('users','UserController');
+Route::put('/users/{user}/update/password', 'UserController@updatePassword');

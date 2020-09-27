@@ -1,4 +1,5 @@
+import { User } from 'src/app/models/User.model';
+
 export interface DialogData {
-    animal: string;
-    name: string;
+    user: User;
 }
