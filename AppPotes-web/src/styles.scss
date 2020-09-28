@@ -1434,7 +1434,7 @@ a .icon-link {
 .tab-compte {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .tab {
@@ -1447,7 +1447,7 @@ a .icon-link {
 .content-tab {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding: 2vw;
 }
 
 .tablinks {
@@ -1464,7 +1464,6 @@ a .icon-link {
 }
 
 .tabcontent {
-  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -1553,7 +1552,7 @@ a .icon-link {
 /* MODAL CHANGEMENT MOT DE PASSE */
 
 .mat-dialog-container {
-  background-color: #000;
+  background-color: #191919;
 }
 
 .mat-label {
@@ -1564,13 +1563,14 @@ a .icon-link {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0,0,0,0.3);
+  background-color: #191919;
   font-family: Helvetica, Arial, sans-serif;
 }
 
 .modal-form {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   color: #F2F2F2;
   padding: 10px;
 }

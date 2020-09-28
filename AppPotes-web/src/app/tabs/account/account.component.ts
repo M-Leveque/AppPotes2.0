@@ -4,6 +4,8 @@ import { AccountService } from './account.service';
 import { User } from 'src/app/models/User.model';
 import { ConstantService } from 'src/app/constant.service';
 import { Router } from '@angular/router';
+import { Album } from 'src/app/models/Album.model';
+import { AlbumService } from '../album/album.service';
 
 @Component({
   selector: 'app-account',
@@ -13,13 +15,16 @@ import { Router } from '@angular/router';
 export class AccountComponent implements OnInit {
 
   private accountSubscription:  Subscription;
+  private albumSubscription: Subscription;
 
+  private albums = [];
   private user: User;
   private host: String;
   private path;
 
   constructor(
     private accountService : AccountService,
+    private albumService : AlbumService,
     private constantService: ConstantService,
     private routerNav: Router
   ) {}
@@ -34,6 +39,21 @@ export class AccountComponent implements OnInit {
       this.accountSubscription = this.accountService.get(cnxUserId)
         .subscribe(user => this.user = user);  
     }
+    this.albumSubscription = this.albumService.all()
+    .subscribe( (albums) => {
+      this.albums = albums;
+    });  
+  }
+
+  getProfileCover(){
+    if(this.user && this.user.photo != null){
+      return this.user.photo.path;
+    }
+    return 'storage/img/albums/6/Default.png';
+  }
+
+  public getCover(album){
+    return this.albumService.getCovers(album);
   }
 
   logout(){
