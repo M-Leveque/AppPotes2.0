@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', response.token);
         localStorage.setItem('userId', response.id);
         // Redirect to login
-        this.routerNav.navigate(['home-page']);
+        this.routerNav.navigate(['album']);
       },
       (error) => {
         // TODO : Error case.

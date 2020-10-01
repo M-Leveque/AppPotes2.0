@@ -20,6 +20,10 @@ export class AlbumService {
     return this.http.get<any>(this.url, this.httpOptions);
   }
 
+  public allCreatedByUser(){
+    return this.http.get<any>(this.url+"/byUser", this.httpOptions);
+  }
+
   public get(id : Number) : Observable<any>{
     return this.http.get<any>(this.url+"/"+id, this.httpOptions);
   }

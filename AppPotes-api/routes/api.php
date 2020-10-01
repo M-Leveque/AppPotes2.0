@@ -22,6 +22,7 @@ Route::resource('photos','PhotoController');
 Route::get('/photos/byAlbum/{id}', 'PhotoController@showByAlbum');
 
 // Routes for Album controller
+Route::get('/albums/byUser', 'AlbumController@createdByUser');
 Route::resource('albums','AlbumController');
 
 // Routes for User controlle

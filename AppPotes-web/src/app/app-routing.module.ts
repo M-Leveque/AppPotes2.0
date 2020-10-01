@@ -12,14 +12,14 @@ import { AuthGuardService as AuthGuard } from './core/login/auth-guard.service';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent},
-    { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
+    //{ path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
     { path: 'album', component: AlbumListComponent, canActivate: [AuthGuard] },
     { path: 'album/:id', component: AlbumComponent, canActivate: [AuthGuard] },
     { path: 'album-add', component: AlbumAddComponent, canActivate: [AuthGuard] },
     { path: 'album-add/:id', component: AlbumAddComponent, canActivate: [AuthGuard] },
     { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
     { path: 'account-option', component: AccountOptionComponent, canActivate: [AuthGuard] },
-    { path: 'not-found', component: PageNotFoundComponent },
+    { path: 'not-found', component: PageNotFoundComponent, canActivate: [AuthGuard] },
     { path: '**', redirectTo: 'not-found' }
 ];
 

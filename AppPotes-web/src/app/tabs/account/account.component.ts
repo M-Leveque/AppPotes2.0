@@ -39,7 +39,7 @@ export class AccountComponent implements OnInit {
       this.accountSubscription = this.accountService.get(cnxUserId)
         .subscribe(user => this.user = user);  
     }
-    this.albumSubscription = this.albumService.all()
+    this.albumSubscription = this.albumService.allCreatedByUser()
     .subscribe( (albums) => {
       this.albums = albums;
     });  

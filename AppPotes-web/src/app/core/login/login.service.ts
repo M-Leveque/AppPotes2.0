@@ -18,7 +18,9 @@ export class LoginService {
   public isAuthenticated(): boolean {
     var token = localStorage.getItem("token");
     var userId = localStorage.getItem("userId");
+    console.log(token);
+    console.log(userId);
 
-    return !(token == "undefined" || userId == "undefined");
+    return !(token == null || userId == null);
   }
 }

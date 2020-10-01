@@ -108,4 +108,8 @@ class AlbumService
             ->orWhere('status', $status);
         })->get();
     }
+
+    public function getAlbumsCreatedByUser($user){
+        return Album::with('photo')->where('id_user', $user->id)->get();
+    }
 }

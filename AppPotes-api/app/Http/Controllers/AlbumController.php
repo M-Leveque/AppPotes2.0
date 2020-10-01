@@ -37,7 +37,8 @@ class AlbumController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of Albums
+     * for wich the user has access.
      *
      * @return Response
      */
@@ -45,6 +46,18 @@ class AlbumController extends Controller
     {
         $user = $this->authUser;
         return $this->albumService->getAlbumsByUser($user);
+    }
+
+    /**
+     * Display a listing of Albums
+     * created by specific user
+     * 
+     * @return Response
+     */
+    public function createdByUser()
+    {
+        $user = $this->authUser;
+        return $this->albumService->getAlbumsCreatedByUser($user);
     }
 
     /**
