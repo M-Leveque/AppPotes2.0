@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Photo } from 'src/app/models/Photo.model';
 import { ConstantService } from 'src/app/constant.service';
 import { timeout } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-upload-images',
@@ -20,7 +21,9 @@ export class UploadImagesComponent implements OnInit {
   private host: String;
   private path;
 
-  constructor(private constantService: ConstantService) {}
+  constructor(
+    private constantService: ConstantService,
+    private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
     this.host = this.constantService.host;
@@ -35,15 +38,22 @@ export class UploadImagesComponent implements OnInit {
 
     if(event.target.files && event.target.files[0]){
       var currentContext = this;
+      // Start loader
+      this.spinner.show();
 
       // Case one image upload
       if(!this.isMultipleUpload){
         var photo = new Photo( 0, null, null, null );
         var reader = new FileReader();
         reader.onload = function(file) {
+
           photo.b64_image = this.result;
           photo.name = currentContext.formatImageName(event.target.files[0].name);
           currentContext.newCoverEvent.emit(photo);
+
+          // Stop loader
+          currentContext.spinner.hide();
+
         }
         reader.readAsDataURL(event.target.files[0]);
       }
@@ -52,11 +62,17 @@ export class UploadImagesComponent implements OnInit {
         for(let file of event.target.files){
           var reader = new FileReader();
           reader.onload = function(fre) {
+
             var photo = new Photo( currentContext.filesToUpload.length, null, null, null );
             photo.b64_image = this.result;
             photo.name = currentContext.formatImageName(file.name);
             currentContext.filesToUpload.push(photo);
-            console.log(currentContext.filesToUpload);
+
+            if(currentContext.filesToUpload.length == event.target.files.length){
+              // Stop loader
+              currentContext.spinner.hide();
+            }
+
           }
           reader.readAsDataURL(file);
         }
