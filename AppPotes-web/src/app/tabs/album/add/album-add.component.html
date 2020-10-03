@@ -19,11 +19,16 @@
             <div class="content-form-add">
                 <mat-form-field appearance="fill">
                     <mat-label>Titre de l'album :</mat-label>
-                    <input matInput type="name" placeholder="(max 00 caractères)" [value]="album.name" formControlName="name">
+                    <input matInput type="name" placeholder="(max 25 caractères)" [value]="album.name" formControlName="name">
+                    <mat-error>
+                        Le titre de l'album est invalide
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Descriptif de l’album :</mat-label>
-                    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="6" placeholder="(max 00 caractères)" [value]="album.description" formControlName="description" cols="30" rows="1"></textarea>
+                    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" 
+                    cdkAutosizeMaxRows="6" placeholder="(max 255 caractères)" [value]="album.description" 
+                    formControlName="description" cols="30" rows="1"></textarea>
                 </mat-form-field>
                 <div class="form-radio-btn">
                     <label>Rendre l'album public :</label>
@@ -36,7 +41,7 @@
 
             <div class="content-btn-page">
                 <button class="btn-page" (click)="cancel()"><span>Annuler</span></button>
-                <button class="btn-page" (click)="validate()" [disabled]="disableValidate"><span>Valider</span></button>
+                <button class="btn-page" (click)="validate()" [disabled]="disableValidate()"><span>Valider</span></button>
             </div>
         </section>
 

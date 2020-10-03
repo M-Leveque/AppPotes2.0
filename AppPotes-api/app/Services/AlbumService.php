@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Album;
+use App\Exceptions\AlbumException;
 use App\Photo;
 use Carbon\Carbon;
 use Hamcrest\Type\IsBoolean;
@@ -11,6 +12,13 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 class AlbumService
 {
+
+    const FIELD_ID_COVER = "id_photo";
+    const FIELD_NAME = "name";
+    const FIELD_DESCRIPTION = "description";
+    const FIELD_PUBLIC = "status";
+    const FIELD_TEXT_REGEX = "^[A-Za-z0-9 _-]+$";
+
     const PRIVATE_STATUS = 0;
     const PUBLIC_STATUS = 1;
 
@@ -79,9 +87,9 @@ class AlbumService
      */
     private function checkValidity($album, $isPublic){
         // Check if album exist
-        if(is_null($album)) throw new \Exception('Album not exist');
+        if(is_null($album)) throw new AlbumException(AlbumException::createError('id', 'Album does not exist'));
         // Check public value
-        if(!is_bool($isPublic) || is_null($isPublic)) throw new \Exception('Public field has a wrong type');
+        if(!is_bool($isPublic) || is_null($isPublic)) throw new AlbumException(AlbumException::createError(self::FIELD_PUBLIC, self::FIELD_PUBLIC.' must be a valid boolean'));
     }
 
     /**
@@ -111,5 +119,52 @@ class AlbumService
 
     public function getAlbumsCreatedByUser($user){
         return Album::with('photo')->where('id_user', $user->id)->get();
+    }
+
+    /**
+     * Check if album cover is valid and return value
+     */
+    public function getCoverFromRequest($request){
+        return $request->validate(
+            [AlbumService::FIELD_ID_COVER => 'nullable|integer'], 
+            [
+                AlbumService::FIELD_ID_COVER.'.integer' => AlbumService::FIELD_ID_COVER.' must be a integer']
+            );
+    }
+
+    /**
+     * Check if album name is valid and return value
+     */
+    public function getNameFromRequest($request){
+        return $request->validate(
+            [AlbumService::FIELD_NAME => 'required|max:25|regex:/'.self::FIELD_TEXT_REGEX.'/i'], 
+            [
+                AlbumService::FIELD_NAME.'.required' => AlbumService::FIELD_NAME.' is Required', 
+                AlbumService::FIELD_NAME.'.max' => AlbumService::FIELD_NAME.' must be less than 25 characters long',
+                AlbumService::FIELD_NAME.'.regex' => AlbumService::FIELD_PUBLIC.' contains invalid characters'
+            ]);;
+    }
+
+    /**
+     * Check if description is valid and return value
+     */
+    public function getDescriptionFromRequest($request){
+        return $request->validate(
+            [AlbumService::FIELD_DESCRIPTION => 'max:255|regex:/'.self::FIELD_TEXT_REGEX.'/i'], 
+            [
+                AlbumService::FIELD_DESCRIPTION.'.max' => AlbumService::FIELD_DESCRIPTION.' must be less than 255 characters long', 
+                AlbumService::FIELD_DESCRIPTION.'.regex' => AlbumService::FIELD_DESCRIPTION.' contains invalid characters'
+            ]);
+    }
+
+    /**
+     * Check if status is valid and returun value
+     */
+    public function getStatusFromRequest($request){
+        return $request->validate(
+            [AlbumService::FIELD_PUBLIC => 'boolean'], 
+            [
+                AlbumService::FIELD_PUBLIC.'.boolean' => AlbumService::FIELD_PUBLIC.' must be a boolean'
+            ]);
     }
 }

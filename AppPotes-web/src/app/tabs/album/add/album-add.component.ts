@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AlbumService } from './../album.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ConstantService } from 'src/app/constant.service';
 import { Album } from 'src/app/models/Album.model';
 import { PopupComponent } from 'src/app/core/popup/popup.component';
@@ -11,6 +11,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialog } from '@angular/material/dialog';
 import { Photo } from 'src/app/models/Photo.model';
 import { ImageUtils } from 'src/app/core/utils/ImageUtils'
+import { ErrorStateMatcher } from '@angular/material';
 
 @Component({
   selector: 'app-album-add',
@@ -18,11 +19,9 @@ import { ImageUtils } from 'src/app/core/utils/ImageUtils'
 })
 export class AlbumAddComponent implements OnInit {
 
-  // Constants
+  // Local variables
   private host: String;
   private path: Object;
-
-  // Local variables
   private photos: any[];
   private photosToUpload: Photo[];
   private cover: Photo;
@@ -44,7 +43,6 @@ export class AlbumAddComponent implements OnInit {
     private constantService: ConstantService,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog) { 
-
       this.album = new Album();
       this.imageUtils = new ImageUtils();
       this.photos = [];
@@ -90,8 +88,8 @@ export class AlbumAddComponent implements OnInit {
    */
   initForm(){
     this.albumForm = this.formBuilder.group({
-      name: '',
-      description: '',
+      name: ['', [Validators.required, Validators.maxLength(25), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
+      description: ['',[Validators.maxLength(255), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
       isPublic: [],
       date: ''
     });
@@ -116,13 +114,19 @@ export class AlbumAddComponent implements OnInit {
     this.cover = cover;
   }
 
+  disableValidate(){
+    var formIsInvalid = this.albumForm.status == "INVALID";
+    var formIsUpdated = this.albumForm.markAsDirty;
+
+    return( formIsInvalid && formIsUpdated );
+  }
+
   /**
    * function call when
    * form is validate.
    * Send album data to backend.
    */
   validate(){
-
     // Start loader
     this.spinner.show();
 
@@ -169,7 +173,7 @@ export class AlbumAddComponent implements OnInit {
       }
     )
   }
-
+  
   updateCoverOnserver(){
     this.photoService.update(this.cover, this.album.id_photo).subscribe(
       (response) => {
@@ -180,6 +184,10 @@ export class AlbumAddComponent implements OnInit {
         else {
           this.storeAlbum(id_cover);
         }
+      },
+      (error) => {
+        console.log(error);
+        this.displayError(error);
       }
     )
   }
@@ -249,6 +257,23 @@ export class AlbumAddComponent implements OnInit {
   }
 
   /**
+   * Display error msg
+   */
+  displayError(error){
+    const dialogRef = this.dialog.open(PopupComponent, {
+      width: '450px',
+      data: {
+        title: "Error", 
+        msg: "Error on update album",
+        callback: null,
+        context: this
+
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  /**
    * Fonction call to 
    * reset form
    */
@@ -283,9 +308,7 @@ export class AlbumAddComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   deleteAlbum(context){

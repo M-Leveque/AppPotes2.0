@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Album;
+use App\Exceptions\AlbumException;
 use App\Services\AlbumService;
 use App\Services\ImageService;
 use App\Services\UserService;
 use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class AlbumController extends Controller
 {
@@ -16,12 +18,6 @@ class AlbumController extends Controller
     private $albumService;
     private $userService;
     private $authUser;
-
-    private const FIELD_ID_COVER = "id_photo";
-    private const FIELD_NAME = "name";
-    private const FIELD_DESCRIPTION = "description";
-    private const FIELD_PUBLIC = "status";
-    private const ERROR = "ALBUM ERROR :";
 
     /**
      * Create a new controller instance.
@@ -83,18 +79,19 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
         // Feed fields
-        $idCover        = $request->input(self::FIELD_ID_COVER);
-        $name           = $request->input(self::FIELD_NAME);
-        $description    = $request->input(self::FIELD_DESCRIPTION);
-        $isPublic       = $request->input(self::FIELD_PUBLIC);
-        $album = null;
+        try{
+            $idCover = $this->albumService->getCoverFromRequest($request);
+            $name = $this->albumService->getNameFromRequest($request);
+            $description = $this->albumService->getDescriptionFromRequest($request);
+            $isPublic = $this->albumService->getStatusFromRequest($request);
+        }
+        catch(ValidationException $e){
+            throw new AlbumException($e->errors());
+        }
 
-        try {
-            $album = $this->albumService->create($idCover, $name, $description, $this->authUser, $isPublic);
-        }
-        catch(\Exception $e){
-            return  response(json_encode(SELF::ERROR." Store : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
-        }
+        $album = null;
+        $album = $this->albumService->create($idCover, $name, $description, $this->authUser, $isPublic);
+
         return response($album, Response::HTTP_OK);
     }
 
@@ -133,20 +130,18 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Get field
-        $idCover        = $request->input(self::FIELD_ID_COVER);
-        $name           = $request->input(self::FIELD_NAME);
-        $description    = $request->input(self::FIELD_DESCRIPTION);
-        $isPublic       = $request->input(self::FIELD_PUBLIC);
-
-        $album = null;
-
-        try {
-                $album = $this->albumService->update($id, $idCover, $name, $description, $this->authUser, $isPublic);          
+        // Feed fields
+        try{
+            $idCover = $this->albumService->getCoverFromRequest($request);
+            $name = $this->albumService->getNameFromRequest($request);
+            $description = $this->albumService->getDescriptionFromRequest($request);
+            $isPublic = $this->albumService->getStatusFromRequest($request);
         }
-        catch(\Exception $e){
-            return  response(json_encode(SELF::ERROR." Update : ".$e->getMessage()), Response::HTTP_BAD_REQUEST);
+        catch(ValidationException $e){
+            throw new AlbumException($e->errors());
         }
+
+        $album = $this->albumService->update($id, $idCover, $name, $description, $this->authUser, $isPublic);          
         return response($album, Response::HTTP_OK);
     }
 

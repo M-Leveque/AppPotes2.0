@@ -32,7 +32,9 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatInputModule,
-  MatRippleModule
+  MatRippleModule,
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher 
 } from '@angular/material';
 
 @NgModule({
@@ -73,6 +75,7 @@ import {
     AccountService,
     ConstantService,
     AuthGuardService,
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true }
   ],
   entryComponents: [PopupComponent, PasswordDialogComponent],

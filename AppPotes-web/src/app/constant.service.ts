@@ -2,7 +2,8 @@ import { User } from './models/User.model';
 
 export class ConstantService {
 
-    host: String = "http://localhost:8000/";
+    TEXT_FIELD_PATTERN: string = "^[a-zA-Z0-9_-]+$";
+    host: string = "http://localhost:8000/";
     path: Object = {
         "albums" : "storage/img/albums/"
     }
