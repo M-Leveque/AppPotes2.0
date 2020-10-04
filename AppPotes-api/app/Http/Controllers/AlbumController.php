@@ -154,7 +154,7 @@ class AlbumController extends Controller
     public function destroy(Album $album)
     {
         // Check user right
-        if($this->authUser->id != $album->id_user) return response()->json("Only creator can delete album", Response::HTTP_FORBIDDEN);
+        if($this->authUser->id != $album->id_user) throw new AlbumException(AlbumException::createError('id', 'Only creator can delete Album'));
         // Delete photos on serveur
         foreach($album->photos() as $photo ){
             $path = ImageService::generatePath(Constants::ALBUMS_PATH, $photo->name, $album->id);

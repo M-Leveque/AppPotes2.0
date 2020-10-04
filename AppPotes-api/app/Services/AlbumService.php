@@ -4,11 +4,9 @@ namespace App\Services;
 
 use App\Album;
 use App\Exceptions\AlbumException;
-use App\Photo;
+use App\Shared\RequestFieldUtils;
 use Carbon\Carbon;
-use Hamcrest\Type\IsBoolean;
 use Illuminate\Database\Eloquent\Builder;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class AlbumService
 {
@@ -38,7 +36,7 @@ class AlbumService
     public function create($idCover, $name, $description, $authUser, $isPublic) {
         // Create new album object
         $album = new Album();
-        $this->checkValidity($album, $isPublic);
+        $this->checkValidity($album, $isPublic, true, $name);
         $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
         return $album;
     }
@@ -54,7 +52,7 @@ class AlbumService
         // Create new album object
         $album = Album::find($id);
         $this->userService->checkUserRights($album, $authUser);
-        $this->checkValidity($album, $isPublic);
+        $this->checkValidity($album, $isPublic, false);
         $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
         return $album;
     }
@@ -85,9 +83,18 @@ class AlbumService
     /**
      * Check if album and cover exist in bdd or is new one.
      */
-    private function checkValidity($album, $isPublic){
+    private function checkValidity($album, $isPublic, $isCreation, $name=null){
+
         // Check if album exist
-        if(is_null($album)) throw new AlbumException(AlbumException::createError('id', 'Album does not exist'));
+        if($isCreation){
+            // Two album can't have same name
+            $albumDB = Album::where('name', '=', $name)->get();
+            if(!$albumDB->isEmpty()) throw new AlbumException(AlbumException::createError('id', 'Album already exist'));
+        }
+        else {
+            // Album must exist to be modified
+            if(is_null($album)) throw new AlbumException(AlbumException::createError('id', 'Album does not exist'));
+        }
         // Check public value
         if(!is_bool($isPublic) || is_null($isPublic)) throw new AlbumException(AlbumException::createError(self::FIELD_PUBLIC, self::FIELD_PUBLIC.' must be a valid boolean'));
     }
@@ -125,46 +132,38 @@ class AlbumService
      * Check if album cover is valid and return value
      */
     public function getCoverFromRequest($request){
-        return $request->validate(
-            [AlbumService::FIELD_ID_COVER => 'nullable|integer'], 
-            [
-                AlbumService::FIELD_ID_COVER.'.integer' => AlbumService::FIELD_ID_COVER.' must be a integer']
-            );
+        $error = [self::FIELD_ID_COVER.'.integer' => self::FIELD_ID_COVER.' must be a integer'];
+        return RequestFieldUtils::validRequestField($request, self::FIELD_ID_COVER, 'nullable|integer', $error);
     }
 
     /**
      * Check if album name is valid and return value
      */
     public function getNameFromRequest($request){
-        return $request->validate(
-            [AlbumService::FIELD_NAME => 'required|max:25|regex:/'.self::FIELD_TEXT_REGEX.'/i'], 
-            [
-                AlbumService::FIELD_NAME.'.required' => AlbumService::FIELD_NAME.' is Required', 
-                AlbumService::FIELD_NAME.'.max' => AlbumService::FIELD_NAME.' must be less than 25 characters long',
-                AlbumService::FIELD_NAME.'.regex' => AlbumService::FIELD_PUBLIC.' contains invalid characters'
-            ]);;
+        $error = [
+            self::FIELD_NAME.'.required' => self::FIELD_NAME.' is Required', 
+            self::FIELD_NAME.'.max' => self::FIELD_NAME.' must be less than 25 characters long',
+            self::FIELD_NAME.'.regex' => self::FIELD_PUBLIC.' contains invalid characters'
+        ];
+        return RequestFieldUtils::validRequestField($request, self::FIELD_NAME, 'required|max:25|regex:/'.self::FIELD_TEXT_REGEX.'/i', $error);
     }
 
     /**
      * Check if description is valid and return value
      */
     public function getDescriptionFromRequest($request){
-        return $request->validate(
-            [AlbumService::FIELD_DESCRIPTION => 'max:255|regex:/'.self::FIELD_TEXT_REGEX.'/i'], 
-            [
-                AlbumService::FIELD_DESCRIPTION.'.max' => AlbumService::FIELD_DESCRIPTION.' must be less than 255 characters long', 
-                AlbumService::FIELD_DESCRIPTION.'.regex' => AlbumService::FIELD_DESCRIPTION.' contains invalid characters'
-            ]);
+        $error = [
+            self::FIELD_DESCRIPTION.'.max' => self::FIELD_DESCRIPTION.' must be less than 255 characters long', 
+            self::FIELD_DESCRIPTION.'.regex' => self::FIELD_DESCRIPTION.' contains invalid characters'
+        ];
+        return RequestFieldUtils::validRequestField($request, self::FIELD_DESCRIPTION, 'max:255|regex:/'.self::FIELD_TEXT_REGEX.'/i', $error);
     }
 
     /**
      * Check if status is valid and returun value
      */
     public function getStatusFromRequest($request){
-        return $request->validate(
-            [AlbumService::FIELD_PUBLIC => 'boolean'], 
-            [
-                AlbumService::FIELD_PUBLIC.'.boolean' => AlbumService::FIELD_PUBLIC.' must be a boolean'
-            ]);
+        $error = [self::FIELD_PUBLIC.'.boolean' => self::FIELD_PUBLIC.' must be a boolean'];
+        return RequestFieldUtils::validRequestField($request, self::FIELD_PUBLIC, 'boolean', $error);
     }
 }
