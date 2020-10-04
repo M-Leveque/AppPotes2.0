@@ -116,9 +116,8 @@ export class AlbumAddComponent implements OnInit {
 
   disableValidate(){
     var formIsInvalid = this.albumForm.status == "INVALID";
-    var formIsUpdated = this.albumForm.markAsDirty;
-
-    return( formIsInvalid && formIsUpdated );
+    var formIsUpdated = this.albumForm.touched;
+    return ( formIsInvalid && formIsUpdated );
   }
 
   /**
@@ -170,6 +169,11 @@ export class AlbumAddComponent implements OnInit {
         else {
           this.storeAlbum(id_cover);
         }
+      },
+      (error) => {
+        this.displayError(error.error);
+        // Done loader
+        this.spinner.hide();
       }
     )
   }
@@ -186,8 +190,9 @@ export class AlbumAddComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error);
-        this.displayError(error);
+        this.displayError(error.error);
+        // Done loader
+        this.spinner.hide();
       }
     )
   }
@@ -210,6 +215,7 @@ export class AlbumAddComponent implements OnInit {
         this.routerNav.navigate(['album']);
       },
       (error) => {
+        this.displayError(error.error);
         // Done loader
         this.spinner.hide();
       }
@@ -234,6 +240,7 @@ export class AlbumAddComponent implements OnInit {
         this.routerNav.navigate(['album']);
       },
       (error) => {
+        this.displayError(error.error);
         // Done loader
         this.spinner.hide();
       }
@@ -260,11 +267,19 @@ export class AlbumAddComponent implements OnInit {
    * Display error msg
    */
   displayError(error){
+    var message = '';
+    for(var field of error.fields){
+      for(var msg of field['message']){
+        message += msg + ' | ';
+      }
+      message = message.slice(0, -3);
+    }
+
     const dialogRef = this.dialog.open(PopupComponent, {
       width: '450px',
       data: {
-        title: "Error", 
-        msg: "Error on update album",
+        title: error.label, 
+        msg: message,
         callback: null,
         context: this
 

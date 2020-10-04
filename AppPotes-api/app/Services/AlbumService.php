@@ -143,7 +143,7 @@ class AlbumService
         $error = [
             self::FIELD_NAME.'.required' => self::FIELD_NAME.' is Required', 
             self::FIELD_NAME.'.max' => self::FIELD_NAME.' must be less than 25 characters long',
-            self::FIELD_NAME.'.regex' => self::FIELD_PUBLIC.' contains invalid characters'
+            self::FIELD_NAME.'.regex' => self::FIELD_NAME.' contains invalid characters'
         ];
         return RequestFieldUtils::validRequestField($request, self::FIELD_NAME, 'required|max:25|regex:/'.self::FIELD_TEXT_REGEX.'/i', $error);
     }
