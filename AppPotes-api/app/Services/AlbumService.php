@@ -89,14 +89,14 @@ class AlbumService
         if($isCreation){
             // Two album can't have same name
             $albumDB = Album::where('name', '=', $name)->get();
-            if(!$albumDB->isEmpty()) throw new AlbumException(AlbumException::createError('id', 'Album already exist'));
+            if(!$albumDB->isEmpty()) throw new AlbumException(AlbumException::ALBUM_ALREADY_EXIST, AlbumException::createError('id', 'Album already exist'));
         }
         else {
             // Album must exist to be modified
-            if(is_null($album)) throw new AlbumException(AlbumException::createError('id', 'Album does not exist'));
+            if(is_null($album)) throw new AlbumException(AlbumException::ALBUM_NOT_EXIST, AlbumException::createError('id', 'Album does not exist'));
         }
         // Check public value
-        if(!is_bool($isPublic) || is_null($isPublic)) throw new AlbumException(AlbumException::createError(self::FIELD_PUBLIC, self::FIELD_PUBLIC.' must be a valid boolean'));
+        if(!is_bool($isPublic) || is_null($isPublic)) throw new AlbumException(AlbumException::ALBUM_FIELD_NOT_VALID, AlbumException::createError(self::FIELD_PUBLIC, self::FIELD_PUBLIC.' must be a valid boolean'));
     }
 
     /**

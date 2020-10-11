@@ -86,7 +86,7 @@ class AlbumController extends Controller
             $isPublic = $this->albumService->getStatusFromRequest($request);
         }
         catch(ValidationException $e){
-            throw new AlbumException($e->errors());
+            throw new AlbumException( AlbumException::ALBUM_FIELD_NOT_VALID ,$e->errors());
         }
 
         $album = null;
@@ -138,7 +138,7 @@ class AlbumController extends Controller
             $isPublic = $this->albumService->getStatusFromRequest($request);
         }
         catch(ValidationException $e){
-            throw new AlbumException($e->errors());
+            throw new AlbumException(AlbumException::ALBUM_FIELD_NOT_VALID, $e->errors());
         }
 
         $album = $this->albumService->update($id, $idCover, $name, $description, $this->authUser, $isPublic);          
@@ -154,7 +154,9 @@ class AlbumController extends Controller
     public function destroy(Album $album)
     {
         // Check user right
-        if($this->authUser->id != $album->id_user) throw new AlbumException(AlbumException::createError('id', 'Only creator can delete Album'));
+        if($this->authUser->id != $album->id_user){
+             throw new AlbumException(AlbumException::ALBUM_FORBIDDEN, AlbumException::createError('id', 'Only creator can delete Album'));
+        }
         // Delete photos on serveur
         foreach($album->photos() as $photo ){
             $path = ImageService::generatePath(Constants::ALBUMS_PATH, $photo->name, $album->id);

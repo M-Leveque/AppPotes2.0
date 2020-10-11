@@ -1,0 +1,13 @@
+<div class="popup">
+  <div class="popup-container">
+    <h2 mat-dialog-title>{{ title }}</h2>
+      <h3>{{ error.code }}</h3>
+      <p>
+        {{ error.getMessage() }}
+      </p>
+  </div>
+  <br>
+  <div class="content-btn-page">
+    <button class="btn-page" (click)="validate()"><span>Valider</span></button>
+  </div>
+</div>

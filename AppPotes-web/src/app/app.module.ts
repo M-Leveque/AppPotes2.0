@@ -23,6 +23,7 @@ import { authInterceptor } from './core/interceptors/authInterceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { UploadImagesComponent } from './core/upload/upload-images/upload-images.component';
 import { PopupComponent } from './core/popup/popup.component';
+import { ErrorComponent } from './core/popup/error/error.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PasswordDialogComponent } from './tabs/account/option/password-dialog/password-dialog.component';
@@ -51,7 +52,8 @@ import {
     AccountOptionComponent,
     UploadImagesComponent,
     PopupComponent,
-    PasswordDialogComponent
+    PasswordDialogComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,7 @@ import {
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true }
   ],
-  entryComponents: [PopupComponent, PasswordDialogComponent],
+  entryComponents: [PopupComponent, ErrorComponent, PasswordDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -29,6 +29,9 @@
                     <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" 
                     cdkAutosizeMaxRows="6" placeholder="(max 255 caractères)" [value]="album.description" 
                     formControlName="description" cols="30" rows="1"></textarea>
+                    <mat-error>
+                        La description de l'album est invalide
+                    </mat-error>
                 </mat-form-field>
                 <div class="form-radio-btn">
                     <label>Rendre l'album public :</label>

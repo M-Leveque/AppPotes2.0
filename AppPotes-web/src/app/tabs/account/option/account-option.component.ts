@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { Photo } from 'src/app/models/Photo.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PhotoService } from '../../photo/photo.service';
-import { ImageUtils } from 'src/app/core/utils/ImageUtils';
 
 @Component({
   selector: 'app-account-option',
@@ -26,7 +25,6 @@ export class AccountOptionComponent implements OnInit {
   private host: String;
   private path;
   private profileCover: Photo;
-  private imageUtils: ImageUtils;
 
   constructor(
     public dialog: MatDialog, 
@@ -40,7 +38,6 @@ export class AccountOptionComponent implements OnInit {
   ngOnInit() {
     this.host = this.constantService.host;
     this.path = this.constantService.path;
-    this.imageUtils = new ImageUtils();
     this.initForm();
     // Get connected user
     var cnxUserId = +localStorage.getItem("userId");
@@ -112,7 +109,6 @@ export class AccountOptionComponent implements OnInit {
     // Upload cover if user has select one.
     if(context.profileCover != undefined){
       context.profileCover.id_album = 2;
-      context.profileCover.b64_image = context.imageUtils.formatSrcToB64Image(context.profileCover.b64_image);
       // Update profil cover if user already has cover.
       if(context.user.photo != null ){
         context.updateCover();

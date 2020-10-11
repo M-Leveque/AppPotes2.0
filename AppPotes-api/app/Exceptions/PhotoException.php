@@ -4,15 +4,14 @@ namespace App\Exceptions;
 
 use Exception;
 
-class AlbumException extends Exception
+class PhotoException extends Exception
 {
     private $errors;
 
-    public const ALBUM_NOT_VALID = 100;
-    public const ALBUM_FIELD_NOT_VALID = 101;
-    public const ALBUM_ALREADY_EXIST = 102;
-    public const ALBUM_NOT_EXIST = 103;
-    public const ALBUM_FORBIDDEN = 104;
+    public const PHOTO_NOT_VALID = 200;
+    public const PHOTO_ALREADY_EXIST = 201;
+    public const PHOTO_NOT_EXIST = 202;
+    public const PHOTO_FORBIDDEN = 203;
 
     /**
      * Exception constuctor
@@ -51,7 +50,7 @@ class AlbumException extends Exception
 
         $error = [
             "code" => $this->code, 
-            "label" => "Album not valid", 
+            "label" => "Photo not valid", 
             "fields" => $fields
         ];
         return response(json_encode($error), 400);

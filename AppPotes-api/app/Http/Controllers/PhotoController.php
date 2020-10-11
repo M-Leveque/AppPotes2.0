@@ -8,6 +8,7 @@ use App\Services\AlbumService;
 use App\Services\PhotoService;
 use App\Services\ImageService;
 use App\Services\UserService;
+use App\Exceptions\PhotoException;
 use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -71,6 +72,10 @@ class PhotoController extends Controller
         $name = $request->input('name');
         $file = $request->input('b64_image');
 
+        $type = ImageService::getImageType($file);
+
+        $b64File = ImageService::formatB64($file);
+
         // Check right
         if(!$this->photoService->checkRigths($this->authUser, $idAlbum)){
             return response(json_encode("User has no right to this album"), Response::HTTP_FORBIDDEN);
@@ -78,16 +83,16 @@ class PhotoController extends Controller
 
         // Check validity
         if(!$this->photoService->checkValidity($name)){
-            return response(json_encode("Image is not valid"), Response::HTTP_BAD_REQUEST);
-        } 
+            throw new PhotoException(PhotoException::PHOTO_ALREADY_EXIST, PhotoException::createError('photo', 'Image is not valid'));
+        }
 
-        $path = $this->photoService->generatePath($idAlbum, $name);
+        $path = $this->photoService->generatePath($idAlbum, $name, $type);
 
         // Persist photo
         $photo = $this->photoService->persist($name, $path, $idAlbum);
 
         // Store photo on serveur
-        ImageService::uploadB64Img($file, $path);
+        ImageService::uploadB64Img($b64File, $path);
 
         return response()->json($photo);
     }
@@ -145,15 +150,19 @@ class PhotoController extends Controller
         $name = $request->input('name');
         $file = $request->input('b64_image');
 
+        $type = ImageService::getImageType($file);
+
+        $b64File = ImageService::formatB64($file);
+
         // Delete old photo on serveur
         $this->destroyFile($photo);
 
-        $path = $this->photoService->generatePath($idAlbum, $name);
+        $path = $this->photoService->generatePath($idAlbum, $name, $type);
 
         $photo = $this->photoService->update($name, $path, $idAlbum, $photo);
 
         // Store photo on serveur
-        ImageService::uploadB64Img($file, $path);
+        ImageService::uploadB64Img($b64File, $path);
 
         return response()->json($photo);
     }

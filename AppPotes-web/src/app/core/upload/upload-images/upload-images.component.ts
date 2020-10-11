@@ -59,6 +59,7 @@ export class UploadImagesComponent implements OnInit {
       }
       // Case multi image upload
       else {
+        var nbPhotoUpload = 0;
         for(let file of event.target.files){
           var reader = new FileReader();
           reader.onload = function(fre) {
@@ -67,8 +68,9 @@ export class UploadImagesComponent implements OnInit {
             photo.b64_image = this.result;
             photo.name = currentContext.formatImageName(file.name);
             currentContext.filesToUpload.push(photo);
+            nbPhotoUpload++;
 
-            if(currentContext.filesToUpload.length == event.target.files.length){
+            if(nbPhotoUpload == event.target.files.length){
               // Stop loader
               currentContext.spinner.hide();
             }

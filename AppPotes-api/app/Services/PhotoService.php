@@ -7,6 +7,7 @@ use App\Photo;
 use App\Album;
 use App\Shared\Constants;
 use App\User;
+use Faker\Provider\Image;
 
 class PhotoService
 {
@@ -81,8 +82,9 @@ class PhotoService
     /**
      * Generate path for photo
      */
-    public function generatePath($idAlbum, $name){
+    public function generatePath($idAlbum, $name, $type)
+    {
         $album = Album::find($idAlbum);
-        return ImageService::generatePath(Constants::ALBUMS_PATH, $name, $album->id);
+        return ImageService::generatePath(Constants::ALBUMS_PATH, $name, $type, $album->id);
     }
 }

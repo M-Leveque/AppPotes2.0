@@ -10,8 +10,7 @@ import { PhotoService } from 'src/app/tabs/photo/photo.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialog } from '@angular/material/dialog';
 import { Photo } from 'src/app/models/Photo.model';
-import { ImageUtils } from 'src/app/core/utils/ImageUtils'
-import { ErrorStateMatcher } from '@angular/material';
+import { ErrorComponent } from 'src/app/core/popup/error/error.component';
 
 @Component({
   selector: 'app-album-add',
@@ -30,7 +29,6 @@ export class AlbumAddComponent implements OnInit {
   private albumPhotosSubscription: Subscription;
   private albumForm: FormGroup;
   private fileName: String;
-  private imageUtils: ImageUtils;
 
   private isUpdate = false;
 
@@ -44,12 +42,10 @@ export class AlbumAddComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public dialog: MatDialog) { 
       this.album = new Album();
-      this.imageUtils = new ImageUtils();
       this.photos = [];
       this.photosToUpload = [];
       this.cover = new Photo(0, null);
       this.fileName = "Ajouter une couverture";
-      this.initForm();
     }
 
   /**
@@ -68,8 +64,10 @@ export class AlbumAddComponent implements OnInit {
         this.isUpdate = true;
       
         this.albumInfosSubscription = this.albumService.get(idAlbum)
-          .subscribe(album => this.album = album[0]);  
-  
+          .subscribe((album) => {
+            this.album = album[0];
+            this.initForm();
+          });  
         this.albumPhotosSubscription = this.photoService.getByAlbum(idAlbum)
           .subscribe(photos => this.photos = photos);
       }
@@ -88,8 +86,8 @@ export class AlbumAddComponent implements OnInit {
    */
   initForm(){
     this.albumForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(25), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
-      description: ['',[Validators.maxLength(255), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
+      name: [this.album.name, [Validators.required, Validators.maxLength(25), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
+      description: [this.album.description, [Validators.maxLength(255), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
       isPublic: [],
       date: ''
     });
@@ -141,7 +139,6 @@ export class AlbumAddComponent implements OnInit {
     // Store cover
     if(coverUpdate){
       this.cover.id_album = 0;
-      this.cover.b64_image = this.imageUtils.formatSrcToB64Image(this.cover.b64_image);
       if(this.album.photo != null){
         this.updateCoverOnserver();
       }
@@ -209,10 +206,6 @@ export class AlbumAddComponent implements OnInit {
       (response) => {
         // Store photos
         this.storePhotos(this.album.id);
-        // Done loader
-        this.spinner.hide();
-        // Delete cache for update new photos
-        this.routerNav.navigate(['album']);
       },
       (error) => {
         this.displayError(error.error);
@@ -234,10 +227,6 @@ export class AlbumAddComponent implements OnInit {
       (response) => {
         // Store photos
         this.storePhotos(response.id);
-        // Done loader
-        this.spinner.hide();
-        // Delete cache for update new photos
-        this.routerNav.navigate(['album']);
       },
       (error) => {
         this.displayError(error.error);
@@ -255,11 +244,26 @@ export class AlbumAddComponent implements OnInit {
     if(photosUpdate){
       for(let photoToUpload of this.photosToUpload){
         photoToUpload.id_album = idAlbum;
-        photoToUpload.b64_image = this.imageUtils.formatSrcToB64Image(photoToUpload.b64_image);
         this.photoService.add(photoToUpload).subscribe(
-          (response) => { }
+          (response) => {
+            // Done loader
+            this.spinner.hide();
+            // Delete cache for update new photos
+            this.routerNav.navigate(['album']);
+           },
+          (error) => {
+            this.displayError(error.error);
+            // Done loader
+            this.spinner.hide();
+          }
         )
       }
+    }
+    else {
+      // Done loader
+      this.spinner.hide();
+      // Delete cache for update new photos
+      this.routerNav.navigate(['album']);
     }
   }
 
@@ -267,19 +271,11 @@ export class AlbumAddComponent implements OnInit {
    * Display error msg
    */
   displayError(error){
-    var message = '';
-    for(var field of error.fields){
-      for(var msg of field['message']){
-        message += msg + ' | ';
-      }
-      message = message.slice(0, -3);
-    }
 
-    const dialogRef = this.dialog.open(PopupComponent, {
+    const dialogRef = this.dialog.open(ErrorComponent, {
       width: '450px',
       data: {
-        title: error.label, 
-        msg: message,
+        error: error, 
         callback: null,
         context: this
 
