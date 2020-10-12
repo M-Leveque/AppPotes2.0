@@ -3,13 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Services\UserService;
+use App\Exceptions\UserException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+        $this->userService = new UserService();
+        $this->authUser = auth()->guard('api')->user();
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -73,14 +90,24 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
 
-        // Convert body to user
-        $userUpdate = json_decode($request->getContent());
+        // Feed fields
+        try{
+            $idPhoto = $this->userService->getPhotoFromRequest($request);
+            $name = $this->userService->getNameFromRequest($request);
+            $description = $this->userService->getDescriptionFromRequest($request);
+            $email = $this->userService->getEmailFromRequest($request);
+        }
+        catch(ValidationException $e){
+            throw new UserException(UserException::USER_NOT_VALID, UserException::createError("User", "The user does not have access to this user"));
+        }
+        
+        $this->userService->checkUserUpdateRights($this->authUser, $user);
 
         // Update user infos
-        $user->name = $userUpdate->name;
-        $user->description = $userUpdate->description;
-        $user->email = $userUpdate->email;
-        $user->id_photo = $userUpdate->photo->id;
+        $user->name = $name;
+        $user->description = $description;
+        $user->email = $email;
+        $user->id_photo = $idPhoto;
         $user->save();
                 
         return $user;

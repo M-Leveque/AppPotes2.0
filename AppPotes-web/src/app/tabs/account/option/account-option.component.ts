@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { Photo } from 'src/app/models/Photo.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { PhotoService } from '../../photo/photo.service';
+import { ErrorComponent } from 'src/app/core/popup/error/error.component';
 
 @Component({
   selector: 'app-account-option',
@@ -86,6 +87,18 @@ export class AccountOptionComponent implements OnInit {
     });
   }
 
+  displayError(error){
+    const dialogRef = this.dialog.open(ErrorComponent, {
+      width: '450px',
+      data: {
+        error: error, 
+        callback: null,
+        context: this
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+
   redirectToCompte(context: any): void {
     context.router.navigate(['account']);
   }
@@ -129,6 +142,9 @@ export class AccountOptionComponent implements OnInit {
         console.log(response);
         this.user.photo = response;
         this.updateUser();
+      },
+      (error) => {
+        this.displayError(error.error);
       }
     )
   }
@@ -139,6 +155,9 @@ export class AccountOptionComponent implements OnInit {
         console.log(response);
         this.user.photo = response;
         this.updateUser();
+      },
+      (error) => {
+        this.displayError(error.error);
       }
     )
   }
@@ -147,7 +166,10 @@ export class AccountOptionComponent implements OnInit {
     this.accountService.update(this.user).subscribe(
       (response) => {
         // Update user
-        this.router.navigate(['account'  ]);
+        this.router.navigate(['account']);
+      }, 
+      (error) => {
+        this.displayError(error.error);
       }
     )
   }
