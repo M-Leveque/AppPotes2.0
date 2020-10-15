@@ -178,12 +178,12 @@ export class AlbumAddComponent implements OnInit {
   updateCoverOnserver(){
     this.photoService.update(this.cover, this.album.id_photo).subscribe(
       (response) => {
-        let id_cover = response.id;
+        var idcover = response.id;
         if(this.isUpdate){
-          this.updateAlbum(id_cover);
+          this.updateAlbum(idcover);
         }
         else {
-          this.storeAlbum(id_cover);
+          this.storeAlbum(idcover);
         }
       },
       (error) => {
@@ -199,8 +199,8 @@ export class AlbumAddComponent implements OnInit {
    * Fonction for update album 
    * on server
    */
-  updateAlbum($idCover){
-    if($idCover != null) this.album.photo.id = $idCover
+  updateAlbum(idCover){
+    if(idCover != null) this.album.id_photo = idCover
     /* Update Album */
     this.albumService.updateAlbum(this.album).subscribe( 
       (response) => {
@@ -219,9 +219,9 @@ export class AlbumAddComponent implements OnInit {
    * Fonction for store album 
    * on server
    */
-  storeAlbum($idCover){
+  storeAlbum(idCover){
     
-    if($idCover != null) this.album.id_photo = $idCover
+    if(idCover != null) this.album.id_photo = idCover
     /* Update Album */
     this.albumService.storeAlbum(this.album).subscribe( 
       (response) => {

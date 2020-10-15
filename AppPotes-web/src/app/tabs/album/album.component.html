@@ -15,21 +15,6 @@
 
 	<section id="grid-pic">
 		<a class="reveal" [routerLink]="'/album-add/'+idAlbum" routerLinkActive="active"><div class="icon-btn icon icon-add-pic"></div>Modfier<br>l'album</a>
-
-    <!-- GALLERY -->
-    <div class="demo-gallery">
-        <ul id="lightgallery" class="list-unstyled row">
-
-          <!-- Show each photo -->
-          <li *ngFor="let photo of photos" class="col-xs-6 col-sm-4 col-md-3">
-            <a [href]="host+photo.path">
-              <img class="img-responsive" [src]="host+photo.path" alt="Thumb-1">
-            </a>
-          </li>
-          
-        </ul>
-    </div>
-    <!-- #GALLERY -->
-    
+    <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
 	</section>
 </main>

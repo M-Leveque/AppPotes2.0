@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { PhotoService } from 'src/app/tabs/photo/photo.service';
 import { ConstantService } from 'src/app/constant.service';
 import { Album } from 'src/app/models/Album.model';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation, NgxGalleryOrder } from 'ngx-gallery';
 
 @Component({
   selector: 'app-album',
@@ -20,6 +21,8 @@ export class AlbumComponent implements OnInit {
   albumPhotosSubscription : Subscription;
   host: String;
   path: Object;
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[];
 
   constructor(private albumService: AlbumService, 
     private photoService: PhotoService, 
@@ -39,8 +42,31 @@ export class AlbumComponent implements OnInit {
     
     // Get photo informations
     this.albumPhotosSubscription = this.photoService.getByAlbum(this.idAlbum)
-      .subscribe(photos => this.photos = photos);
+      .subscribe((photos) => {
+        this.photos = photos;
+        this.loadPhotos();
+        this.loadConf();
+      });
+    this.galleryImages = [];
+  }
+  loadConf() {
+    this.galleryOptions = [
+      {
+        image: false,
+        width: '100%',
+        height: (this.photos.length * 6)+'vh',
+        thumbnailsColumns: 4,
+        thumbnailsRows: Math.ceil(this.photos.length / 4),
+        thumbnailsOrder: NgxGalleryOrder.Row,
+        thumbnailsArrows: false
+      }];
+  }
 
+  loadPhotos(){
+    for(let photo of this.photos){
+      this.galleryImages.push({ small: this.host+photo.path, medium: this.host+photo.path, big: this.host+photo.path});
+    }
+    
   }
 
   ngOnDestroy() {

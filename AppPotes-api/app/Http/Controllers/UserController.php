@@ -92,7 +92,7 @@ class UserController extends Controller
 
         // Feed fields
         try{
-            $idPhoto = $this->userService->getPhotoFromRequest($request);
+            $photo = json_decode($request->getContent())->photo;
             $name = $this->userService->getNameFromRequest($request);
             $description = $this->userService->getDescriptionFromRequest($request);
             $email = $this->userService->getEmailFromRequest($request);
@@ -107,7 +107,7 @@ class UserController extends Controller
         $user->name = $name;
         $user->description = $description;
         $user->email = $email;
-        $user->id_photo = $idPhoto;
+        $user->id_photo = $photo->id;
         $user->save();
                 
         return $user;

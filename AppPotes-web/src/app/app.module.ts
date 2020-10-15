@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgxGalleryModule } from 'ngx-gallery';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
@@ -62,6 +62,7 @@ import {
     AppRoutingModule,
     HttpClientModule,
     NgxSpinnerModule,
+    NgxGalleryModule,
     MatDialogModule,
     BrowserAnimationsModule,
     MatFormFieldModule,

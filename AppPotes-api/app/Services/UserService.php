@@ -33,14 +33,6 @@ class UserService
     }
 
     /**
-     * Check if user cover is valid and return value
-     */
-    public function getPhotoFromRequest($request){
-        $error = [self::FIELD_ID_PHOTO.'.integer' => self::FIELD_ID_PHOTO.' must be a integer'];
-        return RequestFieldUtils::validRequestField($request, self::FIELD_ID_PHOTO, 'nullable|integer', $error);
-    }
-
-    /**
      * Check if user name is valid and return value
      */
     public function getNameFromRequest($request){
