@@ -54,7 +54,7 @@ export class AlbumComponent implements OnInit {
       {
         image: false,
         width: '100%',
-        height: (this.photos.length * 6)+'vh',
+        height: (Math.ceil(this.photos.length / 4) * 30)+'vh',
         thumbnailsColumns: 4,
         thumbnailsRows: Math.ceil(this.photos.length / 4),
         thumbnailsOrder: NgxGalleryOrder.Row,
@@ -64,7 +64,7 @@ export class AlbumComponent implements OnInit {
 
   loadPhotos(){
     for(let photo of this.photos){
-      this.galleryImages.push({ small: this.host+photo.path, medium: this.host+photo.path, big: this.host+photo.path});
+      this.galleryImages.push({ small: this.host+photo.path_thumb, medium: this.host+photo.path_thumb, big: this.host+photo.path});
     }
     
   }

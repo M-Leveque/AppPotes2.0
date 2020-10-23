@@ -21,6 +21,9 @@ class PhotoController extends Controller
     private $albumService;
     private $authUser;
 
+    const THUMBNAIL_WIDTH = 300;
+    const THUMBNAIL_HEIGHT =  185;
+
     /**
      * Create a new controller instance.
      *
@@ -87,13 +90,19 @@ class PhotoController extends Controller
         }
 
         $path = $this->photoService->generatePath($idAlbum, $name, $type);
+        $thumbPath = $this->photoService->generatePath($idAlbum, $name, $type, true);
 
         // Persist photo
-        $photo = $this->photoService->persist($name, $path, $idAlbum);
+        $photo = $this->photoService->persist($name, $path, $thumbPath, $idAlbum, $this->authUser->id);
 
         // Store photo on serveur
         ImageService::uploadB64Img($b64File, $path);
+        // Store thumbnail on serveur
+        ImageService::uploadB64Img($b64File, $thumbPath);
 
+        // Create thumbnail form uplaoded img
+        ImageService::createThumbnail($thumbPath, self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
+        
         return response()->json($photo);
     }
 
@@ -158,11 +167,17 @@ class PhotoController extends Controller
         $this->destroyFile($photo);
 
         $path = $this->photoService->generatePath($idAlbum, $name, $type);
+        $thumbPath = $this->photoService->generatePath($idAlbum, $name, $type, true);
 
-        $photo = $this->photoService->update($name, $path, $idAlbum, $photo);
+        $photo = $this->photoService->update($name, $path, $thumbPath, $idAlbum, $photo);
 
         // Store photo on serveur
         ImageService::uploadB64Img($b64File, $path);
+
+        // Store thumbnail on serveur
+        ImageService::uploadB64Img($b64File, $thumbPath);
+        // Create thumbnail form uplaoded img
+        ImageService::createThumbnail($thumbPath, self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
 
         return response()->json($photo);
     }
@@ -197,8 +212,10 @@ class PhotoController extends Controller
      */
     public function destroyFile(Photo $photo)
     {
-        $path = ImageService::generatePath(Constants::ALBUMS_PATH, $photo->name, $photo->id_album);
-        Storage::disk('public')->delete($path);
+        // Delete photo
+        Storage::disk('public')->delete($photo->path);
+        // Delete thumbnail
+        Storage::disk('public')->delete($photo->path_thumb);
         return response();
     }
 }

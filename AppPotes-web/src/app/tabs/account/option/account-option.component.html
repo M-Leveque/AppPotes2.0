@@ -10,14 +10,23 @@
         <mat-form-field appearance="fill">
             <mat-label>Pseudo :</mat-label>
             <input matInput type="name" name="pseudo" [ngModel]="user.name" formControlName="name">
+            <mat-error>
+                Le pseudo est invalide
+            </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Adresse mail de connexion :</mat-label>
             <input matInput type="email" name="mail" [ngModel]="user.email" formControlName="email">
+            <mat-error>
+                L'email est invalide
+            </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Description:</mat-label>
             <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="6" placeholder="(max 00 caractères)" [value]="user.description" formControlName="description" cols="30" rows="1"></textarea>
+             <mat-error>
+                La description est invalide
+            </mat-error>
         </mat-form-field>
     </form>
     <section class="content-btn-page">

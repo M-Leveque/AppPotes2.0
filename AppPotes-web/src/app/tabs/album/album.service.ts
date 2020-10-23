@@ -30,7 +30,7 @@ export class AlbumService {
 
   public getCovers(album){
     if(album.photo == null){
-      return 'storage/img/albums/6/Default.png';
+      return 'storage/img/albums/default.jpg';
     }
     return album.photo.path;
   }

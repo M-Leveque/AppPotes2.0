@@ -6,6 +6,9 @@ use App\Services\AlbumService;
 
 class RequestFieldUtils
 {
+
+    public const TEXT_REGEX = "^[A-Za-zÀ-ÖØ-öø-ÿ '_-]+$";
+
     /**
      * Valid field and return value.
      * @param $request

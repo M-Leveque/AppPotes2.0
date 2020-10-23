@@ -8,7 +8,7 @@ import { ConstantService } from 'src/app/constant.service';
 import { User } from 'src/app/models/User.model';
 import { Subscription } from 'rxjs';
 import { Photo } from 'src/app/models/Photo.model';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PhotoService } from '../../photo/photo.service';
 import { ErrorComponent } from 'src/app/core/popup/error/error.component';
 
@@ -50,9 +50,9 @@ export class AccountOptionComponent implements OnInit {
 
   initForm(){
     this.userForm = this.formBuilder.group({
-      name: '',
-      description: '',
-      email: ''
+      name: ['', [Validators.required, Validators.maxLength(25), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
+      description: ['', [Validators.maxLength(255), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
+      email: ['', [Validators.maxLength(50), Validators.email]]
     })
   }
 
@@ -105,9 +105,9 @@ export class AccountOptionComponent implements OnInit {
 
   getProfileCover(){
     if(this.user && this.user.photo != null){
-      return this.user.photo.path;
+      return this.user.photo.path_thumb;
     }
-    return 'storage/img/albums/6/Default.png';
+    return 'storage/img/albums/default.jpg';
   }
 
   updateProfileCover(cover: Photo){

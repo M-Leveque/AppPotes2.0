@@ -47,9 +47,9 @@ export class AccountComponent implements OnInit {
 
   getProfileCover(){
     if(this.user && this.user.photo != null){
-      return this.user.photo.path;
+      return this.user.photo.path_thumb;
     }
-    return 'storage/img/albums/6/Default.png';
+    return 'storage/img/albums/default.jpg';
   }
 
   public getCover(album){

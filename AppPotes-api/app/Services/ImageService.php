@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Exceptions\PhotoException;
+use app\Shared\Constants;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ImageService
 {
@@ -39,9 +41,9 @@ class ImageService
         Storage::disk('public')->delete($path);
     }
 
-    public static function generatePath($path, $imgName, $type, $folder = null) {
-        if($folder) $path .= $folder.'/';
-        return $path.$imgName.'.'.$type;
+    public static function generatePath($path, $imgName, $ext, $folder = null) {
+        if($folder) $path .= $folder;
+        return $path.$imgName.'.'.$ext;
     }
 
     public static function formatB64($bruteB64File){
@@ -58,5 +60,21 @@ class ImageService
         }
         return $matches[0][0];
         
+    }
+
+    /**
+     * Create a thumbnail of specified size
+     *
+     * @param string $path path of thumbnail
+     * @param int $width
+     * @param int $height
+     */
+    public static function createThumbnail($path, $width, $height)
+    {
+        $path = public_path(Constants::STORAGE_PATH.$path);
+        $img = Image::make($path)->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $img->save($path);
     }
 }

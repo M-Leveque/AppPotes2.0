@@ -17,6 +17,7 @@ class CreatePhotosTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('path');
+            $table->string('path_thumb');
             $table->date('date');
             $table->date('date_upload');
             $table->integer('id_user')->unsigned();

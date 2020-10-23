@@ -4,10 +4,8 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Photo;
-use App\Album;
 use App\Shared\Constants;
 use App\User;
-use Faker\Provider\Image;
 
 class PhotoService
 {
@@ -21,7 +19,7 @@ class PhotoService
     /**
      * Persist photo in bdd
      */
-    public function persist($name, $path, $idAlbum){
+    public function persist($name, $path, $pathThumb, $idAlbum, $userId){
         // Date now
         $now = Carbon::now();
 
@@ -29,9 +27,10 @@ class PhotoService
         $photo = new Photo();
         $photo->name = $name;
         $photo->path = Constants::STORAGE_PATH.$path;
+        $photo->path_thumb = Constants::STORAGE_PATH.$pathThumb;
         $photo->date = $now->toDateTimeString();
         $photo->date_upload = $now->toDateTimeString();
-        $photo->id_user = 1;
+        $photo->id_user = $userId;
         $photo->id_album = $idAlbum;
         $photo->save();
 
@@ -41,12 +40,13 @@ class PhotoService
     /**
      * Persist photo in bdd
      */
-    public function update($name, $path, $idAlbum, $photo){
+    public function update($name, $path, $pathThumb, $idAlbum, $photo){
         // Date now
         $now = Carbon::now();
 
         $photo->name = $name;
         $photo->path = Constants::STORAGE_PATH.$path;
+        $photo->path_thumb = Constants::STORAGE_PATH.$pathThumb;
         $photo->date = $now->toDateTimeString();
         $photo->id_album = $idAlbum;
         $photo->save();
@@ -82,9 +82,11 @@ class PhotoService
     /**
      * Generate path for photo
      */
-    public function generatePath($idAlbum, $name, $type)
+    public function generatePath($idAlbum, $name, $ext, $isThumbnail = false)
     {
-        $album = Album::find($idAlbum);
-        return ImageService::generatePath(Constants::ALBUMS_PATH, $name, $type, $album->id);
+        $folder = "";
+        $folder .= $idAlbum."/";
+        if($isThumbnail) $folder .= "thumb/";
+        return ImageService::generatePath(Constants::ALBUMS_PATH, $name, $ext, $folder);
     }
 }

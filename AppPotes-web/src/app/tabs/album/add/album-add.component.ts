@@ -46,6 +46,7 @@ export class AlbumAddComponent implements OnInit {
       this.photosToUpload = [];
       this.cover = new Photo(0, null);
       this.fileName = "Ajouter une couverture";
+      this.initForm();
     }
 
   /**
@@ -85,9 +86,11 @@ export class AlbumAddComponent implements OnInit {
    * Form init
    */
   initForm(){
+    var name = this.album.name ? this.album.name : "";
+    var description = this.album.description ? this.album.description : "";
     this.albumForm = this.formBuilder.group({
-      name: [this.album.name, [Validators.required, Validators.maxLength(25), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
-      description: [this.album.description, [Validators.maxLength(255), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
+      name: [name, [Validators.required, Validators.maxLength(25), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
+      description: [description, [Validators.maxLength(255), Validators.pattern(this.constantService.TEXT_FIELD_PATTERN)]],
       isPublic: [],
       date: ''
     });

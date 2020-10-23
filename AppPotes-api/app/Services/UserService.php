@@ -12,7 +12,6 @@ class UserService
     const FIELD_NAME = "name";
     const FIELD_DESCRIPTION = "description";
     const FIELD_EMAIL = "email";
-    const FIELD_TEXT_REGEX = "^[A-Za-z0-9 _-]+$";
 
     /**
      * Check if user has access to specific album.
@@ -41,7 +40,7 @@ class UserService
             self::FIELD_NAME.'.max' => self::FIELD_NAME.' must be less than 25 characters long',
             self::FIELD_NAME.'.regex' => self::FIELD_NAME.' contains invalid characters'
         ];
-        return RequestFieldUtils::validRequestField($request, self::FIELD_NAME, 'required|max:25|regex:/'.self::FIELD_TEXT_REGEX.'/i', $error);
+        return RequestFieldUtils::validRequestField($request, self::FIELD_NAME, 'required|max:25|regex:/'.RequestFieldUtils::TEXT_REGEX.'/i', $error);
     }
 
     /**
@@ -52,7 +51,7 @@ class UserService
             self::FIELD_DESCRIPTION.'.max' => self::FIELD_DESCRIPTION.' must be less than 255 characters long', 
             self::FIELD_DESCRIPTION.'.regex' => self::FIELD_DESCRIPTION.' contains invalid characters'
         ];
-        return RequestFieldUtils::validRequestField($request, self::FIELD_DESCRIPTION, 'max:255|regex:/'.self::FIELD_TEXT_REGEX.'/i', $error);
+        return RequestFieldUtils::validRequestField($request, self::FIELD_DESCRIPTION, 'max:255|regex:/'.RequestFieldUtils::TEXT_REGEX.'/i', $error);
     }
 
     /**
