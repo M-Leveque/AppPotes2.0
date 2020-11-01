@@ -4,7 +4,6 @@ import { AccountService } from './account.service';
 import { User } from 'src/app/models/User.model';
 import { ConstantService } from 'src/app/constant.service';
 import { Router } from '@angular/router';
-import { Album } from 'src/app/models/Album.model';
 import { AlbumService } from '../album/album.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {PasswordDialogComponent} from './password-dialog/password-dialog.component';
+import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
 import { PopupComponent } from 'src/app/core/popup/popup.component';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
@@ -33,7 +33,7 @@ export class AccountOptionComponent implements OnInit {
     private accountService : AccountService,
     private photoService : PhotoService,
     private constantService: ConstantService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
@@ -83,7 +83,9 @@ export class AccountOptionComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(PasswordDialogComponent, {
       width: '800px',
-      data: {'user': this.user }
+      data: {
+        user: this.user
+      },
     });
   }
 
@@ -173,5 +175,4 @@ export class AccountOptionComponent implements OnInit {
       }
     )
   }
-
 }

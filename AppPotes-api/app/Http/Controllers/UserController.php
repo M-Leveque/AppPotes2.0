@@ -8,7 +8,6 @@ use App\Exceptions\UserException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -123,14 +122,13 @@ class UserController extends Controller
 
         if($password != null && $oldPassword != null){
 
-            $credentials = ['email'=> $user->email, 'password' => $oldPassword];
-            if (Auth::attempt($credentials)) {
+            if (Hash::check($oldPassword, $user->password)) {
                 $user->password = Hash::make($password);
                 $user->api_token = Str::random(60);
                 $user->save();
             }
             else {
-                return response("Wrong password", 403);
+                throw new UserException(UserException::USER_FORBIDDEN,UserException::createError("Credentials", "Bad credentials"));
             }
         }
 
