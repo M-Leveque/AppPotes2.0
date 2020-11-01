@@ -31,6 +31,7 @@ export class AlbumAddComponent implements OnInit {
   private fileName: String;
 
   private isUpdate = false;
+  private coverUpdate = false;
 
   constructor(
     private albumService: AlbumService,
@@ -130,7 +131,7 @@ export class AlbumAddComponent implements OnInit {
     // Start loader
     this.spinner.show();
 
-    var coverUpdate =  this.cover.b64_image != null;
+    this.coverUpdate =  this.cover.b64_image != null;
     
     // Update album
     let formValues = this.albumForm.value;
@@ -140,7 +141,7 @@ export class AlbumAddComponent implements OnInit {
     formValues["isPublic"] == "1" ? this.album.status = true : this.album.status = false;
 
     // Store cover
-    if(coverUpdate){
+    if(this.coverUpdate){
       this.cover.id_album = 0;
       if(this.album.photo != null){
         this.updateCoverOnserver();
@@ -211,6 +212,10 @@ export class AlbumAddComponent implements OnInit {
         this.storePhotos(this.album.id);
       },
       (error) => {
+        // Delete upload cover
+        if(this.coverUpdate){
+          this.photoService.delete(idCover).subscribe(() => {this.resetCover()});
+        }
         this.displayError(error.error);
         // Done loader
         this.spinner.hide();
@@ -232,6 +237,10 @@ export class AlbumAddComponent implements OnInit {
         this.storePhotos(response.id);
       },
       (error) => {
+        // Delete upload cover
+        if(this.coverUpdate){
+          this.photoService.delete(idCover).subscribe(() => {this.resetCover()});
+        }
         this.displayError(error.error);
         // Done loader
         this.spinner.hide();
@@ -286,6 +295,14 @@ export class AlbumAddComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {});
   }
+
+  /**
+   * display old cover or default
+   */
+  resetCover(){
+    this.cover.b64_image = null
+  }
+
 
   /**
    * Fonction call to 

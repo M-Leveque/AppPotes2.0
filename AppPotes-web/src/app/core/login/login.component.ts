@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ConstantService } from 'src/app/constant.service';
 import { Router } from '@angular/router';
+import { ErrorComponent } from '../popup/error/error.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService,
     private formBuilder: FormBuilder,
-    private constant: ConstantService,
-    private routerNav: Router) {
+    private routerNav: Router,
+    public dialog: MatDialog) {
     this.displayToggle = false;
    }
 
@@ -51,9 +52,35 @@ export class LoginComponent implements OnInit {
         this.routerNav.navigate(['album']);
       },
       (error) => {
-        // TODO : Error case.
+        console.log(error);
+        var errors = {};
+        if(error.status == 400){
+          errors["code"] = 400;
+          errors["label"] = "Mauvais login/mot de passe"
+        }
+        else {
+          errors = error.error;
+        }
+        this.displayError(errors);
       }
     );
+  }
+
+  /**
+   * Display error msg
+   */
+  displayError(error){
+
+    const dialogRef = this.dialog.open(ErrorComponent, {
+      width: '450px',
+      data: {
+        error: error, 
+        callback: null,
+        context: this
+
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   showToggle(value : boolean){

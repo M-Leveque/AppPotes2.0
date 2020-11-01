@@ -10,7 +10,8 @@ export class Error {
         200: "La photo n'est pas valide",
         201: "La photo exsite déjà",
         202: "La photo n'existe pas",
-        203: "Vous n'êtes pas authoerisé à modfier cette photo",
+        203: "Vous n'êtes pas authorisé à modfier cette photo",
+        400: "Mauvais login / mot de passe"
     }
 
     constructor(code: number){
