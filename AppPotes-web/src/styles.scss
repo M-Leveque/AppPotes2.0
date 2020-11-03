@@ -437,6 +437,15 @@ button {
   background-color: #191919;
 }
 
+.btn-page:disabled,
+.btn-page[disabled]{
+  width: 11.145vw; height: 2.65vw;
+  padding: 1px;
+  border-radius: 100px;
+  text-align: center;
+  background: lightgrey;
+}
+
 /* EFFECT */
 #btn-form-co,
 #add-menu a,
@@ -566,6 +575,17 @@ a .icon, .icon-btn {
 .icon-calendar::before {content: "\ea0a";}
 .icon-cash::before {content: "\ea0b";}
 .icon-people::before {content: "\ea19";}
+
+/*-----------------------
+  ERROR
+------------------------*/
+
+.error{
+  color: red;
+  font-size: small;
+  display: flex;
+  justify-content: center;
+}
 
 /*-----------------------
 	MENU AJOUT

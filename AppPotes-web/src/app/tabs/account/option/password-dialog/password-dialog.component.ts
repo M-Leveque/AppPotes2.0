@@ -31,7 +31,14 @@ export class PasswordDialogComponent implements OnInit {
       oldPassword: '',
       newPassword: '',
       newPassword2: ''
-    })
+    }, {validator: this.checkPasswords })
+  }
+
+  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+    let pass = group.get('newPassword').value;
+    let confirmPass = group.get('newPassword2').value;
+
+    return pass === confirmPass ? null : { notSame: true }     
   }
 
   displayError(error){
@@ -66,6 +73,12 @@ export class PasswordDialogComponent implements OnInit {
         }
       );
     }
+  }
+
+  disableValidate(){
+    var formIsInvalid = this.passwdForm.status == "INVALID";
+    var formIsUpdated = this.passwdForm.touched;
+    return ( formIsInvalid && formIsUpdated );
   }
 
 }
