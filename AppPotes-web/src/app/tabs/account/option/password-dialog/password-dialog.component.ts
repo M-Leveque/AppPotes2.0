@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { DialogData } from './password-dialog-data.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../../account.service';
 import { ErrorComponent } from 'src/app/core/popup/error/error.component';
 
@@ -28,9 +28,9 @@ export class PasswordDialogComponent implements OnInit {
 
   initForm(){
     this.passwdForm = this.formBuilder.group({
-      oldPassword: '',
-      newPassword: '',
-      newPassword2: ''
+      oldPassword: ['', [Validators.required]],
+      newPassword: ['', [Validators.required]],
+      newPassword2: ['', [Validators.required]]
     }, {validator: this.checkPasswords })
   }
 

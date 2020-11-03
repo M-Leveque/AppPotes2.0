@@ -44,12 +44,12 @@
   <!-- #Recherche -->
 
   <!-- Album Commun -->
-  <a routerLink="/album/1" routerLinkActive="active">
-    <div id="album-com" class="album" >
+  <div>
+    <a routerLink="/album/1" routerLinkActive="active" id="album-com" class="album">
       <img [src]="host+getCover(sharedAlbum)" alt="vignette de l'album commun"/> 
       <p>{{ sharedAlbum.name }}</p> 
-    </div> 
-  </a>
+    </a>
+  </div> 
 
   <!-- GRID ALBUMS -->
   <section class="grid-gen grid-album">
