@@ -32,6 +32,7 @@ export class AlbumAddComponent implements OnInit {
 
   private isUpdate = false;
   private coverUpdate = false;
+  private idUserConnected;
 
   constructor(
     private albumService: AlbumService,
@@ -48,6 +49,7 @@ export class AlbumAddComponent implements OnInit {
       this.cover = new Photo(0, null);
       this.fileName = "Ajouter une couverture";
       this.initForm();
+      this.idUserConnected = localStorage.getItem("userId");
     }
 
   /**

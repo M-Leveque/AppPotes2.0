@@ -58,7 +58,9 @@ export class AlbumComponent implements OnInit {
         thumbnailsColumns: 4,
         thumbnailsRows: Math.ceil(this.photos.length / 4),
         thumbnailsOrder: NgxGalleryOrder.Row,
-        thumbnailsArrows: false
+        thumbnailsArrows: false,
+        previewZoom: true, 
+        previewRotate: true
       }];
   }
 

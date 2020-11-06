@@ -9,7 +9,6 @@ use App\Services\PhotoService;
 use App\Services\ImageService;
 use App\Services\UserService;
 use App\Exceptions\PhotoException;
-use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +20,8 @@ class PhotoController extends Controller
     private $albumService;
     private $authUser;
 
-    const THUMBNAIL_WIDTH = 300;
-    const THUMBNAIL_HEIGHT =  185;
+    const THUMBNAIL_WIDTH = 600;
+    const THUMBNAIL_HEIGHT =  370;
 
     /**
      * Create a new controller instance.

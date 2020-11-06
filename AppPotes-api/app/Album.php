@@ -18,7 +18,7 @@ class Album extends Model
      * @var array
      */
     protected $hidden = [
-        'id_user', 'date'
+        'date'
     ];
 
 

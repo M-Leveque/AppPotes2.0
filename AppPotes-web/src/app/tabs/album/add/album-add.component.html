@@ -7,7 +7,7 @@
             <div class="title">
                 <h2 *ngIf="!isUpdate">Ajout<br>album</h2>
                 <h2 *ngIf="isUpdate">Modifier<br>album</h2>
-                <button *ngIf="isUpdate && album.id != 1" class="btn-page" (click)="delete(album.id, 'album')"><span>Supprimer</span></button>
+                <button *ngIf="(isUpdate && album.id != 1) && (album.id_user == idUserConnected)" class="btn-page" (click)="delete(album.id, 'album')"><span>Supprimer</span></button>
             </div>
             
             <app-upload-images

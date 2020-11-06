@@ -36,7 +36,9 @@ class AlbumService
         // Create new album object
         $album = new Album();
         $this->checkValidity($album, $isPublic, true, $name);
-        $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
+        // Set creator of album
+        $album->id_user = $authUser->id;
+        $this->persist($album, $name, $description, $idCover, $isPublic);
         return $album;
     }
 
@@ -52,7 +54,7 @@ class AlbumService
         $album = Album::find($id);
         $this->userService->checkUserRights($album, $authUser);
         $this->checkValidity($album, $isPublic, false);
-        $this->persist($album, $name, $description, $idCover, $authUser, $isPublic);
+        $this->persist($album, $name, $description, $idCover, $isPublic);
         return $album;
     }
 
@@ -64,7 +66,7 @@ class AlbumService
      * @param $description
      * @param $path
      */
-    private function persist($album, $name, $description, $idCover, $authUser, $isPublic){
+    private function persist($album, $name, $description, $idCover, $isPublic){
         // Date now
         $now = Carbon::now();
         // Feed album fields
@@ -73,7 +75,6 @@ class AlbumService
         $album->status = $isPublic ? self::PUBLIC_STATUS : self::PRIVATE_STATUS;
         $album->date = $now->toDateTimeString();
         $album->date_created = $now->toDateTimeString();
-        $album->id_user = $authUser->id;
         $album->id_photo = isset($idCover) ? $idCover : 0;
         // Persist on bdd
         $album->save();
