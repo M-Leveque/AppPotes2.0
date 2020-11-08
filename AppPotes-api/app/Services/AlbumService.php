@@ -71,7 +71,7 @@ class AlbumService
         $now = Carbon::now();
         // Feed album fields
         $album->name = $name;
-        $album->description = $description;
+        $album->description = $description == null ? "" : $description;
         $album->status = $isPublic ? self::PUBLIC_STATUS : self::PRIVATE_STATUS;
         $album->date = $now->toDateTimeString();
         $album->date_created = $now->toDateTimeString();
@@ -156,7 +156,7 @@ class AlbumService
             self::FIELD_DESCRIPTION.'.max' => self::FIELD_DESCRIPTION.' must be less than 255 characters long', 
             self::FIELD_DESCRIPTION.'.regex' => self::FIELD_DESCRIPTION.' contains invalid characters'
         ];
-        return RequestFieldUtils::validRequestField($request, self::FIELD_DESCRIPTION, 'max:255|regex:/'.RequestFieldUtils::TEXT_REGEX.'/i', $error);
+        return RequestFieldUtils::validRequestField($request, self::FIELD_DESCRIPTION, 'nullable|max:255|regex:/'.RequestFieldUtils::TEXT_REGEX.'/i', $error);
     }
 
     /**

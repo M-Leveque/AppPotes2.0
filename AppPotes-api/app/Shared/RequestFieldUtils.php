@@ -7,7 +7,7 @@ use App\Services\AlbumService;
 class RequestFieldUtils
 {
 
-    public const TEXT_REGEX = "^[0-9A-Za-zÀ-ÖØ-öø-ÿ '_-]+$";
+    public const TEXT_REGEX = "^[0-9A-Za-zÀ-ÖØ-öø-ÿ '_-]*$";
 
     /**
      * Valid field and return value.

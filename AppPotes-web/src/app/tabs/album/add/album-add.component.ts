@@ -138,7 +138,7 @@ export class AlbumAddComponent implements OnInit {
     // Update album
     let formValues = this.albumForm.value;
     this.album.name = formValues["name"] ? formValues["name"] : this.album.name;
-    this.album.description = formValues["description"] ? formValues["description"] : this.album.description;
+    this.album.description = formValues["description"];
     this.album.date = formValues["date"] ? formValues["date"] : this.album.date;
     formValues["isPublic"] == "1" ? this.album.status = true : this.album.status = false;
 
