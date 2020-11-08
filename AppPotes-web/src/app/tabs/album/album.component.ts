@@ -60,7 +60,9 @@ export class AlbumComponent implements OnInit {
         thumbnailsOrder: NgxGalleryOrder.Row,
         thumbnailsArrows: false,
         previewZoom: true, 
-        previewRotate: true
+        previewRotate: true,
+        previewKeyboardNavigation: true,
+        previewCloseOnEsc: true
       }];
   }
 
