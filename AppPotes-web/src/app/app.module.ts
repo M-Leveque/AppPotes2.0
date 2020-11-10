@@ -37,6 +37,7 @@ import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher 
 } from '@angular/material';
+import { DndDirective } from './core/upload/upload-images/dnd.directive';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {
     UploadImagesComponent,
     PopupComponent,
     PasswordDialogComponent,
-    ErrorComponent
+    ErrorComponent,
+    DndDirective
   ],
   imports: [
     BrowserModule,

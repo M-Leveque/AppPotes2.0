@@ -1661,6 +1661,16 @@ a .icon-link {
   object-fit: cover;
 }
 
+.dropzone {
+  width: 30vw; height: 15vw;
+  border: dashed 1px #979797;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .add-photos {
   width: 5.93vw; height: 5.93vw;
   margin-bottom: 25px;

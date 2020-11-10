@@ -8,9 +8,12 @@
   <input id="add-visuel" (change)="handleFileSelect($event)" type="file">
 </div>
 
-<div *ngIf="isMultipleUpload" class="add-photos">
+<div *ngIf="isMultipleUpload" class="dropzone" (fileDropped)="managePhotosUpload($event)"  appDnd>
+  <div class="add-photos">
   <label for="add-photos">
       <span class="icon-btn icon icon-add-pic"></span>
   </label>
   <input id="add-photos" type="file" (change)="handleFileSelect($event)" multiple/>
+  </div>
+  <span>glisser/déposer les photos ou parcourir</span>
 </div>     

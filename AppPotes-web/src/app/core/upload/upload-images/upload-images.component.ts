@@ -59,29 +59,36 @@ export class UploadImagesComponent implements OnInit {
       }
       // Case multi image upload
       else {
-        var nbPhotoUpload = 0;
-        for(let file of event.target.files){
-          var reader = new FileReader();
-          reader.onload = function(fre) {
-
-            var photo = new Photo( currentContext.filesToUpload.length, null, null, null );
-            photo.b64_image = this.result;
-            photo.name = currentContext.formatImageName(file.name);
-            currentContext.filesToUpload.push(photo);
-            nbPhotoUpload++;
-
-            if(nbPhotoUpload == event.target.files.length){
-              // Stop loader
-              currentContext.spinner.hide();
-            }
-
-          }
-          reader.readAsDataURL(file);
-        }
+        this.managePhotosUpload(event.target.files);
       }
     }
 
   }
+
+  managePhotosUpload(files){
+    var currentContext = this;
+    var nbPhotoUpload = 0;
+
+    for(let file of files){
+      var reader = new FileReader();
+      reader.onload = function(fre) {
+
+        var photo = new Photo( currentContext.filesToUpload.length, null, null, null );
+        photo.b64_image = this.result;
+        photo.name = currentContext.formatImageName(file.name);
+        currentContext.filesToUpload.push(photo);
+        nbPhotoUpload++;
+
+        if(nbPhotoUpload == files.length){
+          // Stop loader
+          currentContext.spinner.hide();
+        }
+
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
 
   formatImageName(name: String){
     let batman = name.split('.');
