@@ -58,7 +58,7 @@ export class AccountOptionComponent implements OnInit {
 
   openCancel(): void {
     this.dialog.open(PopupComponent, {
-      width: '450px',
+      width: '500px',
       data: {
         title: "Annuler les modifications", 
         msg: "Voulez-vous vraiment annuler vos modifications ?",
@@ -70,7 +70,7 @@ export class AccountOptionComponent implements OnInit {
 
   openConfirm(): void {
     const dialogRef = this.dialog.open(PopupComponent, {
-      width: '450px',
+      width: '500px',
       data: {
         title: "Confirmer", 
         msg: "Etes-vous sûr de vos modifications ?",
@@ -80,18 +80,20 @@ export class AccountOptionComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openPasswordDialog(): void {
     const dialogRef = this.dialog.open(PasswordDialogComponent, {
       width: '800px',
       data: {
-        user: this.user
+        user: this.user, 
+        callback: this.redirectToLoginPage,
+        context: this
       },
     });
   }
 
   displayError(error){
     const dialogRef = this.dialog.open(ErrorComponent, {
-      width: '450px',
+      width: '500px',
       data: {
         error: error, 
         callback: null,
@@ -180,5 +182,9 @@ export class AccountOptionComponent implements OnInit {
     var formIsInvalid = this.userForm.status == "INVALID";
     var formIsUpdated = this.userForm.touched;
     return ( formIsInvalid && formIsUpdated );
+  }
+
+  redirectToLoginPage(context: any){
+    context.router.navigate(['login']);
   }
 }

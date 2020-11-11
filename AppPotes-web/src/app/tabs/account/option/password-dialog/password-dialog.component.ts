@@ -13,6 +13,7 @@ import { ErrorComponent } from 'src/app/core/popup/error/error.component';
 export class PasswordDialogComponent implements OnInit {
 
    public passwdForm : FormGroup;
+   public context: any;
 
   constructor(
     public dialogRef: MatDialogRef<PasswordDialogComponent>,
@@ -21,6 +22,7 @@ export class PasswordDialogComponent implements OnInit {
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
       this.initForm();
+      this.context = this.data.context;
     }
 
   ngOnInit() {
@@ -66,6 +68,7 @@ export class PasswordDialogComponent implements OnInit {
       }
       this.accountService.updatePassword(objPassword, this.data.user.id).subscribe(
         (response)=>{
+          this.data.callback(this.context);
           this.dialogRef.close();
         },
         (error) => {
