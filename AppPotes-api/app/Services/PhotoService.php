@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Photo;
+use App\Services\AlbumService;
 use App\Shared\Constants;
 use App\User;
 

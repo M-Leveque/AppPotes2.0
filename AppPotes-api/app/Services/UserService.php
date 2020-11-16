@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Services\AlbumService;
 use App\Exceptions\AlbumException;
 use App\Exceptions\UserException;
 use App\Shared\RequestFieldUtils;
