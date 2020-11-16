@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Album;
-use App\Services\UserService;
 use App\Exceptions\AlbumException;
 use App\Shared\RequestFieldUtils;
 use Carbon\Carbon;
@@ -20,9 +19,9 @@ class AlbumService
     const PRIVATE_STATUS = 0;
     const PUBLIC_STATUS = 1;
 
-    private UserService $userService;
+    private $userService;
 
-    public function __construct(UserService $userService){
+    public function __construct($userService){
         $this->userService = $userService;
     }
 
