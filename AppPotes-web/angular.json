@@ -57,6 +57,22 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stage.ts"
+                }
+              ]
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },
@@ -68,6 +84,9 @@
           "configurations": {
             "production": {
               "browserTarget": "AppPotes-web:build:production"
+            },
+            "staging": {
+              "browserTarget": "AppPotes-web:build:staging"
             }
           }
         },
@@ -122,9 +141,34 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "AppPotes-web:serve:production"
+              "devServerTarget": "AppPotes-web:serve:production",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "staging": {
+              "devServerTarget": "AppPotes-web:serve:production",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stage.ts"
+                }
+              ]
+            },
+            "dev": {
+              "devServerTarget": "AppPotes-web:serve:production",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
+
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
