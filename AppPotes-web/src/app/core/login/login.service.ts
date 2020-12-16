@@ -6,13 +6,13 @@ import { ConstantService } from 'src/app/constant.service';
 @Injectable()
 export class LoginService {
   
-  url:string= "http://127.0.0.1:8000/api/login";
+  basePath:string= "api/login";
 
   public constructor(private http : HttpClient,
     private constant: ConstantService){}
 
   public login(data: any) : Observable<any>{
-    return this.http.post<any>(this.url, data);
+    return this.http.post<any>(this.constant.host+this.basePath, data);
   }
 
   public isAuthenticated(): boolean {

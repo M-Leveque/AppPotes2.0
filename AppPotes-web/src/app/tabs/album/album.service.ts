@@ -7,9 +7,7 @@ import { ConstantService } from 'src/app/constant.service';
 export class AlbumService {
   
   httpOptions = {};
-  url:string= "http://127.0.0.1:8000/api/albums";
-  private album = {};
-  private error;
+  basePath:string= "api/albums";
 
   public constructor(
     private http : HttpClient,
@@ -17,15 +15,15 @@ export class AlbumService {
   ){}
 
   public all(){
-    return this.http.get<any>(this.url, this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath, this.httpOptions);
   }
 
   public allCreatedByUser(){
-    return this.http.get<any>(this.url+"/byUser", this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath+"/byUser", this.httpOptions);
   }
 
   public get(id : Number) : Observable<any>{
-    return this.http.get<any>(this.url+"/"+id, this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath+"/"+id, this.httpOptions);
   }
 
   public getCovers(album){
@@ -36,18 +34,18 @@ export class AlbumService {
   }
 
   public getPhotos(id : Number) : Observable<any>{
-    return this.http.get<any>(this.url+"/"+id, this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath+"/"+id, this.httpOptions);
   }
 
   public storeAlbum(album: any) : Observable<any>{
-    return this.http.post<any>(this.url, album, this.httpOptions);
+    return this.http.post<any>(this.constant.host+this.basePath, album, this.httpOptions);
   }
 
   public updateAlbum(album: any) : Observable<any>{
-    return this.http.put<any>(this.url+"/"+album.id, album, this.httpOptions);
+    return this.http.put<any>(this.constant.host+this.basePath+"/"+album.id, album, this.httpOptions);
   }
 
   public delete(id: Number) : Observable<any>{
-    return this.http.delete<any>(this.url+"/"+id, this.httpOptions);
+    return this.http.delete<any>(this.constant.host+this.basePath+"/"+id, this.httpOptions);
   }
 }

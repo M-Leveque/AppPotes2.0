@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Photo } from 'src/app/models/Photo.model';
+import { ConstantService } from 'src/app/constant.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,12 @@ import { Photo } from 'src/app/models/Photo.model';
 export class PhotoService {
 
   httpOptions = {};
-  url:string= "http://127.0.0.1:8000/api/photos/";
+  basePath:string= "api/photos/";
   private photo = {};
   private error;
 
-  public constructor(private http : HttpClient){
+  public constructor(private http : HttpClient,
+    private constant: ConstantService){
     this.httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer gokKqRpQvqo2cdpc1hTM7H1BTeOPfIl6TuFWasUZmIwr0YzFaCX4amieEbtg'
@@ -25,7 +27,7 @@ export class PhotoService {
    * @param photo 
    */
   public add(photo: Photo){
-    return this.http.post<any>(this.url, photo, this.httpOptions);
+    return this.http.post<any>(this.constant.host+this.basePath, photo, this.httpOptions);
   }
 
   /**
@@ -33,7 +35,7 @@ export class PhotoService {
    * @param photo 
    */
   public update(newPhoto: Photo, idOldPhoto: Number){
-    return this.http.put<any>(this.url+idOldPhoto, newPhoto, this.httpOptions);
+    return this.http.put<any>(this.constant.host+this.basePath+idOldPhoto, newPhoto, this.httpOptions);
   }
 
   /**
@@ -41,7 +43,7 @@ export class PhotoService {
    * @param id photo
    */
   public get(id: Number){
-    return this.http.get<any>(this.url + id, this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath + id, this.httpOptions);
   }
 
   /**
@@ -50,7 +52,7 @@ export class PhotoService {
    * @param id 
    */
   public getByAlbum(id: Number){
-    return this.http.get<any>(this.url +"byAlbum/"+ id, this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath +"byAlbum/"+ id, this.httpOptions);
   }
 
   /**
@@ -58,11 +60,11 @@ export class PhotoService {
    * @param id photo
    */
   public delete(id: Number){
-    return this.http.delete<any>(this.url + id, this.httpOptions);
+    return this.http.delete<any>(this.constant.host+this.basePath + id, this.httpOptions);
   }
 
   public clearTmp(id: String){
-    return this.http.delete<any>(this.url + "deleteTmpFile/" + id, this.httpOptions)
+    return this.http.delete<any>(this.constant.host+this.basePath + "deleteTmpFile/" + id, this.httpOptions)
   }
 
     /**

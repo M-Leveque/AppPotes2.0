@@ -8,7 +8,7 @@ import { User } from 'src/app/models/User.model';
 export class AccountService {
   
   httpOptions = {};
-  url:string= "http://127.0.0.1:8000/api/users";
+  basePath:string= "api/users";
   private album = {};
   private error;
 
@@ -18,19 +18,19 @@ export class AccountService {
   ){}
 
   public all(){
-    return this.http.get<any>(this.url, this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath, this.httpOptions);
   }
 
   public get(id : Number) : Observable<any>{
-    return this.http.get<any>(this.url+"/"+id, this.httpOptions);
+    return this.http.get<any>(this.constant.host+this.basePath+"/"+id, this.httpOptions);
   }
 
   public update(user : User) : Observable<any>{
-    return this.http.put<any>(this.url+"/"+user.id, user, this.httpOptions);
+    return this.http.put<any>(this.constant.host+this.basePath+"/"+user.id, user, this.httpOptions);
   }
 
   public updatePassword(passwdObj: any, userId: Number): Observable<any>{
-    return this.http.put<any>(this.url+"/"+userId+"/update/password", passwdObj, this.httpOptions);
+    return this.http.put<any>(this.constant.host+this.basePath+"/"+userId+"/update/password", passwdObj, this.httpOptions);
   }
 
 }
