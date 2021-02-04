@@ -87,6 +87,9 @@
             },
             "staging": {
               "browserTarget": "AppPotes-web:build:staging"
+            },
+            "dev": {
+              "browserTarget": "AppPotes-web:build:dev"
             }
           }
         },

@@ -56,7 +56,7 @@ class ImageService
         $matches = null;
         preg_match("~".self::FILE_FORMAT_REGEX."~", $b64File, $matches, PREG_OFFSET_CAPTURE);
         if(empty($matches) || empty($matches[0])){
-            throw new PhotoException(PhotoException::PHOTO_NOT_VALID ,PhotoException::createError('photo', 'Photo extension is not valid'));
+            throw new PhotoException(PhotoException::PHOTO_NOT_VALID , PhotoException::createError('photo', 'Photo extension is not valid'));
         }
         return $matches[0][0];
         

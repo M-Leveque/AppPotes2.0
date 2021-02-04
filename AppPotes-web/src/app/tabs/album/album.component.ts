@@ -54,7 +54,7 @@ export class AlbumComponent implements OnInit {
       {
         image: false,
         width: '100%',
-        height: (Math.ceil(this.photos.length / 4) * 30)+'vh',
+        height: (Math.ceil(this.photos.length / 4.5) * 30)+'vh',
         thumbnailsColumns: 4,
         thumbnailsRows: Math.ceil(this.photos.length / 4),
         thumbnailsOrder: NgxGalleryOrder.Row,

@@ -17,7 +17,7 @@ export class AlbumListComponent implements OnInit {
   
   private albumSubscription;
   private sharedAlbum = {};
-  private albums = [];
+  public albums = [];
 
   //Save for albums
   private allAlbums : any[];
@@ -47,8 +47,6 @@ export class AlbumListComponent implements OnInit {
 
 
   public sort(value){
-    console.log(this.albums);
-    console.log(value);
     this.albums.sort( (a, b) => {
       let v1 : any;
       let v2 : any;
