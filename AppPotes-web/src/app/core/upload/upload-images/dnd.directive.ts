@@ -8,7 +8,6 @@ export class DndDirective {
   @Output() fileDropped = new EventEmitter<any>();
 
   constructor() {
-    console.log("bonsoir");
   }
 
   ngOnInit(): void { 
@@ -23,15 +22,11 @@ export class DndDirective {
   @HostListener('dragover', ['$event']) onDragOver(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-
-    console.log('DragOver');
   }
 
   @HostListener('dragleave', ['$event']) onDragLeave(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-
-    console.log('DragLeave');
   }
 
   @HostListener('drop', ['$event']) ondrop(evt) {

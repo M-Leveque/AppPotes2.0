@@ -36,7 +36,6 @@ export class authInterceptor implements HttpInterceptor {
                     message: error.message,
                     reason: error.error
                 };
-                console.log(data);
                 return throwError(error);
             }));
     }

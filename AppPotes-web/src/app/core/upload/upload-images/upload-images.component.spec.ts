@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ConstantService } from 'src/app/constant.service';
 
 import { UploadImagesComponent } from './upload-images.component';
 
@@ -8,7 +9,8 @@ describe('UploadImagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UploadImagesComponent ]
+      declarations: [ UploadImagesComponent ],
+      providers: [ConstantService]
     })
     .compileComponents();
   }));

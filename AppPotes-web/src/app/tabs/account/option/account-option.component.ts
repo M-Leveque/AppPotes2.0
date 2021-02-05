@@ -143,7 +143,6 @@ export class AccountOptionComponent implements OnInit {
   storeCover(){
     this.photoService.add(this.profileCover).subscribe(
       (response) => {
-        console.log(response);
         this.user.photo = response;
         this.updateUser();
       },
@@ -156,7 +155,6 @@ export class AccountOptionComponent implements OnInit {
   updateCover(){
     this.photoService.update(this.profileCover, this.user.photo.id).subscribe(
       (response) => {
-        console.log(response);
         this.user.photo = response;
         this.updateUser();
       },

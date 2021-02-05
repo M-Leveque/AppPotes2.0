@@ -16,8 +16,8 @@ export class AccountComponent implements OnInit {
   private accountSubscription:  Subscription;
   private albumSubscription: Subscription;
 
+  public user: User;
   private albums = [];
-  private user: User;
   private host: String;
   private path;
 

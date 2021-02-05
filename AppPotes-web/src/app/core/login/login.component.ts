@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
         this.routerNav.navigate(['album']);
       },
       (error) => {
-        console.log(error);
         var errors = {};
         if(error.status == 400){
           errors["code"] = 400;
