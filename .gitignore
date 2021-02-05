@@ -5,3 +5,5 @@
 /AppPotes-api/storage/app/public/*
 /AppPotes-api/public/storage/*
 AppPotes-web/package-lock.json
+AppPotes-api/.vscode/launch.json
+AppPotes-web/.vscode/launch.json
