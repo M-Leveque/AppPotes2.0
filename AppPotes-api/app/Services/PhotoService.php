@@ -27,8 +27,8 @@ class PhotoService
         // Store photo to bdd
         $photo = new Photo();
         $photo->name = $name;
-        $photo->path = Constants::STORAGE_PATH.$path;
-        $photo->path_thumb = Constants::STORAGE_PATH.$pathThumb;
+        $photo->path = $path;
+        $photo->path_thumb = $pathThumb;
         $photo->date = $now->toDateTimeString();
         $photo->date_upload = $now->toDateTimeString();
         $photo->id_user = $userId;
@@ -46,8 +46,8 @@ class PhotoService
         $now = Carbon::now();
 
         $photo->name = $name;
-        $photo->path = Constants::STORAGE_PATH.$path;
-        $photo->path_thumb = Constants::STORAGE_PATH.$pathThumb;
+        $photo->path = $path;
+        $photo->path_thumb = $pathThumb;
         $photo->date = $now->toDateTimeString();
         $photo->id_album = $idAlbum;
         $photo->save();

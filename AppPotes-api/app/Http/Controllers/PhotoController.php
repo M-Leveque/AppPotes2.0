@@ -11,6 +11,7 @@ use App\Services\UserService;
 use App\Exceptions\PhotoException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhotoController extends Controller
@@ -33,6 +34,7 @@ class PhotoController extends Controller
         $this->middleware('auth:api');
         $this->albumService = new AlbumService(new UserService());
         $this->photoService = new PhotoService($this->albumService);
+        $this->userServce = new UserService();
         $this->authUser = auth()->guard('api')->user();
     }
     
@@ -117,6 +119,19 @@ class PhotoController extends Controller
     }
 
     /**
+     * Display the specified photo
+     * 
+     * @param Photo $photo
+     * @return Response File
+     */
+    public function showFile(int $idPhoto, bool $thumb)
+    {
+        $photo = Photo::find($idPhoto);
+        $photopath = $thumb ? $photo->path_thumb : $photo->path;
+        return response()->file(Storage::disk('public')->path($photopath));
+    }
+
+    /**
      * Display Photos link to album.
      *
      * @param  int $idAlbum
@@ -125,6 +140,7 @@ class PhotoController extends Controller
     public function showByAlbum(int $idAlbum)
     {   
         $album = Album::find($idAlbum)->photos;
+        $this->checkUserRigths($album);
         return response()->json($album);
     }
 
@@ -216,5 +232,9 @@ class PhotoController extends Controller
         // Delete thumbnail
         Storage::disk('public')->delete($photo->path_thumb);
         return response();
+    }
+
+    private function checkUserRigths(Photo $photo){
+        $this->userService->checkUserRights(Album::find($photo->id_album), $this->authUser);
     }
 }

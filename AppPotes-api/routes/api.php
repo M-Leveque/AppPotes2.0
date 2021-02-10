@@ -19,7 +19,8 @@ Route::post('register', 'Auth\RegisterController@create');
 
 // Routes for Photos controller
 Route::resource('photos','PhotoController');
-Route::get('/photos/byAlbum/{id}', 'PhotoController@showByAlbum');
+Route::get('/photos/byAlbum/{album}', 'PhotoController@showByAlbum');
+Route::get('/photos/files/{photo}/{thumb}', 'PhotoController@showFile')->middleware('check.rights.photo');
 
 // Routes for Album controller
 Route::get('/albums/byUser', 'AlbumController@createdByUser');

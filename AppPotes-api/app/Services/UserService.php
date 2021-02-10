@@ -15,15 +15,6 @@ class UserService
     const FIELD_EMAIL = "email";
 
     /**
-     * Check if user has access to specific album.
-     */
-    public function checkUserRights($album, $user){
-        if($album->status == AlbumService::PRIVATE_STATUS && $album->id_user != $user->id){
-            throw new AlbumException(AlbumException::ALBUM_FORBIDDEN, AlbumException::createError("User","The user does not have access to this album"));
-        } 
-    }
-
-    /**
      * Check if user has access to this user
      */
     public function checkUserUpdateRights($userConnected, $user){
