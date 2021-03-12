@@ -47,6 +47,15 @@ export class PhotoService {
   }
 
   /**
+   * Method GET for get photo file
+   * @param id 
+   * @param isThumb
+   */
+  public getFile(id: Number, isThumb: boolean){
+    return this.http.get<any>(this.constant.host+this.basePath+'file/'+id+"/"+isThumb);
+  }
+
+  /**
    * Method GET for get photos
    * by albums
    * @param id 

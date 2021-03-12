@@ -98,7 +98,7 @@ class AlbumController extends Controller
     /**
      * Get album informations and photos ids.
      *
-     * @param int $idAlbum
+     * @param Album $album
      * @return Response
      */
     public function show(Album $album)
@@ -126,9 +126,10 @@ class AlbumController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param \Album album
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Album $album)
     {
         // Feed fields
         try{
@@ -141,7 +142,7 @@ class AlbumController extends Controller
             throw new AlbumException(AlbumException::ALBUM_FIELD_NOT_VALID, $e->errors());
         }
 
-        $album = $this->albumService->update($id, $idCover, $name, $description, $this->authUser, $isPublic);          
+        $album = $this->albumService->update($album, $idCover, $name, $description, $this->authUser, $isPublic);          
         return response($album, Response::HTTP_OK);
     }
 

@@ -58,10 +58,7 @@ class AlbumService
      * @param $description
      * @param $photos
      */
-    public function update($id, $idCover, $name, $description, $authUser, $isPublic) {
-        // Create new album object
-        $album = Album::find($id);
-        $this->userService->checkUserRights($album, $authUser);
+    public function update($album, $idCover, $name, $description, $authUser, $isPublic) {
         $this->checkValidity($album, $isPublic, false);
         $this->persist($album, $name, $description, $idCover, $isPublic);
         return $album;

@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxGalleryModule } from 'ngx-gallery';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
@@ -38,6 +37,7 @@ import {
   ShowOnDirtyErrorStateMatcher 
 } from '@angular/material';
 import { DndDirective } from './core/upload/upload-images/dnd.directive';
+import { GalleryComponent } from './core/gallery/gallery.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,8 @@ import { DndDirective } from './core/upload/upload-images/dnd.directive';
     PopupComponent,
     PasswordDialogComponent,
     ErrorComponent,
-    DndDirective
+    DndDirective,
+    GalleryComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +65,6 @@ import { DndDirective } from './core/upload/upload-images/dnd.directive';
     AppRoutingModule,
     HttpClientModule,
     NgxSpinnerModule,
-    NgxGalleryModule,
     MatDialogModule,
     BrowserAnimationsModule,
     MatFormFieldModule,

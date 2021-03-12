@@ -1,0 +1,19 @@
+<section id="gallery">
+    <!-- Thumb gallery -->
+    <ul *ngFor="let photo of photos">
+        <li (click)="view(photo)">{{photo.name}}</li>
+    </ul>
+    <!-- Photo viewer -->
+    <div *ngIf="showViewer" id="viewer">
+        <div>
+            <img [src]="file">
+            <div class="viewer_btns">
+                <button class="viewer_btn icon-btn icon icon-close" (click)="close()"></button>
+            </div>
+            <div class="viewer_nav">
+                <button class="viewer_btn icon-btn icon-lg icon-arrow-left" (click)="goBack()"></button>
+                <button class="viewer_btn icon-btn icon-lg icon-arrow-right" (click)="goNext()"></button>
+            </div>
+        </div>
+    </div>
+</section>

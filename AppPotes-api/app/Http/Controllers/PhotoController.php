@@ -49,7 +49,7 @@ class PhotoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource.        $album = Album::find($idAlbum);
      *
      * @return Response
      */
@@ -93,16 +93,17 @@ class PhotoController extends Controller
         $path = $this->photoService->generatePath($idAlbum, $name, $type);
         $thumbPath = $this->photoService->generatePath($idAlbum, $name, $type, true);
 
-        // Persist photo
-        $photo = $this->photoService->persist($name, $path, $thumbPath, $idAlbum, $this->authUser->id);
-
         // Store photo on serveur
         ImageService::uploadB64Img($b64File, $path);
+
         // Store thumbnail on serveur
         ImageService::uploadB64Img($b64File, $thumbPath);
 
         // Create thumbnail form uplaoded img
         ImageService::createThumbnail($thumbPath, self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
+
+        // Persist photo
+        $photo = $this->photoService->persist($name, $path, $thumbPath, $idAlbum, $this->authUser->id);
         
         return response()->json($photo);
     }
@@ -124,9 +125,8 @@ class PhotoController extends Controller
      * @param Photo $photo
      * @return Response File
      */
-    public function showFile(int $idPhoto, bool $thumb)
+    public function showFile(Photo $photo, bool $thumb)
     {
-        $photo = Photo::find($idPhoto);
         $photopath = $thumb ? $photo->path_thumb : $photo->path;
         return response()->file(Storage::disk('public')->path($photopath));
     }
@@ -134,14 +134,13 @@ class PhotoController extends Controller
     /**
      * Display Photos link to album.
      *
-     * @param  int $idAlbum
+     * @param  Album $album
      * @return Response
      */
-    public function showByAlbum(int $idAlbum)
+    public function showByAlbum(Album $album)
     {   
-        $album = Album::find($idAlbum)->photos;
-        $this->checkUserRigths($album);
-        return response()->json($album);
+        $this->albumService->checkUserRights($album, $this->authUser);
+        return response()->json($album->photos);
     }
 
     /**
@@ -200,13 +199,11 @@ class PhotoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Photo $photo
      * @return httpResponse
      */
-    public function destroy(int $id)
+    public function destroy(Photo $photo)
     {   
-        // Get photo in database
-        $photo = Photo::find($id);
         
         if($photo == null) {
             return response()->json("Photo not found", Response::HTTP_NOT_FOUND);
@@ -232,9 +229,5 @@ class PhotoController extends Controller
         // Delete thumbnail
         Storage::disk('public')->delete($photo->path_thumb);
         return response();
-    }
-
-    private function checkUserRigths(Photo $photo){
-        $this->userService->checkUserRights(Album::find($photo->id_album), $this->authUser);
     }
 }

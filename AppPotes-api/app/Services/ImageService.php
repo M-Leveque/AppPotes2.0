@@ -70,8 +70,8 @@ class ImageService
      * @param int $height
      */
     public static function createThumbnail($path, $width, $height)
-    {
-        $path = public_path($path);
+    {   
+        $path = Storage::disk('public')->path($path);
         $img = Image::make($path)->resize($width, $height, function ($constraint) {
             $constraint->aspectRatio();
         });

@@ -62,7 +62,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cors' => \App\Http\Middleware\Cors::class,
-        'check.rights.photo' => \App\Http\Middleware\CheckPhotoRights::class
+        'rights' => \App\Http\Middleware\CheckRessourceRights::class
     ];
 
     /**

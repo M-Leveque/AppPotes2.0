@@ -15,6 +15,6 @@
 
 	<section id="grid-pic">
 		<a class="reveal" [routerLink]="'/album-add/'+idAlbum" routerLinkActive="active"><div class="icon-btn icon icon-add-pic"></div>Modfier<br>l'album</a>
-    	<ngx-gallery *ngIf="photos.length != null" [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+    	<app-gallery *ngIf="photos.length > 0" [photos]="photos"></app-gallery>
 	</section>
 </main>
