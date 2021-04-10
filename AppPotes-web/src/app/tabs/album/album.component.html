@@ -3,14 +3,13 @@
 	<!-- HEADER ALBUM -->
 	<section id="header-pic">
 		<!-- Vignette album -->
-		<img [src]="host+getCover(album)" alt="Couverture l'album">
-		
+		<img *ngIf="album.id != undefined" [src]="cover" alt="Couverture l'album">
 		<!-- Infos album -->
-    <div>
-      <p>Créé le <span>{{ album.date_created }}</span></p>
-      <h1>{{ album.name }}</h1>
-      <p>{{ album.description }}</p>
-    </div>
+		<div>
+			<p>Créé le <span>{{ album.date_created }}</span></p>
+			<h1>{{ album.name }}</h1>
+			<p>{{ album.description }}</p>
+		</div>
 	</section>
 
 	<section id="grid-pic">

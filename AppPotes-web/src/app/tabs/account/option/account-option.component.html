@@ -3,7 +3,7 @@
     <app-upload-images
     [isMultipleUpload]="false"
     [fileToUpload]="profileCover"
-    [simpleImagePath]="getProfileCover()"
+    [simpleImage]="getProfileCover()"
     (newCoverEvent)="updateProfileCover($event)" ></app-upload-images>
     
     <form *ngIf="user" [formGroup]="userForm">

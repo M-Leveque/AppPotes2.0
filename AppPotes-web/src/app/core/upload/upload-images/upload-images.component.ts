@@ -3,6 +3,7 @@ import { Photo } from 'src/app/models/Photo.model';
 import { ConstantService } from 'src/app/constant.service';
 import { timeout } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PhotoService } from 'src/app/tabs/photo/photo.service';
 
 @Component({
   selector: 'app-upload-images',
@@ -14,20 +15,25 @@ export class UploadImagesComponent implements OnInit {
   @Input() isMultipleUpload: boolean;
   @Input() filesToUpload: Photo[];
   @Input() fileToUpload: Photo;
-  @Input() simpleImagePath: String;
+  @Input() simpleImage: Photo;
 
   @Output() newCoverEvent = new EventEmitter<Photo>();
 
   private host: String;
   private path;
+  
+  public cover;
 
   constructor(
     private constantService: ConstantService,
+    private photoService: PhotoService,
     private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
     this.host = this.constantService.host;
     this.path = this.constantService.path;
+
+    this.getCover();
   }
 
   resetPhotos(){
@@ -43,13 +49,12 @@ export class UploadImagesComponent implements OnInit {
 
       // Case one image upload
       if(!this.isMultipleUpload){
-        var photo = new Photo( 0, null, null, null );
         var reader = new FileReader();
         reader.onload = function(file) {
-
-          photo.b64_image = this.result;
-          photo.name = currentContext.formatImageName(event.target.files[0].name);
-          currentContext.newCoverEvent.emit(photo);
+          currentContext.simpleImage = new Photo(0, '');
+          currentContext.simpleImage.b64_image = this.result;
+          currentContext.simpleImage.name = currentContext.formatImageName(event.target.files[0].name);
+          currentContext.newCoverEvent.emit(currentContext.simpleImage);
 
           // Stop loader
           currentContext.spinner.hide();
@@ -91,10 +96,21 @@ export class UploadImagesComponent implements OnInit {
 
 
   formatImageName(name: String){
-    let batman = name.split('.');
-    if(batman.length > 1) {
-      name = batman.slice(0, -1).join('.');
+    let array = name.split('.');
+    if(array.length > 1) {
+      name = array.slice(0, -1).join('.');
     }
     return name;
+  }
+
+  getCover(){ 
+    var context = this;
+    if(this.simpleImage != undefined){
+      this.photoService.get64File(this.simpleImage.id, true).subscribe(
+        (file) => {
+          context.simpleImage.b64_image = file;
+        }
+      );
+    }
   }
 }

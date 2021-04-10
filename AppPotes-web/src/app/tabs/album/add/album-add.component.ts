@@ -15,24 +15,25 @@ import { ErrorComponent } from 'src/app/core/popup/error/error.component';
 @Component({
   selector: 'app-album-add',
   templateUrl: './album-add.component.html',
+  styleUrls: ['./album-add.component.sass'],
 })
 export class AlbumAddComponent implements OnInit {
 
   // Local variables
-  private host: String;
+  public host: String;
   private path: Object;
-  private photos: any[];
-  private photosToUpload: Photo[];
-  private cover: Photo;
-  private album: Album;
+  public photos: any[];
+  public photosToUpload: Photo[];
+  public cover: Photo;
+  public album: Album;
   private albumInfosSubscription:  Subscription;
   private albumPhotosSubscription: Subscription;
-  private albumForm: FormGroup;
+  public albumForm: FormGroup;
   private fileName: String;
 
-  private isUpdate = false;
-  private coverUpdate = false;
-  private idUserConnected;
+  public isUpdate = false;
+  public coverUpdate = false;
+  public idUserConnected;
 
   constructor(
     private albumService: AlbumService,
@@ -56,7 +57,6 @@ export class AlbumAddComponent implements OnInit {
    * Initialisation of component.
    */
   ngOnInit() { 
-
     this.host = this.constantService.host;
     this.path = this.constantService.path;
 
@@ -73,7 +73,10 @@ export class AlbumAddComponent implements OnInit {
             this.initForm();
           });  
         this.albumPhotosSubscription = this.photoService.getByAlbum(idAlbum)
-          .subscribe(photos => this.photos = photos);
+          .subscribe((photos) => {
+            this.photos = photos
+            this.initPhotos();
+          });
       }
     }
   }
@@ -97,6 +100,20 @@ export class AlbumAddComponent implements OnInit {
       isPublic: [],
       date: ''
     });
+  }
+
+  initPhotos(){
+    for(var photo of this.photos){
+      this.initPhoto(photo);
+    }
+  }
+
+  initPhoto(photo){
+    this.photoService.get64File(photo.id, true).subscribe(
+      (file) => {
+        photo.b64_image = file;
+      }
+    );
   }
 
   /**
@@ -362,8 +379,8 @@ export class AlbumAddComponent implements OnInit {
     }
   };
 
-  getCover(){
-    return this.albumService.getCovers(this.album);
+  displayDeleteBtn(){
+    return (this.isUpdate && this.album.id != 1 ) && (this.album.id_user == this.idUserConnected)
   }
 
   ngOnDestroy() {

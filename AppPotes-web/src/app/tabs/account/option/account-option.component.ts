@@ -108,10 +108,7 @@ export class AccountOptionComponent implements OnInit {
   }
 
   getProfileCover(){
-    if(this.user && this.user.photo != null){
-      return this.user.photo.path_thumb;
-    }
-    return 'storage/img/albums/default.jpg';
+      return this.user.photo;
   }
 
   updateProfileCover(cover: Photo){

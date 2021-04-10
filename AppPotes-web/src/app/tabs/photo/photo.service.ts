@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Photo } from 'src/app/models/Photo.model';
 import { ConstantService } from 'src/app/constant.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -50,9 +51,23 @@ export class PhotoService {
    * Method GET for get photo file
    * @param id 
    * @param isThumb
+   * @param src : Source to return image to base64
    */
-  public getFile(id: Number, isThumb: boolean){
-    return this.http.get<any>(this.constant.host+this.basePath+'file/'+id+"/"+isThumb);
+  public get64File(id: Number, isThumb: boolean) {
+    return new Observable((observer) => {
+        this.http.get<any>(this.constant.host+this.basePath+'file/'+id+"/"+isThumb, { responseType: 'blob' as 'json'}).subscribe(
+          (file) => {
+            var reader = new FileReader();
+            reader.readAsDataURL(file); 
+            reader.onloadend = function() {
+              observer.next(reader.result);
+            }
+          },
+          (error) => {
+            observer.error(error);
+          }
+        );
+    });
   }
 
   /**

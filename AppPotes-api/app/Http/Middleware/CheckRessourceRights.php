@@ -48,7 +48,7 @@ class CheckRessourceRights
     }
 
     private function managePhotoRigths($photo){
-        $this->manageAlbumRigths($photo->id_album);
+        $this->manageAlbumRigths(Album::find($photo->id_album));
     }
 
 

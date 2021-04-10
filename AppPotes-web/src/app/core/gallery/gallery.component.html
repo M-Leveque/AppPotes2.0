@@ -1,7 +1,9 @@
 <section id="gallery">
     <!-- Thumb gallery -->
-    <ul *ngFor="let photo of photos">
-        <li (click)="view(photo)">{{photo.name}}</li>
+    <ul>
+        <li *ngFor="let photo of photos" (click)="view(photo)">
+            <img *ngIf="photo.src" [src]="photo.src">
+        </li>
     </ul>
     <!-- Photo viewer -->
     <div *ngIf="showViewer" id="viewer">

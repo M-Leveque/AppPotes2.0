@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AlbumService } from 'src/app/tabs/album/album.service';
 import { ConstantService } from 'src/app/constant.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PhotoService } from '../../photo/photo.service';
+import { Photo } from 'src/app/models/Photo.model';
 
 @Component({
   selector: 'app-album-list',
@@ -9,20 +11,22 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AlbumListComponent implements OnInit {
   
-  private host: String;
-  private path: Object;
+  public host: String;
+  public path: Object;
+  public searchText;
 
-  private showInputSearch = false;
-  private selected = "";
+  public showInputSearch = false;
+  public selected = "";
   
-  private albumSubscription;
-  private sharedAlbum = {};
+  public albumSubscription;
+  public sharedAlbum: any;
   public albums = [];
 
   //Save for albums
-  private allAlbums : any[];
+  public allAlbums : any[];
 
   constructor(private albumService : AlbumService,
+              private photoService : PhotoService,
               private constantService: ConstantService,
               private spinner: NgxSpinnerService) { 
   }
@@ -41,6 +45,7 @@ export class AlbumListComponent implements OnInit {
       }
       this.albums = albums;
       this.allAlbums = this.albums;
+      this.initCovers();
       this.spinner.hide();
     });  
   }
@@ -70,12 +75,10 @@ export class AlbumListComponent implements OnInit {
   }
 
   public search(event : any){
-    let searchText = event.target.value;
-
-    searchText = searchText.toLowerCase();
-
+    this.searchText = event.target.value.toLowerCase();
+    
     this.albums = this.allAlbums.filter( it => {
-      return it.name.toLowerCase().includes(searchText);
+      return it.name.toLowerCase().includes(this.searchText);
     });
   }
 
@@ -84,8 +87,24 @@ export class AlbumListComponent implements OnInit {
     this.albums = this.allAlbums;
   }
 
-  public getCover(album){
-    return this.albumService.getCovers(album);
+  initCovers(){
+    for(var album of this.albums){
+      this.initCover(album);
+    }
+  }
+
+  initCover(album){
+    if(album.photo != null){
+      this.photoService.get64File(album.photo.id, true).subscribe(
+        (file) => {
+          album.photo.b64_image = file;
+        }
+      );
+    }
+    else {
+      album.photo = new Photo();
+      album.photo.b64_image = this.host+'storage/img/albums/default.jpg';
+    }
   }
 
 }

@@ -20,6 +20,7 @@ export class AlbumComponent implements OnInit {
   albumPhotosSubscription : Subscription;
   host: String;
   path: Object;
+  cover: any;
 
   constructor(private albumService: AlbumService, 
     private photoService: PhotoService, 
@@ -35,7 +36,10 @@ export class AlbumComponent implements OnInit {
 
     // Get albums
     this.albumInfosSubscription = this.albumService.get(this.idAlbum)
-      .subscribe(album => this.album = album[0]);
+      .subscribe((album) => {
+        this.album = album[0];
+        this.getCover();
+      });
     
     // Get photo informations
     this.albumPhotosSubscription = this.photoService.getByAlbum(this.idAlbum)
@@ -50,7 +54,17 @@ export class AlbumComponent implements OnInit {
   }
 
   getCover(){
-    return this.albumService.getCovers(this.album);
+    if(this.album.id != undefined){
+      this.photoService.get64File(this.album.photo.id, false).subscribe(
+        (img) => {
+          this.cover = img;
+        },
+        (error) => {}
+      );
+    }
+    else {
+      this.cover = this.host+'storage/img/albums/default.jpg'
+    }
   }
 
 }

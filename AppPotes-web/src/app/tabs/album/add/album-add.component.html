@@ -7,14 +7,16 @@
             <div class="title">
                 <h2 *ngIf="!isUpdate">Ajout<br>album</h2>
                 <h2 *ngIf="isUpdate">Modifier<br>album</h2>
-                <button *ngIf="(isUpdate && album.id != 1) && (album.id_user == idUserConnected)" class="btn-page" (click)="delete(album.id, 'album')"><span>Supprimer</span></button>
+                <button *ngIf="displayDeleteBtn()" class="btn-page" (click)="delete(album.id, 'album')"><span>Supprimer</span></button>
             </div>
             
-            <app-upload-images
-            [isMultipleUpload]="false"
-            [fileToUpload]="cover"
-            [simpleImagePath]="getCover()"
-            (newCoverEvent)="updateCover($event)" ></app-upload-images>
+            <ng-container *ngIf="album.id != undefined">
+                <app-upload-images 
+                [isMultipleUpload]="false"
+                [fileToUpload]="cover"
+                [simpleImage]="album.photo"
+                (newCoverEvent)="updateCover($event)" ></app-upload-images>
+            </ng-container>
 
             <div class="content-form-add">
                 <mat-form-field appearance="fill">
@@ -36,8 +38,8 @@
                 <div class="form-radio-btn">
                     <label>Rendre l'album public :</label>
                     <mat-radio-group appearance="fill" class="content-form-radio" formControlName="isPublic">
-                        <mat-radio-button matInput [checked]="album.status == 1" value="1">oui</mat-radio-button>
-                        <mat-radio-button matInput [checked]="album.status == 0" value="0">non</mat-radio-button>
+                        <mat-radio-button matInput [checked]="album.status" value="1">oui</mat-radio-button>
+                        <mat-radio-button matInput [checked]="!album.status" value="0">non</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
@@ -56,7 +58,7 @@
                 <ul id="lightgallery" class="list-unstyled row" class="col-xs-6 col-sm-4 col-md-3">
                     <li *ngFor="let photo of photos" >
                         <div class="pic-delete">
-                            <img width="100px" height="100px" class="img-responsive" [src]="host+photo.path_thumb" alt="Thumb-1">
+                            <img width="100px" height="100px" class="img-responsive" [src]="photo.b64_image" alt="Thumb-1">
                             <span (click)="delete(photo.id, 'photo')" class="icon icon-close"></span>
                         </div>
                     </li>

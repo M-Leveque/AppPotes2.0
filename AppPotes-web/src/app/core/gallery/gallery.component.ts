@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
+import { CONTEXT } from '@angular/core/src/render3/interfaces/view';
 import { Subscription } from 'rxjs';
 import { PhotoService } from 'src/app/tabs/photo/photo.service';
 
@@ -11,8 +12,6 @@ export class GalleryComponent implements OnInit {
 
   @Input() photos;
 
-  albumPhotosSubscription : Subscription;
-
   public showViewer;
   public photo;
   public file;
@@ -24,7 +23,7 @@ export class GalleryComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.getThumbs();
   }
 
   public view(photo){
@@ -48,17 +47,27 @@ export class GalleryComponent implements OnInit {
   }
 
   public getThumbs(){
+    for(var photo of this.photos){
+      this.getThumb(photo);
+    }
+  }
 
+  public getThumb(photo){
+    this.photoService.get64File(photo.id, true).subscribe(
+      (img) => {
+        photo.src = img;
+      },
+      (error) => {}
+    );
   }
 
   public getPhoto(){
-    this.photoService.getFile(this.photo.id, false).subscribe(
-      (result) => {
-        this.file = btoa(result);
+    var context = this;
+    this.photoService.get64File(this.photo.id, false).subscribe(
+      (img) => {
+        context.file = img;
       },
-      (error) => {
-
-      }
+      (error) => {}
     );
   }
 
