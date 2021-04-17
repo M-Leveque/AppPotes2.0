@@ -112,5 +112,9 @@ export class UploadImagesComponent implements OnInit {
         }
       );
     }
+    else {
+      this.simpleImage.b64_image = this.constantService.path.photos.default;
+    }
   }
+  
 }

@@ -12,7 +12,6 @@ import { AuthGuardService as AuthGuard } from './core/login/auth-guard.service';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent},
-    //{ path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
     { path: 'album', component: AlbumListComponent, canActivate: [AuthGuard] },
     { path: 'album/:id', component: AlbumComponent, canActivate: [AuthGuard] },
     { path: 'album-add', component: AlbumAddComponent, canActivate: [AuthGuard] },

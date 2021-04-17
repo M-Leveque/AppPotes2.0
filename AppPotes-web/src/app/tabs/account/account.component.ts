@@ -5,6 +5,7 @@ import { User } from 'src/app/models/User.model';
 import { ConstantService } from 'src/app/constant.service';
 import { Router } from '@angular/router';
 import { AlbumService } from '../album/album.service';
+import { PhotoService } from '../photo/photo.service';
 
 @Component({
   selector: 'app-account',
@@ -17,42 +18,65 @@ export class AccountComponent implements OnInit {
   private albumSubscription: Subscription;
 
   public user: User;
-  private albums = [];
+  public albums = [];
   private host: String;
-  private path;
 
   constructor(
     private accountService : AccountService,
     private albumService : AlbumService,
     private constantService: ConstantService,
+    private photoService: PhotoService,
     private routerNav: Router
   ) {}
 
   ngOnInit() {
 
     this.host = this.constantService.host;
-    this.path = this.constantService.path;
     // Get connected user
     var cnxUserId = +localStorage.getItem("userId");
     if(cnxUserId){   
       this.accountSubscription = this.accountService.get(cnxUserId)
-        .subscribe(user => this.user = user);  
+        .subscribe((user) => {
+          this.user = user;
+          this.initProfileCover();
+        });  
     }
-    this.albumSubscription = this.albumService.allCreatedByUser()
-    .subscribe( (albums) => {
+    this.albumSubscription = this.albumService.allCreatedByUser().subscribe( (albums) => {
       this.albums = albums;
+      this.initAlbumsCover();
     });  
   }
 
-  getProfileCover(){
-    if(this.user && this.user.photo != null){
-      return this.user.photo.path_thumb;
+  initProfileCover(){
+    var context = this;
+    if(this.user && this.user.photo){
+      this.photoService.get64File(this.user.photo.id, true).subscribe(
+        (file) => {
+          context.user.photo.b64_image = file;
+        }
+      );
+    }else {
+      this.user.photo.b64_image = this.constantService.path.photos.default;
     }
-    return 'storage/img/albums/default.jpg';
   }
 
-  public getCover(album){
-    return this.albumService.getCovers(album);
+  initAlbumsCover(){
+    for(var album of this.albums){
+      this.initAlbumCover(album);
+    }
+  }
+
+  initAlbumCover(album){
+    if(album && album.photo){
+      this.photoService.get64File(album.photo.id, true).subscribe(
+        (file) => {
+          album.photo.b64_image = file;
+        }
+      );
+    }else {
+      album.photo = {};
+      album.photo.b64_image = this.constantService.path.photos.default;
+    }
   }
 
   logout(){

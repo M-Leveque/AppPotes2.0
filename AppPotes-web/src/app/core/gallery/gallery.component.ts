@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { CONTEXT } from '@angular/core/src/render3/interfaces/view';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { PhotoService } from 'src/app/tabs/photo/photo.service';
 
@@ -18,7 +19,8 @@ export class GalleryComponent implements OnInit {
 
   constructor(
     private ref: ChangeDetectorRef,
-    private photoService: PhotoService) { 
+    private photoService: PhotoService,
+    private spinner: NgxSpinnerService) { 
     this.showViewer = false;
   }
 

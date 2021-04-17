@@ -54,7 +54,7 @@ export class AlbumComponent implements OnInit {
   }
 
   getCover(){
-    if(this.album.id != undefined){
+    if(this.album && this.album.photo){
       this.photoService.get64File(this.album.photo.id, false).subscribe(
         (img) => {
           this.cover = img;
@@ -63,7 +63,7 @@ export class AlbumComponent implements OnInit {
       );
     }
     else {
-      this.cover = this.host+'storage/img/albums/default.jpg'
+      this.cover = this.constantService.path.photos.default;
     }
   }
 

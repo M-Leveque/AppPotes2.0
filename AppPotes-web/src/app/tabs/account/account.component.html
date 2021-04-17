@@ -2,12 +2,13 @@
 <main id="content-compte">
 	
   <section class="info-compte">
-    <div class="profil-pic">
-      <img [src]="host+getProfileCover()" alt="photo de profile du compte"/>
-    </div>
-
-    <div class="title">
-      <h2>Hey !<br/>{{user.name}} 😀</h2>
+    <div class="profil-infos">
+      <div class="profil-pic">
+        <img *ngIf="this.user" [src]="user.photo.b64_image" alt="photo de profile du compte"/>
+      </div>
+      <div class="title">
+        <h2>Hey !<br/>{{user.name}} 😀</h2>
+      </div>
     </div>
 
     <div class="profil-opt">
@@ -26,7 +27,7 @@
         <section class="grid-gen grid-album">
           <a *ngFor="let album of albums" [routerLink]="'/album/'+album.id" routerLinkActive="active">
             <div id="album album-grid" class="album" >
-              <img [src]="host+getCover(album)" alt="vignette de l'album commun"/> 
+              <img [src]="album.photo.b64_image" alt="vignette de l'album commun"/> 
               <p>{{ album.name }}</p> 
             </div>
           </a>

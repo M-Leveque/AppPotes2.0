@@ -282,7 +282,7 @@ body {
   background-color: #191919;
 }
 
-main {margin-left: 14.11vw;}
+main {margin-left: 14.11vw; margin-right: 10vw;}
 
 a {
   color: white;
@@ -1321,18 +1321,23 @@ a .icon-link {
 
 .info-compte {
   height: 179px;
-  margin-bottom: 9.32vw;
+  margin: 5vh 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.info-compte .title {
-  margin-right: 59%;
+.profil-infos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .profil-pic {
-  margin-right: 3.75VW;
   padding: 1px;
+  display: flex;
+  align-items: center;
+  margin-right: 2vw;
 }
 
 .profil-pic img {

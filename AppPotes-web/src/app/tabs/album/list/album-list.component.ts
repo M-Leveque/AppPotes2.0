@@ -103,7 +103,7 @@ export class AlbumListComponent implements OnInit {
     }
     else {
       album.photo = new Photo();
-      album.photo.b64_image = this.host+'storage/img/albums/default.jpg';
+      album.photo.b64_image = this.constantService.path.photos.default;
     }
   }
 

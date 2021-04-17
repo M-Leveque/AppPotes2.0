@@ -54,8 +54,9 @@ export class PhotoService {
    * @param src : Source to return image to base64
    */
   public get64File(id: Number, isThumb: boolean) {
+    var thumb = isThumb ? "1": "0";
     return new Observable((observer) => {
-        this.http.get<any>(this.constant.host+this.basePath+'file/'+id+"/"+isThumb, { responseType: 'blob' as 'json'}).subscribe(
+        this.http.get<any>(this.constant.host+this.basePath+'file/'+id+"/"+thumb, { responseType: 'blob' as 'json'}).subscribe(
           (file) => {
             var reader = new FileReader();
             reader.readAsDataURL(file); 
