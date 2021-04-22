@@ -38,6 +38,7 @@ import {
 } from '@angular/material';
 import { DndDirective } from './core/upload/upload-images/dnd.directive';
 import { GalleryComponent } from './core/gallery/gallery.component';
+import { MobileService } from './mobile.service';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { GalleryComponent } from './core/gallery/gallery.component';
     AlbumService,
     AccountService,
     ConstantService,
+    MobileService,
     AuthGuardService,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: HTTP_INTERCEPTORS, useClass: authInterceptor, multi: true }

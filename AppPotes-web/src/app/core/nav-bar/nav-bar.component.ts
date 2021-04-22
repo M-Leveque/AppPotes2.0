@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { RouterState } from '@angular/router';
+import { MobileService } from 'src/app/mobile.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,15 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
-  private showMenu : boolean = false;
+  public showAddMenu : boolean = false;
+  public showMenu : boolean = false;
 
-  constructor() { }
+  constructor(
+    public mobileService: MobileService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(){
+    this.mobileService.isMobileDevice(screen.width);
+  }
+
+  public displayAddMenu(){
+    this.showAddMenu = !this.showAddMenu;
   }
 
   public displayMenu(){
-    this.showMenu ? this.showMenu = false : this.showMenu = true;
+    this.showMenu = !this.showMenu;
   }
-
 }

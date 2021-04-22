@@ -10,4 +10,5 @@ export class ConstantService {
             default: "/assets/img/default.jpg"
         }
     }
+    isMobileDevice = true;
 }

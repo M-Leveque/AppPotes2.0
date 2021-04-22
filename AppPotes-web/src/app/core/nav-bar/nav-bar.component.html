@@ -1,4 +1,11 @@
-<header>
+<div *ngIf="mobileService.isMobile" id="btn-burger" [ngClass]="{'btn-burger-cross':showMenu}">
+  <button (click)="displayMenu()">
+    <div class="btn-burger-bar"></div>
+    <div class="btn-burger-bar"></div>
+    <div class="btn-burger-bar"></div>
+  </button>
+</div>
+<header *ngIf="!mobileService.isMobile || showMenu">
   <nav>
     <ul>
       <li><a routerLink="/album" routerLinkActive="active"><div class="icon icon-pic"></div><span>Albums</span></a></li>
@@ -6,7 +13,7 @@
     </ul>
   </nav>
   <div id="btn-add">
-    <button id="menu" type="button" name="menu" (click)="displayMenu()" [ngClass]="{'rotate':showMenu}">
+    <button id="menu" type="button" name="menu" (click)="displayAddMenu()" [ngClass]="{'rotate':showAddMenu}">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><title>icon 7</title>
         <g class="nc-icon-wrapper js-transition-icon" data-effect="scale" data-event="click">
           <g class="js-transition-icon__state icon-scale1" style="display: block;">
@@ -63,11 +70,12 @@
     <p class="btn-add">Ajouter</p>
     <p class="btn-add" style="display: none">Fermer</p>
   </div>
+  <!-- menu ajout -->
+  <section *ngIf="showAddMenu" id="add-menu">
+    <ul>
+      <a class="reveal" routerLink="/album-add" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>un album</a>
+    </ul>
+  </section>
 </header>
 
-<!-- menu ajout -->
-<section *ngIf="showMenu" id="add-menu">
-  <ul>
-    <a class="reveal" routerLink="/album-add" routerLinkActive="active"><li><div class="icon-btn icon icon-add-pic"></div></li>Ajouter<br>un album</a>
-  </ul>
-</section>
+
