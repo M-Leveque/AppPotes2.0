@@ -1,6 +1,6 @@
 #viewer
     position: fixed
-    width: 100vw
+    width: 100%
     height: 100vh
     z-index: 4
     left: 0
@@ -9,19 +9,18 @@
 
 #viewer > div
     position: absolute
-    width: 90vw
-    height: 90vh
-    left: 5vw
-    top: 5vh
+    width: 100%
+    height: inherit
     z-index: 5
     display: flex
     flex-direction: column
     align-items: stretch
+    justify-content: center
 
 #viewer > div > img
     position: absolute
-    width: 100%
-    height: 100%
+    align-self: center
+    max-width: 100%
 
 .viewer_btns
     display: flex
@@ -52,10 +51,11 @@
     flex-direction: row
     flex-wrap: wrap
     justify-content: space-around
+    padding:0
 
 #gallery ul li 
     list-style-type: none
 
 #gallery ul li img
-    max-height: 300px
+    width: 100%
     

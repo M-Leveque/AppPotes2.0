@@ -26,7 +26,7 @@
         <!-- GRID ALBUMS -->
         <section class="grid-gen grid-album">
           <a *ngFor="let album of albums" [routerLink]="'/album/'+album.id" routerLinkActive="active">
-            <div id="album album-grid" class="album" >
+            <div id="album" class="album album-grid" >
               <img [src]="album.photo.b64_image" alt="vignette de l'album commun"/> 
               <p>{{ album.name }}</p> 
             </div>
