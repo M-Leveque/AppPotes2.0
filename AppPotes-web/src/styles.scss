@@ -393,19 +393,21 @@ button {
 
 /* CLASS & ID */
 .content-btn-page {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-top: solid 2px black;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
 
 .content-btn-page > .btn-page {
-  margin-top: 1vw;
+  margin-top: 25px;
 }
 
 .btn-page {
-  width: 11.145vw; height: 2.65vw;
   padding: 2px;
   border-radius: 100px;
   text-align: center;
@@ -429,7 +431,6 @@ button {
 }
 
 .btn-page span {
-  min-width: 100%; min-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -437,6 +438,9 @@ button {
   text-align: center;
   color: #FFFFFF;
   background-color: #191919;
+  padding: 5px;
+  width: 120px;
+  height: 30px;
 }
 
 .btn-page:disabled,
@@ -1596,14 +1600,16 @@ a .icon-link {
 ------------------------*/
 .content-add {
   top: 0;
-  width: 30%; height: 95vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  width: 40%;
+  padding-bottom: 30px;
 }
 
 .content-add .title h2 {
-  margin-bottom: 0px;
+  margin-bottom: 25px;
 }
 
 .add-visuel {
@@ -1646,17 +1652,16 @@ a .icon-link {
 }
 
 .dropzone {
-  width: 30vw; height: 15vw;
   border: dashed 1px #979797;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 30px;
 }
 
 .add-photos {
-  width: 5.93vw; height: 5.93vw;
   margin-bottom: 25px;
   padding: 4px;
   display: flex;
@@ -1713,19 +1718,19 @@ a .icon-link {
 }
 
 .content-form-add label {
-  margin-top: 1.2vw;
-  font-size: 1.3vw;
+  margin-top: 25px;
+  font-size: 1em;
   font-family: 'Trueno';
   font-weight: 600;
   font-style: normal;
 }
 
 .content-form-add input {
-  margin-top: 20px;
+  margin-top: 10px;
   font-family: 'Trueno';
   font-weight: normal;
   font-style: normal;
-  font-size: 1.2vw;
+  font-size: 1em;
 }
 
 .content-form-add textarea {
@@ -1737,7 +1742,7 @@ a .icon-link {
   font-family: 'Trueno';
   font-weight: 300;
   font-style: normal;
-  font-size: 1.2vw;
+  font-size: 1em;
   color: #FFFFFF;
   outline: none;
 }
@@ -1852,28 +1857,42 @@ a .icon-link {
 	PAGE AJOUT ALBUM
 ------------------------*/
 #content-add-album {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+#content-form-add-album {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .add-visuel {
-  width: 11.14vw; height: 11.14vw;
+  width: 100px; height: 100px;
 }
 
 .add-visuel label {
-  width: 11.14vw; height: 11.14vw;
+  width: 100px; height: 100px;
   padding-top: 48%;
 }
 
 .content-grid-add {
-  width: 60%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  width: 60%;
 }
 
 .demo-gallery{
   width: 100%;
+}
+
+#lightgallery {
+  padding:0;
+}
+
+#lightgallery > li {
+  margin: 15px;
 }
 
 .content-grid-add .demo-gallery > ul > li a > img {
@@ -1943,6 +1962,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
   .album-grid {
     width: 75px; height: 75px;
+  }
+
+  // Album add
+  .content-add {
+    width: 100%;
+  }
+
+  .content-grid-add {
+    width: 100%;
+  }
+
+  .dropzone {
+    border: none;
+  }
+
+  .dropzone > span{
+    display: none;
+  }
+
+  .add-photos {
+    margin-bottom: 0;
   }
 
   // Account

@@ -1,8 +1,8 @@
 <app-nav-bar></app-nav-bar>
 <ngx-spinner></ngx-spinner>
-<main>
+<main id="content-add-album">
     <!-- ADD FORM -->
-    <form id="content-add-album" [formGroup]="albumForm">
+    <form id="content-form-add-album" [formGroup]="albumForm">
         <section class="content-add">
             <div class="title">
                 <h2 *ngIf="!isUpdate">Ajout<br>album</h2>
@@ -43,11 +43,6 @@
                     </mat-radio-group>
                 </div>
             </div>
-
-            <div class="content-btn-page">
-                <button class="btn-page" (click)="cancel()"><span>Annuler</span></button>
-                <button class="btn-page" (click)="validate()" [disabled]="disableValidate()"><span>Valider</span></button>
-            </div>
         </section>
 
         <!-- GRID ADD PHOTOS -->
@@ -75,4 +70,8 @@
             <app-upload-images [isMultipleUpload]="true" [filesToUpload]="photosToUpload"></app-upload-images>    
         </section>
     </form>
+    <div class="content-btn-page">
+        <button class="btn-page" (click)="cancel()"><span>Annuler</span></button>
+        <button class="btn-page" (click)="validate()" [disabled]="disableValidate()"><span>Valider</span></button>
+    </div>
 </main>
