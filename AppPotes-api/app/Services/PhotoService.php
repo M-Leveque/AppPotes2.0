@@ -11,7 +11,7 @@ use App\User;
 class PhotoService
 {
 
-    private AlbumService $albumService;
+    private $albumService;
 
     public function __construct(AlbumService $albumService){
         $this->albumService = $albumService;
