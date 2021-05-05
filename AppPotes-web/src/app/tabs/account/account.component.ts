@@ -6,6 +6,7 @@ import { ConstantService } from 'src/app/constant.service';
 import { Router } from '@angular/router';
 import { AlbumService } from '../album/album.service';
 import { PhotoService } from '../photo/photo.service';
+import { Photo } from 'src/app/models/Photo.model';
 
 @Component({
   selector: 'app-account',
@@ -56,6 +57,7 @@ export class AccountComponent implements OnInit {
         }
       );
     }else {
+      this.user.photo = new Photo();
       this.user.photo.b64_image = this.constantService.path.photos.default;
     }
   }

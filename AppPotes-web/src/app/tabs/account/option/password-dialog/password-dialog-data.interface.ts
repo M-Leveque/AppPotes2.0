@@ -2,6 +2,6 @@ import { User } from 'src/app/models/User.model';
 
 export interface DialogData {
     user: User;
-    callback: Function;
+    doAfterValidation: Function;
     context: any;
 }

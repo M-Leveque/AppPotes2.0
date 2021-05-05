@@ -1,6 +1,7 @@
 <app-nav-bar></app-nav-bar>
 <main id="content-optcompte">
     <app-upload-images
+    *ngIf="user"
     [isMultipleUpload]="false"
     [fileToUpload]="profileCover"
     [simpleImage]="getProfileCover()"
@@ -30,8 +31,8 @@
         </mat-form-field>
     </form>
     <section class="content-btn-page">
+        <button class="btn-page" (click)="openPasswordDialog()" rel="modal:open"><span class="btn-large">Changer de mot de passe</span></button>
         <button class="btn-page" (click)="openCancel()"><span>Annuler</span></button>
-        <button class="btn-page" (click)="openPasswordDialog()" rel="modal:open"><span>Changer de mot de passe</span></button>
         <button class="btn-page" (click)="openConfirm()" [disabled]="disableValidate()"><span>Valider</span></button>
     </section>
 </main>

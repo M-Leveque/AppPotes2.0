@@ -44,7 +44,7 @@ export class PasswordDialogComponent implements OnInit {
   }
 
   displayError(error){
-    const dialogRef = this.dialog.open(ErrorComponent, {
+    var dialogError = this.dialog.open(ErrorComponent, {
       width: '450px',
       data: {
         error: error, 
@@ -52,36 +52,27 @@ export class PasswordDialogComponent implements OnInit {
         context: this
       },
     });
-    dialogRef.afterClosed().subscribe(result => {});
-  }
-
-  onCancel(): void {
-    this.dialogRef.close();
+    dialogError.afterClosed().subscribe(result => {});
   }
 
   onValidate(): void {
-    var formValues = this.passwdForm.value;
-    if(formValues.newPassword == formValues.newPassword2){
-      var objPassword = {
-        "password": formValues.newPassword,
-        "oldPassword": formValues.oldPassword
-      }
-      this.accountService.updatePassword(objPassword, this.data.user.id).subscribe(
-        (response)=>{
-          this.data.callback(this.context);
-          this.dialogRef.close();
-        },
-        (error) => {
-          this.displayError(error.error);
+    if(this.passwdForm.status != 'INVALID'){
+      var formValues = this.passwdForm.value;
+      if(formValues.newPassword == formValues.newPassword2){
+        var objPassword = {
+          "password": formValues.newPassword,
+          "oldPassword": formValues.oldPassword
         }
-      );
+        this.accountService.updatePassword(objPassword, this.data.user.id).subscribe(
+          (response)=>{
+            this.data.doAfterValidation(this.context);
+            this.dialogRef.close();
+          },
+          (error) => {
+            this.displayError(error.error);
+          }
+        );
+      }
     }
   }
-
-  disableValidate(){
-    var formIsInvalid = this.passwdForm.status == "INVALID";
-    var formIsUpdated = this.passwdForm.touched;
-    return ( formIsInvalid && formIsUpdated );
-  }
-
 }

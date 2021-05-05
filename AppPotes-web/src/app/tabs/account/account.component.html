@@ -2,9 +2,9 @@
 <main id="content-compte">
 	
   <section class="info-compte">
-    <div class="profil-infos">
+    <div *ngIf="user" class="profil-infos">
       <div class="profil-pic">
-        <img *ngIf="this.user" [src]="user.photo.b64_image" alt="photo de profile du compte"/>
+        <img [src]="user.photo.b64_image" alt="photo de profile du compte"/>
       </div>
       <div class="title">
         <h2>Hey !<br/>{{user.name}} 😀</h2>

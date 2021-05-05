@@ -21,11 +21,11 @@ export class AccountOptionComponent implements OnInit {
   private accountSubscription:  Subscription;
   private photoSubscription:  Subscription;
 
-  private user: User;
-  private userForm: FormGroup;
+  public profileCover: Photo;
+  public user: User;
+  public userForm: FormGroup;
   private host: String;
   private path;
-  private profileCover: Photo;
 
   constructor(
     public dialog: MatDialog, 
@@ -85,7 +85,7 @@ export class AccountOptionComponent implements OnInit {
       width: '800px',
       data: {
         user: this.user, 
-        callback: this.redirectToLoginPage,
+        doAfterValidation: this.redirectToLoginPage,
         context: this
       },
     });
