@@ -1,6 +1,5 @@
 /.idea
 /AppPotes-web/node_modules/*
-/AppPotes-web/src/assets/img/*
 /AppPotes-api/vendor/*
 /AppPotes-api/storage/app/public/*
 /AppPotes-api/public/storage/*
